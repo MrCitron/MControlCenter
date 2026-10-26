@@ -429,6 +429,12 @@ void Operate::setUserMode(user_mode userMode) const {
 }
 
 void Operate::setFan1SpeedSettings(QVector<int> value) const {
+    // Fan curve registers are model-specific and are not exposed by msi-ec.
+    // When the msi-ec kernel driver is loaded, it owns the EC: blind writes
+    // to these raw addresses bypass the driver and can hard reset the
+    // machine on some models (e.g. Summit E16 Flip A11UCT).
+    if (msiEcHelper.hasFanMode())
+        return;
     if (value.size() != fanSpeedSettingsCount)
         return;
     for (int i = 0; i < value.size(); i++) {
@@ -438,6 +444,9 @@ void Operate::setFan1SpeedSettings(QVector<int> value) const {
 }
 
 void Operate::setFan2SpeedSettings(QVector<int> value) const {
+    // See setFan1SpeedSettings: no raw writes while msi-ec owns the EC.
+    if (msiEcHelper.hasFanMode())
+        return;
     if (value.size() != fanSpeedSettingsCount)
         return;
     for (int i = 0; i < value.size(); i++) {
@@ -447,6 +456,9 @@ void Operate::setFan2SpeedSettings(QVector<int> value) const {
 }
 
 void Operate::setFan1TempSettings(QVector<int> value) const {
+    // See setFan1SpeedSettings: no raw writes while msi-ec owns the EC.
+    if (msiEcHelper.hasFanMode())
+        return;
     if (value.size() != fanTempSettingsCount)
         return;
     for (int i = 0; i < value.size(); i++) {
@@ -456,6 +468,9 @@ void Operate::setFan1TempSettings(QVector<int> value) const {
 }
 
 void Operate::setFan2TempSettings(QVector<int> value) const {
+    // See setFan1SpeedSettings: no raw writes while msi-ec owns the EC.
+    if (msiEcHelper.hasFanMode())
+        return;
     if (value.size() != fanTempSettingsCount)
         return;
     for (int i = 0; i < value.size(); i++) {
@@ -465,16 +480,40 @@ void Operate::setFan2TempSettings(QVector<int> value) const {
 }
 
 void Operate::setFanMode(int value) const {
+    // Route fan mode changes through the validated msi-ec sysfs interface
+    // when available; raw EC values are mapped to their sysfs equivalent.
+    if (msiEcHelper.hasFanMode()) {
+        switch (value) {
+            case fanModeAuto:
+                msiEcHelper.setFanMode(fan_mode::auto_fan_mode);
+                break;
+            case fanModeSilent:
+                msiEcHelper.setFanMode(fan_mode::silent_fan_mode);
+                break;
+            case fanModeBasic:
+                msiEcHelper.setFanMode(fan_mode::basic_fan_mode);
+                break;
+            case fanModeAdvanced:
+                msiEcHelper.setFanMode(fan_mode::advanced_fan_mode);
+                break;
+            default:
+                // Unknown raw value: refuse to write blindly.
+                break;
+        }
+        return;
+    }
     if (helper.getValue(fanModeAddress) == fanModeAdvanced)
         return;
     helper.putValue(fanModeAddress, value);
 }
 
 void Operate::setFanModeAdvanced(bool enabled) const {
-    if (enabled)
-        helper.putValue(fanModeAddress, fanModeAdvanced);
-    else
-        helper.putValue(fanModeAddress, fanModeAuto);
+    if (msiEcHelper.hasFanMode()) {
+        msiEcHelper.setFanMode(enabled ? fan_mode::advanced_fan_mode
+                                       : fan_mode::auto_fan_mode);
+    } else {
+        helper.putValue(fanModeAddress, enabled ? fanModeAdvanced : fanModeAuto);
+    }
     Settings::setValue(settingsGroup + "fanModeAdvanced", enabled);
 }
 

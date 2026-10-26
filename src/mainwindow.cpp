@@ -627,6 +627,15 @@ QVector<int> MainWindow::getFan2TempValues() const {
 }
 
 void MainWindow::setFanSpeedSettings() {
+    // Custom fan curves require raw EC writes, which Operate refuses while the
+    // msi-ec kernel driver owns the EC (curves are not exposed via sysfs yet).
+    if (operate.isMsiEcLoaded()) {
+        QMessageBox::information(nullptr, this->windowTitle(),
+                                 tr("Custom fan curves are not supported while the "
+                                    "msi-ec kernel module is loaded, to avoid unsafe "
+                                    "raw EC writes."));
+        return;
+    }
     operate.setFan1SpeedSettings(getFan1SpeedValues());
     operate.setFan1TempSettings(getFan1TempValues());
     operate.setFan2SpeedSettings(getFan2SpeedValues());

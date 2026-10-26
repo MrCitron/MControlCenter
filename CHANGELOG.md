@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 
 ## Unreleased
+- Do not perform raw EC fan writes when the msi-ec kernel driver is loaded:
+  - fan curve (speed/temperature) writes are disabled (raw addresses are
+    model-specific and not validated on all models, e.g. MSI Summit E16 Flip
+    A11UCT where such writes can hard reset the machine);
+  - "Advanced" fan mode is applied through the validated msi-ec sysfs
+    interface instead of a raw EC write.
 
 ## [0.4.1] 2023-08-09
 - Fixed UI lags when resizing the window (issue https://github.com/dmitry-s93/MControlCenter/issues/97)
