@@ -1,190 +1,129 @@
-# MControlCenter
+# MControlCenter — édition MSI Summit E16 Flip A11UCT (MS-1591)
 
-MControlCenter is a Free and Open Source GNU/Linux application that allows you to change the settings of MSI laptops.
+Fork de [dmitry-s93/MControlCenter](https://github.com/dmitry-s93/MControlCenter) dédié à un
+**unique modèle** : *MSI Summit E16 Flip A11UCT*, carte **MS-1591**, firmware EC `1591EMS1.108`.
 
-<img width="1500" height="1332" alt="MCC3" src="https://github.com/user-attachments/assets/75b5ee18-ed99-4a89-b9fe-1ec0078760e8" />
+Le dépôt contient **tout le système** :
 
+| Dossier | Contenu |
+|---|---|
+| `src/` | l'application Qt6 (fork de MControlCenter) |
+| `src/helper/` | le démon D-Bus privilégié (`mcontrolcenter-helper`) |
+| `wmi-fan-curve/` | le module noyau `msi-wmi-platform` patché (courbes ventilateur via WMAM) |
+| `docs/FAN_CURVE_MAPPING.md` | la correspondance WMAM ↔ EC RAM validée (lire en premier !) |
+| `install_mcontrolcenter.sh` | l'installation complète (app + démon + autostart + module) |
 
+**Ce que ça permet** : contrôle avancé des ventilateurs (courbes personnalisées 7 points)
+réappliqué à chaque démarrage, silencieux à faible charge, sans la moindre écriture EC brute —
+les écritures passent par l'interface WMI-ACPI du firmware (`WMAM`/`SET_FAN`), la même que
+celle du logiciel MSI sous Windows.
 
+## Pourquoi ce fork (l'écart avec l'original)
 
-## Features
+Sur ce modèle, les écritures écrites EC brutes des courbes du logiciel original ont causé des
+redémarrages matériels durs (l'EC coupe l'alimentation), et l'original n'expose aucune courbe
+sysfs. Le fork remplace le transport des courbes par la voie WMI validée et applique un
+invariant de sécurité observé : *courbes avancées uniquement sur le profil « High performance »*.
 
- - CPU and GPU temperature display
- - Fan speed display
- - Switch between modes (Since version 0.2):
-   - High Performance
-   - Balanced
-   - Silent
-   - Super Battery
- - Automatic mode switching (charger status/system power profile)
- - Change the maximum battery level limit
- - Advanced Fan Speed Control (Since version 0.4)
- - Change other settings such as keyboard backlight mode, USB Power Share, etc.
+### Liste des changements vis-à-vis de l'original
 
-## TODO
+1. **Aucune écriture EC brute des courbes** tant que le pilote `msi-ec` possède l'EC
+   (`setFan{1,2}Speed/TempSettings` refusés par le canal raw).
+2. **Lecture/écriture des courbes via sysfs** (`fan1_duty_curve` / `fan2_duty_curve`
+   du module noyau patché) : une écriture = une commande WMAM `SET_FAN` de fenêtre
+   complète (8 octets, duty live préservé), vérifiée par le pilote par relecture.
+3. **Écritures root via le démon** : les attributs sysfs sont root-owned ; ajout d'une
+   méthode D-Bus `setWmiFanCurve` strictement validée (liste blanche d'attributs,
+   7 valeurs 0–255) dans `mcontrolcenter-helper`, avec constantes partagées
+   `src/helper/wmifancurve.h`.
+4. **Désactivation réelle** : quitter le mode « Advanced » (ou basculer le profil système)
+   **réécrit les courbes par défaut du firmware** (`45 55 60 70 90 110 130` /
+   `45 70 90 100 110 110 110`) — l'EC garde la courbe stockée quel que soit le mode fan,
+   donc réécrire est la seule vraie façon de « reprendre le contrôle auto ».
+5. **Invariant advanced ⇔ High performance** (crashs multiples observés sur le combo
+   « profil ≠ High performance » + « advanced ») :
+   - la case « Enable advanced fan control » n'est cliquable qu'en High performance ;
+   - tout autre profil la décoche, repasse le mode fan en `auto` via msi-ec et restaure
+     les courbes usine ;
+   - un avertissement inline rappelle la règle.
+6. **Start-up et veille** : le mode fan est d'abord appliqué, les courbes personnalisées ne
+   sont restaurées que si l'état résultant est sûr ; sinon courbes usine. Wake inclus.
+7. **UI Fan Control repensée** :
+   - boutons **Cancel** (ex-Reset) et **Apply** actifs seulement si un éditeur diffère
+     du dernier jeu appliqué (snapshot) ;
+   - Cancel ramène les valeurs de référence sans relire l'EC ;
+   - température read-only (l'EC les possède — comme l'UI MSI sous Windows).
+8. **Identification de la build** : la page *About* affiche version + `commit` git +
+   horodatage de build automatiques.
 
-- Saving multiple fan speed profiles
-
-## Supported devices
-
-With version 0.5.0 the app uses the msi-ec driver that comes with the linux kernel (you'll need to reinstall the driver), so device support depends on whether the kernel driver supports your device or not.
-
-[**List of tested devices by msi-ec**](https://github.com/BeardOverflow/msi-ec/discussions/277)
-
-If your device is not on the list, follow the steps on the `msi-ec` github page and open an issue there to add support for your device.
+Côté **module noyau** (`wmi-fan-curve/`) : sysfs `fan{1,2}_duty_curve` (RW),
+`fan{1,2}_live_duty` (RO), `fan{1,2}_temp_curve` (RO) ; double garde-fou — paramètre de
+module **`allow_curve_writes`** (défaut *false* : `-EPERM` sans opt-in explicite) et
+**readback** après chaque écriture.
 
 ## Installation
 
-### Pre-Installation
+Dépendances : Qt6 ≥ 6.4 (`qt6-base-dev`, `qt6-tools-dev`), `cmake`, `build-essential`.
 
-- Check the output of `cat /sys/devices/platform/msi-ec/shift_mode` in your terminal, if it says `No such file or directory` it means that you need to install or reinstall (uninstall first then install) the [msi-ec driver](https://github.com/BeardOverflow/msi-ec?tab=readme-ov-file#installation). or the application will open **but will have limited functionality!**
+```bash
+git clone <ce dépôt>
+cd mcontrolcenter
 
-- If you're not installing from the packages, You'll need to install `libqt6widgets6` or its equivalent on your distribution (`qt6-base` for example). **the application will fail to open without it!** 
+# application + démon
+cmake -B build -S . && cmake --build build -j8
 
-- To get temperature and fan curve support, you'll need to install `ec_sys`, which comes installed on most distributions, or `acpi_sys` (fedora) with `write_support=1`. the app can still work with only `msi-ec` installed.
+# module noyau patché
+make -C wmi-fan-curve
 
-### Installation from packages
-<details open>
-   <summary><b>Ubuntu/Mint/openSUSE (No Debian)</b></summary>
+# installation complète (app + démon D-Bus + autostart + module + depmod)
+sudo ./install_mcontrolcenter.sh
+```
 
-1. Download the correct package for your distribution from the [releases page](https://github.com/dmitry-s93/MControlCenter/releases/)
-2. Double click to open it in the software manager (ex. Discover or GNOME software)
-3. Install
+Activer sans reboot : `sudo rmmod msi_wmi_platform && sudo modprobe msi_wmi_platform`.
 
-</details>
+Désinstaller :
 
-<details>
-   <summary><b>Arch Linux (AUR)</b></summary>
+```bash
+sudo rm /usr/local/bin/mcontrolcenter /usr/libexec/mcontrolcenter-helper \
+        /usr/share/dbus-1/system-services/mcontrolcenter.helper.service \
+        /usr/share/dbus-1/system.d/mcontrolcenter-helper.conf \
+        /usr/share/applications/mcontrolcenter.desktop /usr/share/pixmaps/mcontrolcenter.png \
+        /etc/xdg/autostart/mcontrolcenter.desktop /etc/modprobe.d/msi-fan-curve-writes.conf
+sudo rm -rf /lib/modules/$(uname -r)/updates/msi-wmi-platform
+sudo depmod -a
+```
 
-An officially maintained package is available under the name [mcontrolcenter-bin](https://aur.archlinux.org/packages/mcontrolcenter-bin). You can install it using any AUR helper (yay/paru):
-`yay mcontrolcenter-bin`
+## Prérequis pilotes
 
-Or you can use the generic installer in the [releases page](https://github.com/dmitry-s93/MControlCenter/releases/)
+- `msi-ec` doit être chargé (mode ventilateur, shift mode…).
+  Vérifier : `cat /sys/devices/platform/msi-ec/shift_mode`.
+- `ec_sys` **sans** `write_support=1` est suffisant pour les lectures de repli ;
+  `modprobe ec_sys` (lecture seule). Le module original chargeait
+  `ec_sys write_support=1` → inutile ici.
 
-</details>
+## Garde-fous & sécurité
 
-<details> 
-   <summary><b>Fedora</b></summary>
-   
-An official [copr repo](https://copr.fedorainfracloud.org/coprs/teackot/msi/) can be used
+- Les courbes ne s'écrivent que si le module noyau a été chargé avec
+  `allow_curve_writes=1` — consentement explicite, persisté via
+  `/etc/modprobe.d/msi-fan-curve-writes.conf`.
+- Chaque écriture de courbe est **vérifiée par relecture** (readback) : refus visible côté app
+  (`qWarning`) si l'EC ne mémorise pas les valeurs.
+- Le combo « advanced » + profil non-High-performance est **impossible par construction**.
+- En cas de doute : repasser en `balanced` — mode fan `auto` + courbes usine, comportement
+  équivalent à la machine d'origine.
 
-Open your terminal, and run these commands:
+## Maintenance
 
-1. `sudo dnf copr enable teackot/msi`
-2. `sudo dnf install mcontrolcenter`
+- **Après une mise à jour du noyau Ubuntu** : `make -C wmi-fan-curve`
+  puis `sudo ./install_mcontrolcenter.sh` (~1 min).
+- Le diagnostic des bascules de profils système est visible au lancement de l'app depuis un
+  terminal (`PowerMonitor: PropertiesChanged …`).
 
-However, if you didn't follow the above method (built from source or used the generic installer), some extra steps are needed because fedora doesn't come with `ec_sys` module by default:
+## Crédits
 
-1. Open a terminal, then install dkms and make:
-   
-   `sudo dnf install kernel-devel dkms make`
-
-2. Clone the repo:
-
-   `git clone https://github.com/saidsay-so/acpi_ec.git`
-
-3. Change the directory to the cloned repo:
-
-   `cd acpi_ec/`
-
-4. Run the install script as sudo:
-
-   `sudo ./install.sh`
-
-5. Reboot
-
-</details>
-
-<details> 
-   <summary><b>Unsupported distributions</b></summary>
-No need to try the generic installer, it won't work.
-
-1. Debian: for some reason, they did something weird with `ec_sys` and related functions don't work.
-2. Nixos: the app is packaged in the repos, but i don't maintain the package, so dont report bugs.
-3. All immutable distributions: that means SteamOS, Bazzite, Fedora Silver blue, and others. the necessary drivers can't be installed.
-
-</details>
-
-
-Current packages are built using [OBS](https://build.opensuse.org/package/show/home:Mutchiko/mcontrolcenter)
-
-### If your distribution is not listed, try the generic installer:
-
-1. Download MControlCenter-x.x.x.tar.gz from the [releases page](https://github.com/dmitry-s93/MControlCenter/releases/)
-2. Unpack the archive with the program
-3. Open a terminal in the unpacked directory
-4. Run the script `sudo ./install`
-5. (Optional) `sudo ./uninstall` to uninstall
-
-**Note:** In some cases, building from source can be a good option too, steps for it can be found further down.
-
-## Extra tweaks
-### Laptops with dedicated GPUs
-For laptops with a dedicated **Nvidia** graphics card, the power limits won't react to performance mode changes.
-To fix this, you need to be using the Nvidia proprietary driver.
-
-Enable and start the `nvidia-powerd` service:
-1. `sudo systemctl enable --now nvidia-powerd`
-2. Reboot.
-
-Laptops with **AMD** dGPUs (usually AMD Advantage models) don't need any steps, as power limits and smartshift functionality work correctly with each performance mode.
-
-### Laptops with RGB keyboards
-Try using [OpenRGB](https://openrgb.org/), and make sure you're using the latest version if your distribution ships old versions.
-
-Regular laptops with only 1 color can be controlled directly by the app. However, RGB keyboards are wired over USB, thats why openRGB is needed.
-
-### MUX switching
-
-For laptops with a dGPU **AND** a mux switch, there is a workaround for switching modes:
-Install [supergfxctl](https://gitlab.com/asus-linux/supergfxctl) and couple it with a widget like [supergfxctl-plasmoid](https://gitlab.com/Jhyub/supergfxctl-plasmoid) for KDE, or [supergfxctl-gex](https://extensions.gnome.org/extension/5344/supergfxctl-gex/) for GNOME.
-
-## Building from source
-
-After installing the main package (`qt6-base` or `libqt6widgets6`), you'll need to install other packages to build the app.
-
-For ubuntru/Linux mint:
-`qt6-base-dev` and/or `qt6-tools-dev` also `build-essential`
-
-For Arch `qt6-tools` And for fedora `qt6-qttools`
-
-After you install the packages:
-
-Make sure the app is completely closed if it was installed before (check if there is a system tray icon and close it).
-
-Download the source code and extract the zip file.
-
-Open the `scripts` folder.
-
-Open a terminal inside the folder, then run these scripts in order:
-
-1. `build`
-2. `create installer`
-
-If things went well, you should see a compressed file,
-
-4. Extract it.
-5. Open a terminal inside the new folder
-6. Run the **UNINSTALL** script as *sudo*, it might fail if you don't have MCC installed. thats fine.
-7. Run the **INSTALL** script as *sudo*, the last line should be a confirmation that the install was successful.
-8. Check your apps, McontrolCenter should be there.
-
-If the installation was successful but the app fails to run, open a terminal and type `mcontrolcenter`, copy the output and open an issue (**IF** there isn't one already).
-
-## Launch MControlCenter on session startup
-
-To restore settings after a reboot, add MControlCenter to startup, in many desktop environements, this is available in the settings under an "Autostart" page.
-
-Else, you can execute this command in the terminal:
-
-`cp /usr/share/applications/mcontrolcenter.desktop ~/.config/autostart/mcontrolcenter.desktop`
-
-## Localization
-
-You can help translate the MControlCenter app into your native language
-
-1. Copy `/src/i18n/MControlCenter_en.ts` to `src/i18n/MControlCenter_xx.ts` where xx is language code into which the translation is being made.
-2. Open `MControlCenter_xx.ts` in text editor and change `language="en_US"` to your language code.
-3. Translate strings into your language directly in a text editor or use the QT Linguist app or Lokalize.
-4. Translate `GenericName` in app shortcut `resources/mcontrolcenter.desktop`. To do this, add the line `GenericName[xx]=translated generic name`.
-5. Open a pull request on github with a screenshot of the UI using the new language.
+- [dmitry-s93/MControlCenter](https://github.com/dmitry-s93/MControlCenter) — l'application
+  d'origine (GPLv3), par Dmitry Serov et la communauté.
+- [BeardOverflow/msi-ec](https://github.com/BeardOverflow/msi-ec) — le pilote EC noyau.
+- [Armin Wolf](https://lore.kernel.org/all/?q=msi-wmi-platform) — le pilote noyau
+  `msi-wmi-platform`, base du module de ce dépôt.
+- Licence : GPLv3 (voir `LICENSE`).
