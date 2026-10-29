@@ -14,6 +14,9 @@ All notable changes to this project will be documented in this file.
   - duty curves are read/written through the `fan1_duty_curve` /
     `fan2_duty_curve` sysfs attributes; one write is a single validated WMAM
     `SET_FAN` window write — no raw EC access;
+  - duty curve writes go through the privileged helper daemon
+    (`mcontrolcenter-helper`, new `setWmiFanCurve` D-Bus method with strict
+    attribute/value validation), because the sysfs attributes are root-owned;
   - temperature points are presented as read-only (the EC firmware owns
     them, and its WMI interface exposes them read-only as well), matching
     the behavior of MSI's own software;

@@ -22,6 +22,7 @@
 
 #include <QCoreApplication>
 #include <QDBusReply>
+#include <QtCore/QVariant>
 
 #include <cstdio>
 
@@ -99,6 +100,15 @@ void Helper::putValue(int address, int value) {
         return;
     iface->call("putValue", address, value);
     printError(iface->lastError());
+}
+
+bool Helper::setWmiFanCurve(const QString &attribute, const QList<int> &value) const {
+    QDBusReply<bool> reply = iface->call("setWmiFanCurve", attribute,
+                                         QVariant::fromValue(value));
+    if (reply.isValid())
+        return reply.value();
+    printError(iface->lastError());
+    return false;
 }
 
 void Helper::quit() {
