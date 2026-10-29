@@ -135,7 +135,7 @@ bool PowerMonitor::connectToPowerProfiles() {
         SLOT(onPowerProfileChanged(QString,QVariantMap,QStringList))
         );
     isPowerProfileConnected = ok;
-    qInfo("PowerMonitor: PowerProfiles connect (sender=net.hadess.PowerProfiles) result=%d", ok);
+    fprintf(stderr, "PowerMonitor: PowerProfiles connect (sender=net.hadess.PowerProfiles) result=%d\n", ok ? 1 : 0);
     return ok;
 }
 
@@ -193,8 +193,8 @@ void PowerMonitor::onPowerProfileChanged(
 
     PowerProfile profile = parsePowerProfile(ProfileName);
 
-    qDebug("PowerMonitor: PropertiesChanged interface=%s ActiveProfile=%s -> profile enum %d",
-           qPrintable(interface), qPrintable(ProfileName), static_cast<int>(profile));
+    fprintf(stderr, "PowerMonitor: PropertiesChanged interface=%s ActiveProfile=%s -> profile enum %d\n",
+            qPrintable(interface), qPrintable(ProfileName), static_cast<int>(profile));
 
     emit currentPowerProfile(profile);
 }
