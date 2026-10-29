@@ -35,3 +35,6 @@
 /build/
 /scripts/*.tar.gz
 /scripts/MControlCenter-*-bin/
+
+# Compiled translation catalogs
+src/i18n/*.qm
