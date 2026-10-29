@@ -21,8 +21,19 @@
 #include "msi-ec_helper.h"
 #include "settings.h"
 
+#include <QFile>
+#include <QFileInfo>
+#include <QStringList>
+
 Helper helper;
 MsiEcHelper msiEcHelper;
+
+// WMI fan-curve sysfs interface, exposed by a patched msi-wmi-platform driver.
+// Reads use WMAM GET_FAN/GET_TEMPERATURE windows, writes use a single WMAM
+// SET_FAN window write (validated on MS-1591; see FAN_CURVE_MAPPING.md).
+// No raw EC access is ever performed through this interface.
+const char *wmiPlatformDevicePath = "/sys/bus/wmi/devices/ABBC0F6E-8EA1-11D1-00A0-C90629100000";
+bool wmiFanCurveAvailable = false;
 
 const int cpuTempAddress = 0x68;
 const int gpuTempAddress = 0x80;
@@ -104,6 +115,9 @@ bool Operate::doProbe() const {
     batteryThresholdAddress = detectBatteryThresholdAddress();
     fanModeAddress = detectFanModeAddress();
     keyboardBacklightAddress = detectKeyboardBacklightAddress();
+
+    wmiFanCurveAvailable = QFileInfo::exists(
+        QString(wmiPlatformDevicePath) + "/fan1_duty_curve");
 
     return true;
 }
@@ -193,7 +207,60 @@ std::optional<int> Operate::getFan2Speed() const {
     return value;
 }
 
+bool Operate::isFanCurveAvailable() const {
+    return wmiFanCurveAvailable;
+}
+
+bool Operate::isFanTempCurveEditable() const {
+    // Through the WMI fan-curve interface the EC temperature windows are
+    // read-only: the firmware owns them, and One Dragon Center keeps them
+    // uneditable too. Raw EC writes are the legacy fallback path.
+    return !wmiFanCurveAvailable;
+}
+
+QVector<int> Operate::readWmiFanCurve(const QString &attribute) const {
+    QVector<int> values;
+    QFile file(QString(wmiPlatformDevicePath) + '/' + attribute);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        return values;
+    const QStringList tokens = QString::fromUtf8(file.readAll())
+        .simplified()
+        .split(QLatin1Char(' '), Qt::SkipEmptyParts);
+    for (const QString &token : tokens)
+        values.push_back(token.toInt());
+    return values;
+}
+
+bool Operate::writeWmiFanCurve(const QString &attribute, const QVector<int> &value) const {
+    if (value.isEmpty())
+        return false;
+    QFile file(QString(wmiPlatformDevicePath) + '/' + attribute);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qWarning("writeWmiFanCurve: cannot open %s/%s", wmiPlatformDevicePath,
+                 attribute.toUtf8().constData());
+        return false;
+    }
+    QStringList tokens;
+    tokens.reserve(value.size());
+    for (int v : value)
+        tokens.push_back(QString::number(v));
+    const QByteArray payload = tokens.join(QLatin1Char(' ')).toUtf8() + '\n';
+    if (file.write(payload) != payload.size()) {
+        qWarning("writeWmiFanCurve: SET_FAN rejected (%s) — check the driver's "
+                 "allow_curve_writes parameter",
+                 file.errorString().toUtf8().constData());
+        return false;
+    }
+    return true;
+}
+
 QVector<int> Operate::getFan1SpeedSettings() const {
+    if (wmiFanCurveAvailable) {
+        QVector<int> values = readWmiFanCurve("fan1_duty_curve");
+        if (values.size() == fanSpeedSettingsCount)
+            return values;
+        // Incomplete response: fall through to the legacy EC path.
+    }
     QVector<int> a;
     for (int i = 0; i < fanSpeedSettingsCount; i++) {
         a.push_back(helper.getValue(fan1SpeedSettingStartAddress + i));
@@ -202,6 +269,12 @@ QVector<int> Operate::getFan1SpeedSettings() const {
 }
 
 QVector<int> Operate::getFan2SpeedSettings() const {
+    if (wmiFanCurveAvailable) {
+        QVector<int> values = readWmiFanCurve("fan2_duty_curve");
+        if (values.size() == fanSpeedSettingsCount)
+            return values;
+        // Incomplete response: fall through to the legacy EC path.
+    }
     QVector<int> a;
     for (int i = 0; i < fanSpeedSettingsCount; i++) {
         a.push_back(helper.getValue(fan2SpeedSettingStartAddress + i));
@@ -209,7 +282,17 @@ QVector<int> Operate::getFan2SpeedSettings() const {
     return a;
 }
 
+
 QVector<int> Operate::getFan1TempSettings() const {
+    if (wmiFanCurveAvailable) {
+        QVector<int> values = readWmiFanCurve("fan1_temp_curve");
+        // sysfs layout: enable + 5 curve points + 2 alarm thresholds (8 values,
+        // EC 0x69..0x70 in ascending order). MControlCenter's model covers
+        // EC 0x6A..0x6F, i.e. values[1..6].
+        if (values.size() == fanTempSettingsCount + 2)
+            return values.mid(1, fanTempSettingsCount);
+        // Incomplete response: fall through to the legacy EC path.
+    }
     QVector<int> a;
     for (int i = 0; i < fanTempSettingsCount; i++) {
         a.push_back(helper.getValue(fan1TempSettingStartAddress + i));
@@ -218,6 +301,12 @@ QVector<int> Operate::getFan1TempSettings() const {
 }
 
 QVector<int> Operate::getFan2TempSettings() const {
+    if (wmiFanCurveAvailable) {
+        QVector<int> values = readWmiFanCurve("fan2_temp_curve");
+        if (values.size() == fanTempSettingsCount + 2)
+            return values.mid(1, fanTempSettingsCount);
+        // Incomplete response: fall through to the legacy EC path.
+    }
     QVector<int> a;
     for (int i = 0; i < fanTempSettingsCount; i++) {
         a.push_back(helper.getValue(fan2TempSettingStartAddress + i));
@@ -429,6 +518,17 @@ void Operate::setUserMode(user_mode userMode) const {
 }
 
 void Operate::setFan1SpeedSettings(QVector<int> value) const {
+    // Prefer the WMI fan-curve interface (patched msi-wmi-platform driver):
+    // each write is one validated WMAM SET_FAN window write — never raw EC
+    // access. The driver additionally refuses writes unless it was loaded
+    // with allow_curve_writes=1 (explicit user consent).
+    if (wmiFanCurveAvailable) {
+        if (value.size() != fanSpeedSettingsCount)
+            return;
+        if (writeWmiFanCurve("fan1_duty_curve", value))
+            Settings::setValue(settingsGroup + QString("fan1SpeedSettings"), value);
+        return;
+    }
     // Fan curve registers are model-specific and are not exposed by msi-ec.
     // When the msi-ec kernel driver is loaded, it owns the EC: blind writes
     // to these raw addresses bypass the driver and can hard reset the
@@ -444,6 +544,14 @@ void Operate::setFan1SpeedSettings(QVector<int> value) const {
 }
 
 void Operate::setFan2SpeedSettings(QVector<int> value) const {
+    // See setFan1SpeedSettings: sysfs WMI path first, then the guarded raw path.
+    if (wmiFanCurveAvailable) {
+        if (value.size() != fanSpeedSettingsCount)
+            return;
+        if (writeWmiFanCurve("fan2_duty_curve", value))
+            Settings::setValue(settingsGroup + QString("fan2SpeedSettings"), value);
+        return;
+    }
     // See setFan1SpeedSettings: no raw writes while msi-ec owns the EC.
     if (msiEcHelper.hasFanMode())
         return;
@@ -456,6 +564,11 @@ void Operate::setFan2SpeedSettings(QVector<int> value) const {
 }
 
 void Operate::setFan1TempSettings(QVector<int> value) const {
+    // Temperature points are owned by the EC firmware and are read-only
+    // through the WMI fan-curve interface (One Dragon Center keeps them
+    // uneditable as well). Nothing to write on this path.
+    if (wmiFanCurveAvailable)
+        return;
     // See setFan1SpeedSettings: no raw writes while msi-ec owns the EC.
     if (msiEcHelper.hasFanMode())
         return;
@@ -468,6 +581,10 @@ void Operate::setFan1TempSettings(QVector<int> value) const {
 }
 
 void Operate::setFan2TempSettings(QVector<int> value) const {
+    // See setFan1TempSettings: temperatures are read-only through the WMI
+    // interface; the raw path below is the legacy fallback.
+    if (wmiFanCurveAvailable)
+        return;
     // See setFan1SpeedSettings: no raw writes while msi-ec owns the EC.
     if (msiEcHelper.hasFanMode())
         return;

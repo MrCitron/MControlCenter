@@ -496,6 +496,23 @@ void MainWindow::updateFanSpeedSettings() {
     QVector fan2SpeedSettings = operate.getFan2SpeedSettings();
     QVector fan2TempSettings = operate.getFan2TempSettings();
 
+    // Temperature points are owned by the EC firmware; they are read-only when
+    // the WMI fan-curve interface is in use (One Dragon Center keeps them
+    // uneditable as well). Disable the editors on that path.
+    const bool tempsEditable = operate.isFanTempCurveEditable();
+    ui->fan1Speed2TempSpinBox->setEnabled(tempsEditable);
+    ui->fan1Speed3TempSpinBox->setEnabled(tempsEditable);
+    ui->fan1Speed4TempSpinBox->setEnabled(tempsEditable);
+    ui->fan1Speed5TempSpinBox->setEnabled(tempsEditable);
+    ui->fan1Speed6TempSpinBox->setEnabled(tempsEditable);
+    ui->fan1Speed7TempSpinBox->setEnabled(tempsEditable);
+    ui->fan2Speed2TempSpinBox->setEnabled(tempsEditable);
+    ui->fan2Speed3TempSpinBox->setEnabled(tempsEditable);
+    ui->fan2Speed4TempSpinBox->setEnabled(tempsEditable);
+    ui->fan2Speed5TempSpinBox->setEnabled(tempsEditable);
+    ui->fan2Speed6TempSpinBox->setEnabled(tempsEditable);
+    ui->fan2Speed7TempSpinBox->setEnabled(tempsEditable);
+
     ui->fan1Speed1Slider->setValue(fan1SpeedSettings[0]);
     ui->fan1Speed2Slider->setValue(fan1SpeedSettings[1]);
     ui->fan1Speed3Slider->setValue(fan1SpeedSettings[2]);
@@ -627,9 +644,10 @@ QVector<int> MainWindow::getFan2TempValues() const {
 }
 
 void MainWindow::setFanSpeedSettings() {
-    // Custom fan curves require raw EC writes, which Operate refuses while the
-    // msi-ec kernel driver owns the EC (curves are not exposed via sysfs yet).
-    if (operate.isMsiEcLoaded()) {
+    // Raw EC write path is refused while the msi-ec kernel driver owns the EC,
+    // unless the patched msi-wmi-platform driver exposes the validated WMAM
+    // fan-curve interface (fan*_duty_curve sysfs attributes).
+    if (!operate.isFanCurveAvailable() && operate.isMsiEcLoaded()) {
         QMessageBox::information(nullptr, this->windowTitle(),
                                  tr("Custom fan curves are not supported while the "
                                     "msi-ec kernel module is loaded, to avoid unsafe "
