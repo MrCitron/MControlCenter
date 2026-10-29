@@ -56,7 +56,7 @@ bool Helper::setWmiFanCurve(const QString &attribute, const QList<int> &value) c
     }
     if (value.size() != WMI_FAN_DUTY_CURVE_COUNT) {
         fprintf(stderr, "SetWmiFanCurve: exactly %d duty values expected, got %d\n",
-                WMI_FAN_DUTY_CURVE_COUNT, value.size());
+                WMI_FAN_DUTY_CURVE_COUNT, static_cast<int>(value.size()));
         return false;
     }
     for (int v : value) {

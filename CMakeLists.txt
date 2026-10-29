@@ -52,6 +52,12 @@ set(TS_FILES
     MControlCenter_zh_CN.ts
 )
 
+# resources.qrc embeds the compiled catalogs from src/i18n/: make lrelease
+# emit the .qm files there (default would be the build directory).
+set_source_files_properties(${TS_FILES} PROPERTIES
+    OUTPUT_LOCATION "${CMAKE_CURRENT_SOURCE_DIR}/src/i18n"
+)
+
 qt_add_executable(mcontrolcenter
     ${PROJECT_SOURCES}
 )
