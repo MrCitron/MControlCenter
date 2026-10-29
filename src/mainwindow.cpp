@@ -663,6 +663,22 @@ void MainWindow::setFanSpeedSettings() {
 }
 
 void MainWindow::setFanModeAdvanced(bool enabled) const {
+    // Observed unsafe combination on this model (MS-1591): the custom fan
+    // curves in "advanced" mode together with a system profile other than
+    // high performance make the machine hard-reset (EC power protection).
+    // Refuse the combination rather than risking a crash.
+    if (enabled && operate.getUserMode() != user_mode::performance_mode) {
+        QMessageBox::information(nullptr, this->windowTitle(),
+                                 tr("Custom fan curves require the system performance "
+                                    "profile to be set to \"High performance\" on this "
+                                    "model — a different profile combined with advanced "
+                                    "fan control has been observed to cause a hard "
+                                    "machine reset."));
+        // Revert the checkbox: disconnect-free recursion is fine, the state
+        // change triggers the handler with enabled=false which does nothing.
+        ui->advancedFanControlCheckBox->setChecked(false);
+        return;
+    }
     operate.setFanModeAdvanced(enabled);
     ui->fanControlTabWidget->setEnabled(enabled);
     ui->fanSpeedResetButton->setEnabled(enabled);
@@ -731,6 +747,9 @@ void MainWindow::setModeFromSelection(PowerProfile profile) {
     case PowerProfile::Unknown:
     default:;
     }
+    // Keep fan modes and system profiles aligned — see the comment in
+    // on_PowerProfileChange().
+    setFanModeAdvanced(profile == PowerProfile::Performance);
 }
 
 void MainWindow::on_ChargerStateChange(bool isCharging) {
@@ -770,6 +789,13 @@ void MainWindow::on_PowerProfileChange(const PowerProfile profile) {
         case PowerProfile::Unknown:
             default:;
         }
+        // On some EC firmware (e.g. Summit E16 Flip A11UCT / MS-1591) the
+        // combination "fan_mode = advanced" together with a scenario other
+        // than high performance has been observed to trip an EC-level power
+        // protection and hard-reset the machine. Keep fan modes and system
+        // profiles aligned: custom curves only apply in high performance,
+        // other profiles fall back to the (safe) automatic fan control.
+        setFanModeAdvanced(profile == PowerProfile::Performance);
     }
 }
 
