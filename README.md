@@ -1,87 +1,90 @@
-# MControlCenter — édition MSI Summit E16 Flip A11UCT (MS-1591)
+# MControlCenter — MSI Summit E16 Flip A11UCT (MS-1591) edition
 
-Fork de [dmitry-s93/MControlCenter](https://github.com/dmitry-s93/MControlCenter) dédié à un
-**unique modèle** : *MSI Summit E16 Flip A11UCT*, carte **MS-1591**, firmware EC `1591EMS1.108`.
+A fork of [dmitry-s93/MControlCenter](https://github.com/dmitry-s93/MControlCenter) dedicated to a
+**single model**: *MSI Summit E16 Flip A11UCT*, board **MS-1591**, EC firmware `1591EMS1.108`.
 
-Le dépôt contient **tout le système** :
+This repository is **self-contained**:
 
-| Dossier | Contenu |
+| Directory | Content |
 |---|---|
-| `src/` | l'application Qt6 (fork de MControlCenter) |
-| `src/helper/` | le démon D-Bus privilégié (`mcontrolcenter-helper`) |
-| `wmi-fan-curve/` | le module noyau `msi-wmi-platform` patché (courbes ventilateur via WMAM) |
-| `docs/FAN_CURVE_MAPPING.md` | la correspondance WMAM ↔ EC RAM validée (lire en premier !) |
-| `install_mcontrolcenter.sh` | l'installation complète (app + démon + autostart + module) |
+| `src/` | the Qt6 application (MControlCenter fork) |
+| `src/helper/` | the privileged D-Bus daemon (`mcontrolcenter-helper`) |
+| `wmi-fan-curve/` | the patched `msi-wmi-platform` kernel module (fan curves via WMAM) |
+| `docs/FAN_CURVE_MAPPING.md` | the validated WMAM ↔ EC RAM mapping (read this first!) |
+| `install_mcontrolcenter.sh` | the complete installer (app + daemon + autostart + module) |
 
-**Ce que ça permet** : contrôle avancé des ventilateurs (courbes personnalisées 7 points)
-réappliqué à chaque démarrage, silencieux à faible charge, sans la moindre écriture EC brute —
-les écritures passent par l'interface WMI-ACPI du firmware (`WMAM`/`SET_FAN`), la même que
-celle du logiciel MSI sous Windows.
+**What it makes possible**: advanced fan control (custom 7-point curves) re-applied at every
+startup, a fully silent machine at low load, with **no raw EC write at all** — curve writes go
+through the firmware's own WMI-ACPI interface (`WMAM`/`SET_FAN`), the same one the MSI software
+uses under Windows.
 
-## Pourquoi ce fork (l'écart avec l'original)
+## Why this fork exists (the delta with upstream)
 
-Sur ce modèle, les écritures écrites EC brutes des courbes du logiciel original ont causé des
-redémarrages matériels durs (l'EC coupe l'alimentation), et l'original n'expose aucune courbe
-sysfs. Le fork remplace le transport des courbes par la voie WMI validée et applique un
-invariant de sécurité observé : *courbes avancées uniquement sur le profil « High performance »*.
+On this model, the raw EC curve writes of the original application caused hard machine
+resets (the EC cutting the power), and upstream exposes no sysfs curve interface. The fork
+replaces the curve transport with the validated WMI path, and enforces a safety invariant
+observed in the field: *custom curves only with the "High performance" system profile*.
 
-### Liste des changements vis-à-vis de l'original
+### Full changelog vs upstream
 
-1. **Aucune écriture EC brute des courbes** tant que le pilote `msi-ec` possède l'EC
-   (`setFan{1,2}Speed/TempSettings` refusés par le canal raw).
-2. **Lecture/écriture des courbes via sysfs** (`fan1_duty_curve` / `fan2_duty_curve`
-   du module noyau patché) : une écriture = une commande WMAM `SET_FAN` de fenêtre
-   complète (8 octets, duty live préservé), vérifiée par le pilote par relecture.
-3. **Écritures root via le démon** : les attributs sysfs sont root-owned ; ajout d'une
-   méthode D-Bus `setWmiFanCurve` strictement validée (liste blanche d'attributs,
-   7 valeurs 0–255) dans `mcontrolcenter-helper`, avec constantes partagées
+1. **No raw EC fan writes** while the `msi-ec` kernel driver owns the EC
+   (`setFan{1,2}Speed/TempSettings` refuse the raw channel).
+2. **Curves read/written through sysfs** (`fan1_duty_curve` / `fan2_duty_curve`
+   attributes of the patched kernel module): one write = one WMAM `SET_FAN`
+   window write (8 bytes, live-duty byte preserved), verified by the driver
+   with a readback.
+3. **Root writes through the daemon**: the sysfs attributes are root-owned; a strictly
+   validated `setWmiFanCurve` D-Bus method (attribute whitelist, 7 values in 0–255)
+   was added to `mcontrolcenter-helper`, with shared constants in
    `src/helper/wmifancurve.h`.
-4. **Désactivation réelle** : quitter le mode « Advanced » (ou basculer le profil système)
-   **réécrit les courbes par défaut du firmware** (`45 55 60 70 90 110 130` /
-   `45 70 90 100 110 110 110`) — l'EC garde la courbe stockée quel que soit le mode fan,
-   donc réécrire est la seule vraie façon de « reprendre le contrôle auto ».
-5. **Invariant advanced ⇔ High performance** (crashs multiples observés sur le combo
-   « profil ≠ High performance » + « advanced ») :
-   - la case « Enable advanced fan control » n'est cliquable qu'en High performance ;
-   - tout autre profil la décoche, repasse le mode fan en `auto` via msi-ec et restaure
-     les courbes usine ;
-   - un avertissement inline rappelle la règle.
-6. **Start-up et veille** : le mode fan est d'abord appliqué, les courbes personnalisées ne
-   sont restaurées que si l'état résultant est sûr ; sinon courbes usine. Wake inclus.
-7. **UI Fan Control repensée** :
-   - boutons **Cancel** (ex-Reset) et **Apply** actifs seulement si un éditeur diffère
-     du dernier jeu appliqué (snapshot) ;
-   - Cancel ramène les valeurs de référence sans relire l'EC ;
-   - température read-only (l'EC les possède — comme l'UI MSI sous Windows).
-8. **Identification de la build** : la page *About* affiche version + `commit` git +
-   horodatage de build automatiques.
+4. **Real curve deactivation**: leaving the "Advanced" mode (or switching the system
+   profile) **writes the firmware default curves back** (`45 55 60 70 90 110 130` /
+   `45 70 90 100 110 110 110`) — the EC keeps using the stored duty points whatever
+   the fan mode is, so rewriting is the only real way to hand the fans back to "auto".
+5. **Advanced ⇔ High performance invariant** (multiple hard resets observed with
+   "profile ≠ High performance" + "advanced"):
+   - the "Enable advanced fan control" checkbox is only clickable in High performance;
+   - any other profile unchecks it, switches the fan mode back to `auto` via msi-ec
+     and restores the firmware default curves;
+   - an inline warning states the rule.
+6. **Startup and wake**: the fan mode is applied first, and the custom curves are only
+   restored when the resulting state is safe; otherwise the firmware defaults are
+   written back. Wake-from-sleep included.
+7. **Rewritten Fan Control tab**:
+   - **Cancel** (formerly Reset) and **Apply** buttons are enabled only while at least
+     one editor differs from the last loaded/applied snapshot;
+   - Cancel restores the reference values without a new EC read;
+   - temperature points are read-only (the EC firmware owns them — like MSI's own
+     UI under Windows).
+8. **Build identification**: the *About* page shows version + git `commit` +
+   automatic build timestamp.
 
-Côté **module noyau** (`wmi-fan-curve/`) : sysfs `fan{1,2}_duty_curve` (RW),
-`fan{1,2}_live_duty` (RO), `fan{1,2}_temp_curve` (RO) ; double garde-fou — paramètre de
-module **`allow_curve_writes`** (défaut *false* : `-EPERM` sans opt-in explicite) et
-**readback** après chaque écriture.
+On the **kernel module** side (`wmi-fan-curve/`): sysfs `fan{1,2}_duty_curve` (RW),
+`fan{1,2}_live_duty` (RO), `fan{1,2}_temp_curve` (RO); double safety guard — the
+**`allow_curve_writes`** module parameter (default *false*: `-EPERM` until explicit
+opt-in) and a **readback** after every write.
 
 ## Installation
 
-Dépendances : Qt6 ≥ 6.4 (`qt6-base-dev`, `qt6-tools-dev`), `cmake`, `build-essential`.
+Dependencies: Qt6 ≥ 6.4 (`qt6-base-dev`, `qt6-tools-dev`), `cmake`, `build-essential`.
 
 ```bash
-git clone <ce dépôt>
+git clone <this repository>
 cd mcontrolcenter
 
-# application + démon
+# application + daemon
 cmake -B build -S . && cmake --build build -j8
 
-# module noyau patché
+# patched kernel module
 make -C wmi-fan-curve
 
-# installation complète (app + démon D-Bus + autostart + module + depmod)
+# complete installation (app + D-Bus daemon + autostart + module + depmap)
 sudo ./install_mcontrolcenter.sh
 ```
 
-Activer sans reboot : `sudo rmmod msi_wmi_platform && sudo modprobe msi_wmi_platform`.
+Activate without a reboot: `sudo rmmod msi_wmi_platform && sudo modprobe msi_wmi_platform`.
 
-Désinstaller :
+Uninstalling:
 
 ```bash
 sudo rm /usr/local/bin/mcontrolcenter /usr/libexec/mcontrolcenter-helper \
@@ -93,37 +96,38 @@ sudo rm -rf /lib/modules/$(uname -r)/updates/msi-wmi-platform
 sudo depmod -a
 ```
 
-## Prérequis pilotes
+## Driver prerequisites
 
-- `msi-ec` doit être chargé (mode ventilateur, shift mode…).
-  Vérifier : `cat /sys/devices/platform/msi-ec/shift_mode`.
-- `ec_sys` **sans** `write_support=1` est suffisant pour les lectures de repli ;
-  `modprobe ec_sys` (lecture seule). Le module original chargeait
-  `ec_sys write_support=1` → inutile ici.
+- `msi-ec` must be loaded (fan mode, shift mode...).
+  Check with: `cat /sys/devices/platform/msi-ec/shift_mode`.
+- `ec_sys` **without** `write_support=1` is enough for the read-only fallback;
+  `modprobe ec_sys` (read-only). The upstream application used to load
+  `ec_sys write_support=1` → not needed here.
 
-## Garde-fous & sécurité
+## Safety guards
 
-- Les courbes ne s'écrivent que si le module noyau a été chargé avec
-  `allow_curve_writes=1` — consentement explicite, persisté via
+- Curves can only be written when the kernel module was loaded with
+  `allow_curve_writes=1` — explicit consent, persisted through
   `/etc/modprobe.d/msi-fan-curve-writes.conf`.
-- Chaque écriture de courbe est **vérifiée par relecture** (readback) : refus visible côté app
-  (`qWarning`) si l'EC ne mémorise pas les valeurs.
-- Le combo « advanced » + profil non-High-performance est **impossible par construction**.
-- En cas de doute : repasser en `balanced` — mode fan `auto` + courbes usine, comportement
-  équivalent à la machine d'origine.
+- Every curve write is **verified with a readback**: a rejection is visible on the
+  application side (`qWarning`) if the EC does not memorize the values.
+- The "advanced" + non-High-performance-profile combination is
+  **impossible by construction**.
+- When in doubt: switch to `balanced` — fan mode `auto` + firmware default curves,
+  equivalent to the stock machine.
 
 ## Maintenance
 
-- **Après une mise à jour du noyau Ubuntu** : `make -C wmi-fan-curve`
-  puis `sudo ./install_mcontrolcenter.sh` (~1 min).
-- Le diagnostic des bascules de profils système est visible au lancement de l'app depuis un
-  terminal (`PowerMonitor: PropertiesChanged …`).
+- **After an Ubuntu kernel update**: `make -C wmi-fan-curve`
+  then `sudo ./install_mcontrolcenter.sh` (~1 min).
+- System power-profile switching diagnostics are visible when the app is
+  started from a terminal (`PowerMonitor: PropertiesChanged ...`).
 
-## Crédits
+## Credits
 
-- [dmitry-s93/MControlCenter](https://github.com/dmitry-s93/MControlCenter) — l'application
-  d'origine (GPLv3), par Dmitry Serov et la communauté.
-- [BeardOverflow/msi-ec](https://github.com/BeardOverflow/msi-ec) — le pilote EC noyau.
-- [Armin Wolf](https://lore.kernel.org/all/?q=msi-wmi-platform) — le pilote noyau
-  `msi-wmi-platform`, base du module de ce dépôt.
-- Licence : GPLv3 (voir `LICENSE`).
+- [dmitry-s93/MControlCenter](https://github.com/dmitry-s93/MControlCenter) — the
+  original application (GPLv3), by Dmitry Serov and the community.
+- [BeardOverflow/msi-ec](https://github.com/BeardOverflow/msi-ec) — the kernel EC driver.
+- [Armin Wolf](https://lore.kernel.org/all/?q=msi-wmi-platform) — the kernel
+  `msi-wmi-platform` driver, base of the module in this repository.
+- License: GPLv3 (see `LICENSE`).
