@@ -134,8 +134,8 @@ bool PowerMonitor::connectToPowerProfiles() {
         this,
         SLOT(onPowerProfileChanged(QString,QVariantMap,QStringList))
         );
-
     isPowerProfileConnected = ok;
+    qInfo("PowerMonitor: PowerProfiles connect (sender=net.hadess.PowerProfiles) result=%d", ok);
     return ok;
 }
 
@@ -192,6 +192,9 @@ void PowerMonitor::onPowerProfileChanged(
     const QString ProfileName = changed.value("ActiveProfile").toString();
 
     PowerProfile profile = parsePowerProfile(ProfileName);
+
+    qDebug("PowerMonitor: PropertiesChanged interface=%s ActiveProfile=%s -> profile enum %d",
+           qPrintable(interface), qPrintable(ProfileName), static_cast<int>(profile));
 
     emit currentPowerProfile(profile);
 }
