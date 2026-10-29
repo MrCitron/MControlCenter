@@ -219,6 +219,31 @@ bool Operate::isFanTempCurveEditable() const {
     return !wmiFanCurveAvailable;
 }
 
+void Operate::restoreDefaultFanCurves() const {
+    // Deactivating the OS-managed curve means writing the firmware defaults
+    // back: on this EC the stored duty points keep driving the fans whatever
+    // the fan mode is (auto included), so stale custom curves had to be
+    // reverted. Default values measured on MS-1591 during the validation
+    // campaign (see FAN_CURVE_MAPPING.md).
+    if (!wmiFanCurveAvailable)
+        return;
+    const bool ok1 = writeWmiFanCurve(WMI_FAN_DUTY_CURVE_FAN1, {45, 55, 60, 70, 90, 110, 130});
+    const bool ok2 = writeWmiFanCurve(WMI_FAN_DUTY_CURVE_FAN2, {45, 70, 90, 100, 110, 110, 110});
+    if (!ok1 || !ok2)
+        qWarning("restoreDefaultFanCurves: at least one default curve write failed "
+                 "(check the helper daemon / allow_curve_writes)");
+}
+
+void Operate::applySavedFanSpeedSettings() const {
+    // Re-apply the duty curves saved in the configuration (as done by
+    // loadSettings), without touching the temperature windows.
+    Settings s;
+    if (s.isValueExist(settingsGroup + "fan1SpeedSettings"))
+        setFan1SpeedSettings(s.getValueVector(settingsGroup + "fan1SpeedSettings"));
+    if (s.isValueExist(settingsGroup + "fan2SpeedSettings"))
+        setFan2SpeedSettings(s.getValueVector(settingsGroup + "fan2SpeedSettings"));
+}
+
 QVector<int> Operate::readWmiFanCurve(const QString &attribute) const {
     QVector<int> values;
     QFile file(QString(WMI_PLATFORM_DEVICE_PATH) + '/' + attribute);
@@ -691,22 +716,58 @@ void Operate::loadSettings() const {
     if (isUsbPowerShareSupport() && s.isValueExist(settingsGroup + "UsbPowerShare"))
         setUsbPowerShareState(s.getValue(settingsGroup + "UsbPowerShare").toBool());
 
-    if (s.isValueExist(settingsGroup + "fan1SpeedSettings"))
-        setFan1SpeedSettings(s.getValueVector(settingsGroup + "fan1SpeedSettings"));
-    if (s.isValueExist(settingsGroup + "fan2SpeedSettings"))
-        setFan2SpeedSettings(s.getValueVector(settingsGroup + "fan2SpeedSettings"));
-    if (s.isValueExist(settingsGroup + "fan1TempSettings"))
-        setFan1TempSettings(s.getValueVector(settingsGroup + "fan1TempSettings"));
-    if (s.isValueExist(settingsGroup + "fan2TempSettings"))
-        setFan2TempSettings(s.getValueVector(settingsGroup + "fan2TempSettings"));
-    if (s.isValueExist(settingsGroup + "fanModeAdvanced"))
-        setFanModeAdvanced(s.getValue(settingsGroup + "fanModeAdvanced").toBool());
+    // Order matters for safety on the WMI fan-curve path:
+    //  1) the fan mode is applied first;
+    //  2) the saved curves are re-applied only when the advanced fan control
+    //     ends up active with a profile that safely allows it — the EC keeps
+    //     using its stored duty points whatever the fan mode is, so leaving
+    //     stale custom curves in place caused silent fans in other profiles
+    //     and, combined with those profiles, hard machine resets (MS-1591);
+    //  3) otherwise the firmware default curves are written back.
+    bool advancedPreset = false;
+    if (s.isValueExist(settingsGroup + "fanModeAdvanced")) {
+        advancedPreset = s.getValue(settingsGroup + "fanModeAdvanced").toBool();
+        if (advancedPreset && msiEcHelper.hasShiftMode()
+            && getUserMode() != user_mode::performance_mode) {
+            // Custom curves only apply with the high-performance profile.
+            advancedPreset = false;
+        }
+        setFanModeAdvanced(advancedPreset);
+    }
+
+    if (advancedPreset) {
+        if (s.isValueExist(settingsGroup + "fan1SpeedSettings"))
+            setFan1SpeedSettings(s.getValueVector(settingsGroup + "fan1SpeedSettings"));
+        if (s.isValueExist(settingsGroup + "fan2SpeedSettings"))
+            setFan2SpeedSettings(s.getValueVector(settingsGroup + "fan2SpeedSettings"));
+        if (s.isValueExist(settingsGroup + "fan1TempSettings"))
+            setFan1TempSettings(s.getValueVector(settingsGroup + "fan1TempSettings"));
+        if (s.isValueExist(settingsGroup + "fan2TempSettings"))
+            setFan2TempSettings(s.getValueVector(settingsGroup + "fan2TempSettings"));
+    } else if (wmiFanCurveAvailable) {
+        restoreDefaultFanCurves();
+    }
 }
 
 void Operate::handleWakeEvent() const {
     Settings s;
-    if (s.isValueExist(settingsGroup + "fanModeAdvanced"))
-        setFanModeAdvanced(s.getValue(settingsGroup + "fanModeAdvanced").toBool());
+    if (s.isValueExist(settingsGroup + "fanModeAdvanced")) {
+        bool advanced = s.getValue(settingsGroup + "fanModeAdvanced").toBool();
+        // Same guard as loadSettings: custom curves only apply with the
+        // high-performance profile.
+        if (advanced && msiEcHelper.hasShiftMode()
+            && getUserMode() != user_mode::performance_mode) {
+            advanced = false;
+        }
+        setFanModeAdvanced(advanced);
+        if (advanced) {
+            // The EC may have reset its internal state around sleep — the
+            // saved curves are re-applied to stay coherent.
+            applySavedFanSpeedSettings();
+        } else if (wmiFanCurveAvailable) {
+            restoreDefaultFanCurves();
+        }
+    }
 }
 
 int Operate::detectFan1Address() const {

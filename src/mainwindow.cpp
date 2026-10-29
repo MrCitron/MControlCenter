@@ -176,7 +176,10 @@ MainWindow::MainWindow(QWidget *parent)
     timerSleepWatcher.start();
 
     ui->QtVersionValue->setText(QT_VERSION_STR);
-    ui->versionValueLabel->setText(MControlCenter_VERSION);
+    ui->versionValueLabel->setText(
+        QString("%1+fan-curve · commit %2 · built %3 UTC")
+            .arg(MControlCenter_VERSION, MControlCenter_GIT_COMMIT,
+                 MControlCenter_BUILD_TIMESTAMP));
     ui->autoAcDcProfilesGroupBox->setChecked(s.getValue("Settings/autoAcDcProfilesState").toBool());
     ui->userModeOnBatteryComboBox->setCurrentIndex(s.getValue("Settings/UserModeOnBattery").toInt());
     ui->userModeOnChargerComboBox->setCurrentIndex(s.getValue("Settings/UserModeOnCharger").toInt());
@@ -679,7 +682,25 @@ void MainWindow::setFanModeAdvanced(bool enabled) const {
         ui->advancedFanControlCheckBox->setChecked(false);
         return;
     }
+    if (!operate.isFanCurveAvailable()) {
+        operate.setFanModeAdvanced(enabled);
+        ui->fanControlTabWidget->setEnabled(enabled);
+        ui->fanSpeedResetButton->setEnabled(enabled);
+        ui->fanSpeedApplyButton->setEnabled(enabled);
+        return;
+    }
     operate.setFanModeAdvanced(enabled);
+    if (enabled) {
+        // Re-apply the saved curves: they may have been replaced by the
+        // firmware defaults while the advanced control was off.
+        operate.applySavedFanSpeedSettings();
+    } else {
+        // Leaving advanced mode: hand the fans back to the firmware defaults.
+        // The EC keeps using the stored duty points whatever the fan mode is,
+        // so the custom curve must be overwritten for the "auto" fan control
+        // to behave normally again.
+        operate.restoreDefaultFanCurves();
+    }
     ui->fanControlTabWidget->setEnabled(enabled);
     ui->fanSpeedResetButton->setEnabled(enabled);
     ui->fanSpeedApplyButton->setEnabled(enabled);

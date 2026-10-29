@@ -106,6 +106,8 @@ public:
 
     [[nodiscard]] bool isFanCurveAvailable() const;
     [[nodiscard]] bool isFanTempCurveEditable() const;
+    void restoreDefaultFanCurves() const;
+    void applySavedFanSpeedSettings() const;
 
     [[nodiscard]] int getValue(int address) const;
     void setValue(int address, int value) const;

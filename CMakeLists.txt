@@ -19,6 +19,17 @@ find_package(Qt6 6.4 REQUIRED COMPONENTS
 
 qt_standard_project_setup()
 
+execute_process(
+    COMMAND git -C ${CMAKE_CURRENT_SOURCE_DIR} rev-parse --short=10 HEAD
+    OUTPUT_VARIABLE MC_GIT_COMMIT
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    ERROR_QUIET
+)
+if(NOT MC_GIT_COMMIT)
+    set(MC_GIT_COMMIT "unknown")
+endif()
+string(TIMESTAMP MC_BUILD_TIMESTAMP "%Y-%m-%d %H:%M" UTC)
+
 set(PROJECT_SOURCES
     src/main.cpp
     src/mainwindow.ui
@@ -77,4 +88,6 @@ target_link_libraries(mcontrolcenter PRIVATE
 )
 
 target_compile_definitions(mcontrolcenter PRIVATE
-    MControlCenter_VERSION="${PROJECT_VERSION}")
+    MControlCenter_VERSION="${PROJECT_VERSION}"
+    MControlCenter_GIT_COMMIT="${MC_GIT_COMMIT}"
+    MControlCenter_BUILD_TIMESTAMP="${MC_BUILD_TIMESTAMP}")
