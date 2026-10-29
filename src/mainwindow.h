@@ -84,7 +84,7 @@ private:
     QVector<int> getFan1TempValues() const;
     QVector<int> getFan2TempValues() const;
     void setFanSpeedSettings();
-    void setFanModeAdvanced(bool enabled) const;
+    void setFanModeAdvanced(bool enabled);
     void checkFanSettingsChanged() const;
 
     void showEvent(QShowEvent *event);
@@ -99,6 +99,13 @@ private:
     void createActions();
     void iconActivated(QSystemTrayIcon::ActivationReason reason);
     void saveStateRequest(QSessionManager &sessionManager);
+
+    void refreshFanControlTabControls();
+    void saveFanCurveSnapshots();
+    void cancelFanSpeedSettings();
+
+    QVector<int> fan1SpeedSnapshot, fan2SpeedSnapshot;
+    QVector<int> fan1TempSnapshot, fan2TempSnapshot;
 
     QSystemTrayIcon *trayIcon = nullptr;;
     QMenu *trayIconMenu = nullptr;

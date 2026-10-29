@@ -135,7 +135,7 @@ MainWindow::MainWindow(QWidget *parent)
         checkFanSettingsChanged();
     });
 
-    connect(ui->fanSpeedResetButton, &QPushButton::clicked, this, &MainWindow::updateFanSpeedSettings);
+    connect(ui->fanSpeedResetButton, &QPushButton::clicked, this, &MainWindow::cancelFanSpeedSettings);
     connect(ui->fanSpeedApplyButton, &QPushButton::clicked, this, &MainWindow::setFanSpeedSettings);
     connect(&powerMonitor, &PowerMonitor::currentChargerState, this, &MainWindow::on_ChargerStateChange);
     connect(&powerMonitor, &PowerMonitor::currentPowerProfile, this, &MainWindow::on_PowerProfileChange);
@@ -489,6 +489,74 @@ void MainWindow::updateFanMode() {
             break;
     }
     ui->fanModeValueLabel->setText(fanMode);
+    refreshFanControlTabControls();
+}
+
+void MainWindow::refreshFanControlTabControls() {
+    // The custom fan curves are only safe (and allowed by the EC) together
+    // with the "High performance" system profile: keep the tab aligned with
+    // the current profile everywhere (checkbox, sliders, warning).
+    const bool profileKnown = operate.isMsiEcLoaded();
+    const bool highPerformance = !profileKnown
+        || operate.getUserMode() == user_mode::performance_mode;
+
+    ui->advancedFanControlCheckBox->setEnabled(highPerformance);
+    ui->fanProfileWarningLabel->setText(
+        tr("Advanced fan control requires the \"High performance\" system profile."));
+    ui->fanProfileWarningLabel->setVisible(!highPerformance);
+
+    if (!highPerformance && ui->advancedFanControlCheckBox->isChecked()) {
+        // Flips the EC fan mode back to auto and restores the firmware
+        // default curves; the tab stays disabled right after.
+        ui->advancedFanControlCheckBox->setChecked(false);
+    }
+    ui->fanControlTabWidget->setEnabled(ui->advancedFanControlCheckBox->isChecked());
+    checkFanSettingsChanged();
+}
+
+void MainWindow::saveFanCurveSnapshots() {
+    // Snapshot = the values currently known as applied (from the EC at
+    // reload, or from the last Apply). The buttons only become active while
+    // the UI differs from it.
+    fan1SpeedSnapshot = getFan1SpeedValues();
+    fan2SpeedSnapshot = getFan2SpeedValues();
+    fan1TempSnapshot = getFan1TempValues();
+    fan2TempSnapshot = getFan2TempValues();
+    checkFanSettingsChanged();
+}
+
+void MainWindow::cancelFanSpeedSettings() {
+    // Cancel: put back the last applied (snapshot) values in the editors.
+    if (fan1SpeedSnapshot.isEmpty() || fan2SpeedSnapshot.isEmpty()
+        || fan1TempSnapshot.isEmpty() || fan2TempSnapshot.isEmpty()) {
+        updateFanSpeedSettings();
+        return;
+    }
+    ui->fan1Speed1Slider->setValue(fan1SpeedSnapshot[0]);
+    ui->fan1Speed2Slider->setValue(fan1SpeedSnapshot[1]);
+    ui->fan1Speed3Slider->setValue(fan1SpeedSnapshot[2]);
+    ui->fan1Speed4Slider->setValue(fan1SpeedSnapshot[3]);
+    ui->fan1Speed5Slider->setValue(fan1SpeedSnapshot[4]);
+    ui->fan1Speed6Slider->setValue(fan1SpeedSnapshot[5]);
+    ui->fan1Speed7Slider->setValue(fan1SpeedSnapshot[6]);
+    ui->fan1Speed2TempSpinBox->setValue(fan1TempSnapshot[0]);
+    ui->fan1Speed3TempSpinBox->setValue(fan1TempSnapshot[1]);
+    ui->fan1Speed4TempSpinBox->setValue(fan1TempSnapshot[2]);
+    ui->fan1Speed5TempSpinBox->setValue(fan1TempSnapshot[3]);
+    ui->fan1Speed6TempSpinBox->setValue(fan1TempSnapshot[4]);
+    ui->fan1Speed7TempSpinBox->setValue(fan1TempSnapshot[5]);
+    ui->fan2Speed1Slider->setValue(fan2SpeedSnapshot[0]);
+    ui->fan2Speed2Slider->setValue(fan2SpeedSnapshot[1]);
+    ui->fan2Speed3Slider->setValue(fan2SpeedSnapshot[2]);
+    ui->fan2Speed4Slider->setValue(fan2SpeedSnapshot[3]);
+    ui->fan2Speed5Slider->setValue(fan2SpeedSnapshot[4]);
+    ui->fan2Speed6Slider->setValue(fan2SpeedSnapshot[5]);
+    ui->fan2Speed2TempSpinBox->setValue(fan2TempSnapshot[0]);
+    ui->fan2Speed3TempSpinBox->setValue(fan2TempSnapshot[1]);
+    ui->fan2Speed4TempSpinBox->setValue(fan2TempSnapshot[2]);
+    ui->fan2Speed5TempSpinBox->setValue(fan2TempSnapshot[3]);
+    ui->fan2Speed6TempSpinBox->setValue(fan2TempSnapshot[4]);
+    checkFanSettingsChanged();
 }
 
 void MainWindow::updateFanSpeedSettings() {
@@ -548,7 +616,8 @@ void MainWindow::updateFanSpeedSettings() {
     ui->fan2Speed6TempSpinBox->setValue(fan2TempSettings[4]);
     ui->fan2Speed7TempSpinBox->setValue(fan2TempSettings[5]);
 
-    checkFanSettingsChanged();
+    // This reload defines the reference values (Cancel goes back to them).
+    saveFanCurveSnapshots();
 }
 
 void MainWindow::setBestMobility() {
@@ -661,11 +730,11 @@ void MainWindow::setFanSpeedSettings() {
     operate.setFan1TempSettings(getFan1TempValues());
     operate.setFan2SpeedSettings(getFan2SpeedValues());
     operate.setFan2TempSettings(getFan2TempValues());
-    if (operate.updateEcData())
-        checkFanSettingsChanged();
+    // The written values become the reference for Cancel/Apply dirtiness.
+    saveFanCurveSnapshots();
 }
 
-void MainWindow::setFanModeAdvanced(bool enabled) const {
+void MainWindow::setFanModeAdvanced(bool enabled) {
     // Observed unsafe combination on this model (MS-1591): the custom fan
     // curves in "advanced" mode together with a system profile other than
     // high performance make the machine hard-reset (EC power protection).
@@ -692,25 +761,30 @@ void MainWindow::setFanModeAdvanced(bool enabled) const {
     operate.setFanModeAdvanced(enabled);
     if (enabled) {
         // Re-apply the saved curves: they may have been replaced by the
-        // firmware defaults while the advanced control was off.
+        // firmware defaults while the advanced control was off. The sliders
+        // are refreshed from the EC afterwards (and become the snapshot).
         operate.applySavedFanSpeedSettings();
+        updateFanSpeedSettings();
     } else {
         // Leaving advanced mode: hand the fans back to the firmware defaults.
         // The EC keeps using the stored duty points whatever the fan mode is,
         // so the custom curve must be overwritten for the "auto" fan control
         // to behave normally again.
         operate.restoreDefaultFanCurves();
+        updateFanSpeedSettings();
     }
     ui->fanControlTabWidget->setEnabled(enabled);
-    ui->fanSpeedResetButton->setEnabled(enabled);
-    ui->fanSpeedApplyButton->setEnabled(enabled);
 }
 
 void MainWindow::checkFanSettingsChanged() const {
-    bool fanSettingChanged = (getFan1SpeedValues() != operate.getFan1SpeedSettings() ||
-                              getFan2SpeedValues() != operate.getFan2SpeedSettings() ||
-                              getFan1TempValues() != operate.getFan1TempSettings() ||
-                              getFan2TempValues() != operate.getFan2TempSettings());
+    // Dirty state against the last loaded/applied snapshot (Cancel and Apply
+    // are only active while the editors differ from it).
+    bool fanSettingChanged = (
+        !fan1SpeedSnapshot.isEmpty() &&
+        (getFan1SpeedValues() != fan1SpeedSnapshot ||
+         getFan2SpeedValues() != fan2SpeedSnapshot ||
+         getFan1TempValues() != fan1TempSnapshot ||
+         getFan2TempValues() != fan2TempSnapshot));
     ui->fanSpeedApplyButton->setEnabled(fanSettingChanged);
     ui->fanSpeedResetButton->setEnabled(fanSettingChanged);
 }
