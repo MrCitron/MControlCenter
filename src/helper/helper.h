@@ -21,6 +21,7 @@
 
 #include "service.h"
 
+#include <QtCore/QList>
 #include <QtCore/QObject>
 #include <QtDBus/QDBusAbstractAdaptor>
 #include <QtDBus/QDBusVariant>
@@ -40,6 +41,7 @@ public slots:
     Q_NOREPLY void quit() const;
     [[nodiscard]] QByteArray getData() const;
     Q_NOREPLY void putValue(const int &address, const int &value) const;
+    [[nodiscard]] bool setWmiFanCurve(const QString &attribute, const QList<int> &value) const;
     [[nodiscard]] bool isEcSysModuleLoaded() const;
     [[nodiscard]] bool loadEcSysModule() const;
 };

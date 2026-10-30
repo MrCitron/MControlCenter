@@ -22,6 +22,7 @@
 
 #include <string>
 #include <QVector>
+#include <QString>
 
 enum class charging_state {
     battery_charging,
@@ -103,6 +104,11 @@ public:
     void setFanMode(int value) const;
     void setFanModeAdvanced(bool enabled) const;
 
+    [[nodiscard]] bool isFanCurveAvailable() const;
+    [[nodiscard]] bool isFanTempCurveEditable() const;
+    void restoreDefaultFanCurves() const;
+    void applySavedFanSpeedSettings() const;
+
     [[nodiscard]] int getValue(int address) const;
     void setValue(int address, int value) const;
 
@@ -121,6 +127,8 @@ private:
     int detectBatteryThresholdAddress() const;
     int detectFanModeAddress() const;
     int detectKeyboardBacklightAddress() const;
+    [[nodiscard]] QVector<int> readWmiFanCurve(const QString &attribute) const;
+    [[nodiscard]] bool writeWmiFanCurve(const QString &attribute, const QVector<int> &value) const;
 };
 
 #endif // OPERATE_H

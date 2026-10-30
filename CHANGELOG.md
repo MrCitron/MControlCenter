@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 
 ## Unreleased
+- Do not perform raw EC fan writes when the msi-ec kernel driver is loaded:
+  - fan curve (speed/temperature) writes are disabled (raw addresses are
+    model-specific and not validated on all models, e.g. MSI Summit E16 Flip
+    A11UCT where such writes can hard reset the machine);
+  - "Advanced" fan mode is applied through the validated msi-ec sysfs
+    interface instead of a raw EC write.
+- Fan curves now use the WMI platform sysfs interface when it is available
+  (patched msi-wmi-platform driver, e.g. on MSI Summit E16 Flip A11UCT):
+  - duty curves are read/written through the `fan1_duty_curve` /
+    `fan2_duty_curve` sysfs attributes; one write is a single validated WMAM
+    `SET_FAN` window write — no raw EC access;
+  - duty curve writes go through the privileged helper daemon
+    (`mcontrolcenter-helper`, new `setWmiFanCurve` D-Bus method with strict
+    attribute/value validation), because the sysfs attributes are root-owned;
+  - temperature points are presented as read-only (the EC firmware owns
+    them, and its WMI interface exposes them read-only as well), matching
+    the behavior of MSI's own software;
+  - fan modes (auto/silent/basic/advanced) keep going through msi-ec sysfs.
+  Custom fan curves stay unavailable (with a graceful message) when neither
+  the WMI curve interface nor a safe raw path is present.
 
 ## [0.4.1] 2023-08-09
 - Fixed UI lags when resizing the window (issue https://github.com/dmitry-s93/MControlCenter/issues/97)

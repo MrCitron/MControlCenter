@@ -19,7 +19,9 @@
 #ifndef HELPER_H
 #define HELPER_H
 
+#include <QtCore/QList>
 #include <QtCore/QObject>
+#include <QtCore/QString>
 #include <QtDBus/QDBusInterface>
 
 using BYTE = unsigned char;
@@ -37,6 +39,7 @@ public:
     int getValue(int address) const;
     QByteArray getValues(int startAddress, int size) const;
     void putValue(int address, int value);
+    [[nodiscard]] bool setWmiFanCurve(const QString &attribute, const QList<int> &value) const;
     void quit();
     QDBusInterface *iface;
 private:
