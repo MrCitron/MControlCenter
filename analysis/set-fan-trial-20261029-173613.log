@@ -1,0 +1,80 @@
+=== ÉTAT AVANT (17:36:13) ===
+fan1_duty_curve : 45 55 60 70 90 110 130
+fan2_duty_curve : 45 70 90 100 110 110 110
+fan1_live_duty  : 45
+fan2_live_duty  : 45
+fan1_temp_curve : 0 60 70 80 85 90 95 100
+fan2_temp_curve : 0 55 65 75 85 89 90 89
+RPM fan1/fan2   : 2891 / 2696 tr/min
+msi-ec fan_mode : auto  shift_mode: comfort
+temp CPU (msi-ec): 35 °C
+
+Le test va écrire +3 sur le point 1 de la courbe fan1 (zone basse température),
+surveiller 60 s, PUIS RESTAURER les valeurs d'origine.
+Consignes : PC branché, ventilateurs normaux, pas d'autre modification EC en cours.
+Confirmez-vous l'écriture de ce point de courbe ? [oui/non] Écriture : 48 55 60 70 90 110 130   (orig: 45 55 60 70 90 110 130, 17:36:19)
+Relecture immédiate : 48 55 60 70 90 110 130
+=== SURVEILLANCE (60 s, log : ./set-fan-trial_20261029-173613.log) ===
+t=01s temp_cpu=35°C rpm1=? rpm2=? live_duty1=48
+t=02s temp_cpu=35°C rpm1=? rpm2=? live_duty1=48
+t=03s temp_cpu=35°C rpm1=? rpm2=? live_duty1=48
+t=04s temp_cpu=35°C rpm1=? rpm2=? live_duty1=48
+t=05s temp_cpu=35°C rpm1=? rpm2=? live_duty1=48
+t=06s temp_cpu=35°C rpm1=? rpm2=? live_duty1=48
+t=07s temp_cpu=35°C rpm1=? rpm2=? live_duty1=48
+t=08s temp_cpu=35°C rpm1=? rpm2=? live_duty1=48
+t=09s temp_cpu=35°C rpm1=? rpm2=? live_duty1=48
+t=10s temp_cpu=34°C rpm1=? rpm2=? live_duty1=48
+t=11s temp_cpu=35°C rpm1=? rpm2=? live_duty1=48
+t=12s temp_cpu=34°C rpm1=? rpm2=? live_duty1=48
+t=13s temp_cpu=34°C rpm1=? rpm2=? live_duty1=48
+t=14s temp_cpu=34°C rpm1=? rpm2=? live_duty1=48
+t=15s temp_cpu=34°C rpm1=? rpm2=? live_duty1=48
+t=16s temp_cpu=34°C rpm1=? rpm2=? live_duty1=48
+t=17s temp_cpu=34°C rpm1=? rpm2=? live_duty1=48
+t=18s temp_cpu=34°C rpm1=? rpm2=? live_duty1=48
+t=19s temp_cpu=35°C rpm1=? rpm2=? live_duty1=48
+t=20s temp_cpu=34°C rpm1=? rpm2=? live_duty1=48
+t=21s temp_cpu=34°C rpm1=? rpm2=? live_duty1=48
+t=22s temp_cpu=34°C rpm1=? rpm2=? live_duty1=48
+t=23s temp_cpu=34°C rpm1=? rpm2=? live_duty1=48
+t=24s temp_cpu=34°C rpm1=? rpm2=? live_duty1=48
+t=25s temp_cpu=34°C rpm1=? rpm2=? live_duty1=48
+t=26s temp_cpu=34°C rpm1=? rpm2=? live_duty1=48
+t=27s temp_cpu=34°C rpm1=? rpm2=? live_duty1=48
+t=28s temp_cpu=34°C rpm1=? rpm2=? live_duty1=48
+t=29s temp_cpu=34°C rpm1=? rpm2=? live_duty1=48
+t=30s temp_cpu=34°C rpm1=? rpm2=? live_duty1=48
+t=31s temp_cpu=34°C rpm1=? rpm2=? live_duty1=48
+t=32s temp_cpu=34°C rpm1=? rpm2=? live_duty1=48
+t=33s temp_cpu=34°C rpm1=? rpm2=? live_duty1=48
+t=34s temp_cpu=34°C rpm1=? rpm2=? live_duty1=48
+t=35s temp_cpu=34°C rpm1=? rpm2=? live_duty1=48
+t=36s temp_cpu=34°C rpm1=? rpm2=? live_duty1=48
+t=37s temp_cpu=34°C rpm1=? rpm2=? live_duty1=48
+t=38s temp_cpu=34°C rpm1=? rpm2=? live_duty1=48
+t=39s temp_cpu=34°C rpm1=? rpm2=? live_duty1=48
+t=40s temp_cpu=34°C rpm1=? rpm2=? live_duty1=48
+t=41s temp_cpu=34°C rpm1=? rpm2=? live_duty1=48
+t=42s temp_cpu=34°C rpm1=? rpm2=? live_duty1=48
+t=43s temp_cpu=34°C rpm1=? rpm2=? live_duty1=48
+t=44s temp_cpu=34°C rpm1=? rpm2=? live_duty1=48
+t=45s temp_cpu=34°C rpm1=? rpm2=? live_duty1=48
+t=46s temp_cpu=34°C rpm1=? rpm2=? live_duty1=48
+t=47s temp_cpu=34°C rpm1=? rpm2=? live_duty1=48
+t=48s temp_cpu=34°C rpm1=? rpm2=? live_duty1=48
+t=49s temp_cpu=34°C rpm1=? rpm2=? live_duty1=48
+t=50s temp_cpu=34°C rpm1=? rpm2=? live_duty1=48
+t=51s temp_cpu=34°C rpm1=? rpm2=? live_duty1=48
+t=52s temp_cpu=33°C rpm1=? rpm2=? live_duty1=48
+t=53s temp_cpu=33°C rpm1=? rpm2=? live_duty1=48
+t=54s temp_cpu=33°C rpm1=? rpm2=? live_duty1=48
+t=55s temp_cpu=33°C rpm1=? rpm2=? live_duty1=48
+t=56s temp_cpu=33°C rpm1=? rpm2=? live_duty1=48
+t=57s temp_cpu=33°C rpm1=? rpm2=? live_duty1=48
+t=58s temp_cpu=34°C rpm1=? rpm2=? live_duty1=48
+t=59s temp_cpu=33°C rpm1=? rpm2=? live_duty1=48
+t=60s temp_cpu=33°C rpm1=? rpm2=? live_duty1=48
+Relecture après 60 s : 48 55 60 70 90 110 130
+Restauration vérifiée : 45 55 60 70 90 110 130
+=== ESSAI TERMINÉ — état EC identique à l'avant-essai ===

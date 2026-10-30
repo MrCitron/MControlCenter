@@ -1,0 +1,9 @@
+fan1: 0 rpm ()
+fan2: 0 rpm ()
+fan_mode:   auto
+shift_mode: eco
+cpu temp: 41 °C
+gpu temp: 0 °C
+Package id 0:  +42.0°C  (high = +100.0°C, crit = +100.0°C)
+temp1:        +34.0°C  
+temp1:        +45.0°C  

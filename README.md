@@ -11,6 +11,7 @@ This repository is **self-contained**:
 | `src/helper/` | the privileged D-Bus daemon (`mcontrolcenter-helper`) |
 | `wmi-fan-curve/` | the patched `msi-wmi-platform` kernel module (fan curves via WMAM) |
 | `docs/FAN_CURVE_MAPPING.md` | the validated WMAM ↔ EC RAM mapping (read this first!) |
+| `analysis/` | the complete investigation history (Windows-side recon, read-only evidence campaigns, scripts, low-level traces) |
 | `install_mcontrolcenter.sh` | the complete installer (app + daemon + autostart + module) |
 
 **What it makes possible**: advanced fan control (custom 7-point curves) re-applied at every

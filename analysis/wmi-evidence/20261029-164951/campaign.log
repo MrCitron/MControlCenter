@@ -1,0 +1,5 @@
+Campagne sonde WMI — 2026-10-29 16:49:51
+Sortie : /analysis/wmi-evidence/20261029-164951
+shift_mode initial : comfort (restauré à la fin)
+=== 1) REPOS ===
+./wmi_probe_full.sh: line 64: $3: unbound variable

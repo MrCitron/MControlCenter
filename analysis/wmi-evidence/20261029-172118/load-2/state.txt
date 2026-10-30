@@ -1,0 +1,9 @@
+fan1: 3404 rpm ()
+fan2: 2696 rpm ()
+fan_mode:   auto
+shift_mode: comfort
+cpu temp: 76 °C
+gpu temp: 0 °C
+Package id 0:  +77.0°C  (high = +100.0°C, crit = +100.0°C)
+temp1:        +30.0°C  
+temp1:        +78.0°C  

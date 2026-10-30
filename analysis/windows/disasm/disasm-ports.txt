@@ -1,0 +1,450 @@
+### windows-drivers\msisadrv.sys  [x64] imagebase=0x1c0000000
+  IMPORT ntoskrnl.exe: KeInitializeEvent, IofCompleteRequest, RtlFindClearBitsAndSet, RtlInitializeBitMap, RtlClearAllBits, KeLeaveCriticalRegion, HalDispatchTable, DbgPrintEx, RtlCopyUnicodeString, RtlClearBits, ExAllocatePool2, KeSetEvent, KeWaitForSingleObject, KeEnterCriticalRegion
+  IMPORT WDFLDR.SYS: WdfVersionBind, WdfLdrQueryInterface, WdfVersionUnbind, WdfVersionBindClass, WdfVersionUnbindClass
+  SECTION .text: exec size=0x1000 rva=0x1000 -> aucune instruction I/O
+  SECTION fothk: exec size=0x1000 rva=0x2000 -> aucune instruction I/O
+  SECTION PAGE: exec size=0x1000 rva=0x7000 -> aucune instruction I/O
+  SECTION INIT: exec size=0x1000 rva=0x8000 -> aucune instruction I/O
+
+### NBFoundation\KernCoreLib64.Sys  [x64] imagebase=0x140000000
+  IMPORT ntoskrnl.exe: IofCompleteRequest, IoCreateDevice, IoCreateSymbolicLink, IoDeleteDevice, IoDeleteSymbolicLink, RtlInitUnicodeString, ObfDereferenceObject, ZwClose, ZwOpenSection, ZwMapViewOfSection, ZwUnmapViewOfSection, ObReferenceObjectByHandle, memcpy_s
+  IMPORT HAL.dll: HalTranslateBusAddress
+  SECTION .text: exec size=0xc00 rva=0x1000 -> 8 instruction(s) I/O
+      0x13d8 (fichier 0x7d8)  out dx, eax   [PORT=?]
+          ctx: 0x13c3  sub ecx, 1
+          ctx: 0x13c6  je 0x13de
+          ctx: 0x13c8  cmp ecx, 2
+          ctx: 0x13cb  jne 0x15d7
+          ctx: 0x13d1  mov eax, dword ptr [rbp - 0x3e]
+          ctx: 0x13d4  movzx edx, word ptr [rbp - 0x40]
+      0x13e6 (fichier 0x7e6)  out dx, ax   [PORT=?]
+          ctx: 0x13d1  mov eax, dword ptr [rbp - 0x3e]
+          ctx: 0x13d4  movzx edx, word ptr [rbp - 0x40]
+          ctx: 0x13d8  out dx, eax
+          ctx: 0x13d9  jmp 0x15d7
+          ctx: 0x13de  movzx eax, word ptr [rbp - 0x3e]
+          ctx: 0x13e2  movzx edx, word ptr [rbp - 0x40]
+      0x13f1 (fichier 0x7f1)  out dx, al   [PORT=?]
+          ctx: 0x13de  movzx eax, word ptr [rbp - 0x3e]
+          ctx: 0x13e2  movzx edx, word ptr [rbp - 0x40]
+          ctx: 0x13e6  out dx, ax
+          ctx: 0x13e8  jmp 0x13d9
+          ctx: 0x13ea  mov al, byte ptr [rbp - 0x3e]
+          ctx: 0x13ed  movzx edx, word ptr [rbp - 0x40]
+      0x1446 (fichier 0x846)  in eax, dx   [PORT=?]
+          ctx: 0x1436  je 0x1454
+          ctx: 0x1438  sub ecx, 1
+          ctx: 0x143b  je 0x1449
+          ctx: 0x143d  cmp ecx, 2
+          ctx: 0x1440  jne 0x145f
+          ctx: 0x1442  movzx edx, word ptr [rbp - 0x40]
+      0x144d (fichier 0x84d)  in ax, dx   [PORT=?]
+          ctx: 0x143d  cmp ecx, 2
+          ctx: 0x1440  jne 0x145f
+          ctx: 0x1442  movzx edx, word ptr [rbp - 0x40]
+          ctx: 0x1446  in eax, dx
+          ctx: 0x1447  jmp 0x145c
+          ctx: 0x1449  movzx edx, word ptr [rbp - 0x40]
+      0x1458 (fichier 0x858)  in al, dx   [PORT=?]
+          ctx: 0x1447  jmp 0x145c
+          ctx: 0x1449  movzx edx, word ptr [rbp - 0x40]
+          ctx: 0x144d  in ax, dx
+          ctx: 0x144f  movzx eax, ax
+          ctx: 0x1452  jmp 0x145c
+          ctx: 0x1454  movzx edx, word ptr [rbp - 0x40]
+      0x1a98 (fichier 0xe98)  outsd dx, dword ptr [rsi]   [PORT=?]
+          ctx: 0x1a81  add byte ptr [rax + rax + 0x65], al
+          ctx: 0x1a85  add byte ptr [rsi], dh
+          ctx: 0x1a88  imul eax, dword ptr [rax], 0x650063
+          ctx: 0x1a8e  pop rsp
+          ctx: 0x1a8f  add byte ptr [rdi], dl
+          ctx: 0x1a92  imul eax, dword ptr [rax], 0x49006e
+      0x1ac0 (fichier 0xec0)  outsd dx, dword ptr [rsi]   [PORT=?]
+          ctx: 0x1aac  jbe 0x1aae
+          ctx: 0x1aae  imul eax, dword ptr [rax], 0x650063
+          ctx: 0x1ab4  jae 0x1ab6
+          ctx: 0x1ab6  pop rsp
+          ctx: 0x1ab7  add byte ptr [rdi], dl
+          ctx: 0x1aba  imul eax, dword ptr [rax], 0x49006e
+  SECTION INIT: exec size=0x400 rva=0x5000 -> 1 instruction(s) I/O
+      0x50e8 (fichier 0x1ae8)  in al, 0x51   [PORT=0x51]
+          ctx: 0x50dd  add byte ptr [rax], al
+          ctx: 0x50df  add dl, bl
+          ctx: 0x50e1  push rcx
+          ctx: 0x50e2  add byte ptr [rax], al
+          ctx: 0x50e4  add byte ptr [rax], al
+          ctx: 0x50e6  add byte ptr [rax], al
+
+### NBFoundation\KernCoreLib64.dll  [x64] imagebase=0x180000000
+  IMPORT KERNEL32.dll: CreateFileW, CloseHandle, GetModuleFileNameW, GetModuleHandleW, RtlPcToFileHeader, GetLastError, DeviceIoControl, RaiseException, EncodePointer, DeleteCriticalSection, RtlCaptureContext, RtlLookupFunctionEntry, RtlVirtualUnwind, UnhandledExceptionFilter, SetUnhandledExceptionFilter, GetCurrentProcess, TerminateProcess, IsProcessorFeaturePresent, QueryPerformanceCounter, GetCurrentProcessId, GetCurrentThreadId, GetSystemTimeAsFileTime, InitializeSListHead, IsDebuggerPresent, GetStartupInfoW, RtlUnwindEx, InterlockedPushEntrySList, InterlockedFlushSList, SetLastError, FlsAlloc, FlsGetValue, FlsSetValue, FlsFree, EnterCriticalSection, LeaveCriticalSection, InitializeCriticalSectionEx
+  IMPORT ADVAPI32.dll: CloseServiceHandle, ControlService, CreateServiceW, DeleteService, OpenSCManagerW, OpenServiceW, QueryServiceConfigW, StartServiceW
+  IMPORT api-ms-win-crt-heap-l1-1-0.dll: calloc, free, malloc
+  IMPORT api-ms-win-crt-runtime-l1-1-0.dll: _configure_narrow_argv, _initialize_narrow_environment, _initialize_onexit_table, _register_onexit_function, _execute_onexit_table, _crt_atexit, _seh_filter_dll, _cexit, terminate, _crt_at_quick_exit, _initterm, _initterm_e, abort
+  IMPORT api-ms-win-crt-string-l1-1-0.dll: strcpy_s, strncmp
+  IMPORT api-ms-win-crt-stdio-l1-1-0.dll: __stdio_common_vsprintf_s
+  IMPORT api-ms-win-crt-convert-l1-1-0.dll: atol
+  EXPORT GetPhysLong
+  EXPORT GetPortVal
+  EXPORT InitializeKernCoreLib
+  EXPORT InstallKernCoreLibDriver
+  EXPORT MapPhysToLin
+  EXPORT RemoveKernCoreLibDriver
+  EXPORT SetPhysLong
+  EXPORT SetPortVal
+  EXPORT ShutdownKernCoreLib
+  EXPORT UnmapPhysicalMemory
+  SECTION .text: exec size=0xcc00 rva=0x1000 -> aucune instruction I/O
+
+### OneDragonCenter\Fan\KernCoreLib64.Sys  [x64] imagebase=0x140000000
+  IMPORT ntoskrnl.exe: IoCreateDevice, IoCreateSymbolicLink, IoDeleteDevice, IoDeleteSymbolicLink, IofCompleteRequest, ObfDereferenceObject, ZwClose, ZwOpenSection, ZwMapViewOfSection, ZwUnmapViewOfSection, ObReferenceObjectByHandle, RtlInitUnicodeString
+  IMPORT HAL.dll: HalTranslateBusAddress
+  SECTION .text: exec size=0xa00 rva=0x1000 -> 8 instruction(s) I/O
+      0x13aa (fichier 0x7aa)  out dx, eax   [PORT=?]
+          ctx: 0x1395  sub ecx, 1
+          ctx: 0x1398  je 0x13b0
+          ctx: 0x139a  cmp ecx, 2
+          ctx: 0x139d  jne 0x14d1
+          ctx: 0x13a3  movzx edx, word ptr [rbp - 0x40]
+          ctx: 0x13a7  mov eax, dword ptr [rbp - 0x3e]
+      0x13b8 (fichier 0x7b8)  out dx, ax   [PORT=?]
+          ctx: 0x13a3  movzx edx, word ptr [rbp - 0x40]
+          ctx: 0x13a7  mov eax, dword ptr [rbp - 0x3e]
+          ctx: 0x13aa  out dx, eax
+          ctx: 0x13ab  jmp 0x14d1
+          ctx: 0x13b0  movzx edx, word ptr [rbp - 0x40]
+          ctx: 0x13b4  movzx eax, word ptr [rbp - 0x3e]
+      0x13c3 (fichier 0x7c3)  out dx, al   [PORT=?]
+          ctx: 0x13b0  movzx edx, word ptr [rbp - 0x40]
+          ctx: 0x13b4  movzx eax, word ptr [rbp - 0x3e]
+          ctx: 0x13b8  out dx, ax
+          ctx: 0x13ba  jmp 0x13ab
+          ctx: 0x13bc  movzx edx, word ptr [rbp - 0x40]
+          ctx: 0x13c0  mov al, byte ptr [rbp - 0x3e]
+      0x13f4 (fichier 0x7f4)  in eax, dx   [PORT=?]
+          ctx: 0x13e4  je 0x1407
+          ctx: 0x13e6  sub ecx, 1
+          ctx: 0x13e9  je 0x13fc
+          ctx: 0x13eb  cmp ecx, 2
+          ctx: 0x13ee  jne 0x13f7
+          ctx: 0x13f0  movzx edx, word ptr [rbp - 0x40]
+      0x1400 (fichier 0x800)  in ax, dx   [PORT=?]
+          ctx: 0x13f0  movzx edx, word ptr [rbp - 0x40]
+          ctx: 0x13f4  in eax, dx
+          ctx: 0x13f5  jmp 0x140f
+          ctx: 0x13f7  mov eax, dword ptr [rbp - 0x3e]
+          ctx: 0x13fa  jmp 0x140f
+          ctx: 0x13fc  movzx edx, word ptr [rbp - 0x40]
+      0x140b (fichier 0x80b)  in al, dx   [PORT=?]
+          ctx: 0x13fa  jmp 0x140f
+          ctx: 0x13fc  movzx edx, word ptr [rbp - 0x40]
+          ctx: 0x1400  in ax, dx
+          ctx: 0x1402  movzx eax, ax
+          ctx: 0x1405  jmp 0x140f
+          ctx: 0x1407  movzx edx, word ptr [rbp - 0x40]
+      0x1998 (fichier 0xd98)  outsd dx, dword ptr [rsi]   [PORT=?]
+          ctx: 0x1981  add byte ptr [rax + rax + 0x65], al
+          ctx: 0x1985  add byte ptr [rsi], dh
+          ctx: 0x1988  imul eax, dword ptr [rax], 0x650063
+          ctx: 0x198e  pop rsp
+          ctx: 0x198f  add byte ptr [rdi], dl
+          ctx: 0x1992  imul eax, dword ptr [rax], 0x49006e
+      0x19c0 (fichier 0xdc0)  outsd dx, dword ptr [rsi]   [PORT=?]
+          ctx: 0x19ac  jbe 0x19ae
+          ctx: 0x19ae  imul eax, dword ptr [rax], 0x650063
+          ctx: 0x19b4  jae 0x19b6
+          ctx: 0x19b6  pop rsp
+          ctx: 0x19b7  add byte ptr [rdi], dl
+          ctx: 0x19ba  imul eax, dword ptr [rax], 0x49006e
+  SECTION INIT: exec size=0x400 rva=0x5000 -> aucune instruction I/O
+
+### OneDragonCenter\Fan\KernCoreLib64.dll  [x64] imagebase=0x180000000
+  IMPORT KERNEL32.dll: CreateFileW, CloseHandle, GetModuleFileNameW, GetModuleHandleW, RtlPcToFileHeader, GetLastError, DeviceIoControl, RaiseException, EncodePointer, DeleteCriticalSection, RtlCaptureContext, RtlLookupFunctionEntry, RtlVirtualUnwind, UnhandledExceptionFilter, SetUnhandledExceptionFilter, GetCurrentProcess, TerminateProcess, IsProcessorFeaturePresent, QueryPerformanceCounter, GetCurrentProcessId, GetCurrentThreadId, GetSystemTimeAsFileTime, InitializeSListHead, IsDebuggerPresent, GetStartupInfoW, RtlUnwindEx, InterlockedPushEntrySList, InterlockedFlushSList, SetLastError, FlsAlloc, FlsGetValue, FlsSetValue, FlsFree, EnterCriticalSection, LeaveCriticalSection, InitializeCriticalSectionEx
+  IMPORT ADVAPI32.dll: CloseServiceHandle, ControlService, CreateServiceW, DeleteService, OpenSCManagerW, OpenServiceW, QueryServiceConfigW, StartServiceW
+  IMPORT api-ms-win-crt-heap-l1-1-0.dll: calloc, free, malloc
+  IMPORT api-ms-win-crt-runtime-l1-1-0.dll: _configure_narrow_argv, _initialize_narrow_environment, _initialize_onexit_table, _register_onexit_function, _execute_onexit_table, _crt_atexit, _seh_filter_dll, _cexit, terminate, _crt_at_quick_exit, _initterm, _initterm_e, abort
+  IMPORT api-ms-win-crt-string-l1-1-0.dll: strcpy_s, strncmp
+  IMPORT api-ms-win-crt-stdio-l1-1-0.dll: __stdio_common_vsprintf_s
+  IMPORT api-ms-win-crt-convert-l1-1-0.dll: atol
+  EXPORT GetPhysLong
+  EXPORT GetPortVal
+  EXPORT InitializeKernCoreLib
+  EXPORT InstallKernCoreLibDriver
+  EXPORT MapPhysToLin
+  EXPORT RemoveKernCoreLibDriver
+  EXPORT SetPhysLong
+  EXPORT SetPortVal
+  EXPORT ShutdownKernCoreLib
+  EXPORT UnmapPhysicalMemory
+  SECTION .text: exec size=0xcc00 rva=0x1000 -> aucune instruction I/O
+
+### OneDragonCenter\Analysis\NTIOLib_X64.sys  [x64] imagebase=0x140000000
+  IMPORT ntoskrnl.exe: IoCreateDevice, MmUnmapIoSpace, IoDeleteDevice, IoDeleteSymbolicLink, __C_specific_handler, MmMapIoSpace, IoCreateSymbolicLink, IofCompleteRequest, RtlInitUnicodeString
+  IMPORT HAL.dll: HalGetBusDataByOffset, HalSetBusDataByOffset
+  SECTION .text: exec size=0xc00 rva=0x1000 -> 10 instruction(s) I/O
+      0x1379 (fichier 0x779)  in eax, dx   [PORT=?]
+          ctx: 0x1363  cmp ecx, 0xc35060d4
+          ctx: 0x1369  je 0x1375
+          ctx: 0x136b  mov rax, qword ptr [rsp + 0x30]
+          ctx: 0x1370  and dword ptr [rax], 0
+          ctx: 0x1373  jmp 0x134d
+          ctx: 0x1375  movzx edx, r10w
+      0x1383 (fichier 0x783)  in ax, dx   [PORT=?]
+          ctx: 0x1373  jmp 0x134d
+          ctx: 0x1375  movzx edx, r10w
+          ctx: 0x1379  in eax, dx
+          ctx: 0x137a  mov dword ptr [r9], eax
+          ctx: 0x137d  jmp 0x1393
+          ctx: 0x137f  movzx edx, r10w
+      0x138f (fichier 0x78f)  in al, dx   [PORT=?]
+          ctx: 0x137d  jmp 0x1393
+          ctx: 0x137f  movzx edx, r10w
+          ctx: 0x1383  in ax, dx
+          ctx: 0x1385  mov word ptr [r9], ax
+          ctx: 0x1389  jmp 0x1393
+          ctx: 0x138b  movzx edx, r10w
+      0x14e2 (fichier 0x8e2)  rdmsr    [PORT=?]
+          ctx: 0x14cc  mov eax, dword ptr [rip + 0x1b2e]
+          ctx: 0x14d2  cmp dword ptr [rip + 0x1b48], eax
+          ctx: 0x14d8  je 0x14e0
+          ctx: 0x14da  mov eax, 0xc000000d
+          ctx: 0x14df  ret 
+          ctx: 0x14e0  mov ecx, dword ptr [rcx]
+      0x165c (fichier 0xa5c)  out dx, eax   [PORT=?]
+          ctx: 0x1645  cmp ecx, 0xc350a0dc
+          ctx: 0x164b  je 0x165f
+          ctx: 0x164d  cmp ecx, 0xc350a0e0
+          ctx: 0x1653  jne 0x1676
+          ctx: 0x1655  mov eax, dword ptr [rdx + 4]
+          ctx: 0x1658  movzx edx, r8w
+      0x1667 (fichier 0xa67)  out dx, ax   [PORT=?]
+          ctx: 0x1655  mov eax, dword ptr [rdx + 4]
+          ctx: 0x1658  movzx edx, r8w
+          ctx: 0x165c  out dx, eax
+          ctx: 0x165d  jmp 0x1673
+          ctx: 0x165f  movzx eax, word ptr [rdx + 4]
+          ctx: 0x1663  movzx edx, r8w
+      0x1672 (fichier 0xa72)  out dx, al   [PORT=?]
+          ctx: 0x165f  movzx eax, word ptr [rdx + 4]
+          ctx: 0x1663  movzx edx, r8w
+          ctx: 0x1667  out dx, ax
+          ctx: 0x1669  jmp 0x1673
+          ctx: 0x166b  mov al, byte ptr [rdx + 4]
+          ctx: 0x166e  movzx edx, r8w
+      0x1819 (fichier 0xc19)  wrmsr    [PORT=?]
+          ctx: 0x1805  jbe 0x180e
+          ctx: 0x1807  mov eax, 0xc000000d
+          ctx: 0x180c  jmp 0x1834
+          ctx: 0x180e  mov rdx, qword ptr [rdx + 4]
+          ctx: 0x1812  mov rax, rdx
+          ctx: 0x1815  shr rdx, 0x20
+      0x19e8 (fichier 0xde8)  outsd dx, dword ptr [rsi]   [PORT=?]
+          ctx: 0x19d6  add byte ptr [r8 + r8 + 0x69], r9b
+          ctx: 0x19db  add byte ptr [rdx], ah
+          ctx: 0x19de  pop rdi
+          ctx: 0x19df  add byte ptr [rbp], cl
+          ctx: 0x19e2  add byte ptr [r8], dl
+          ctx: 0x19e6  jb 0x19e8
+      0x1a20 (fichier 0xe20)  outsd dx, dword ptr [rsi]   [PORT=?]
+          ctx: 0x1a0e  add byte ptr [r8 + r8 + 0x69], r9b
+          ctx: 0x1a13  add byte ptr [rdx], ah
+          ctx: 0x1a16  pop rdi
+          ctx: 0x1a17  add byte ptr [rbp], cl
+          ctx: 0x1a1a  add byte ptr [r8], dl
+          ctx: 0x1a1e  jb 0x1a20
+  SECTION INIT: exec size=0x400 rva=0x5000 -> 2 instruction(s) I/O
+      0x5105 (fichier 0x1b05)  outsb dx, byte ptr [rsi]   [PORT=?]
+          ctx: 0x50fa  add byte ptr [rax], al
+          ctx: 0x50fc  add byte ptr [rax], al
+          ctx: 0x50fe  add byte ptr [rax], al
+          ctx: 0x5100  or al, 8
+          ctx: 0x5102  push rdx
+          ctx: 0x5103  je 0x5171
+      0x511a (fichier 0x1b1a)  insd dword ptr [rdi], dx   [PORT=?]
+          ctx: 0x5103  je 0x5171
+          ctx: 0x5105  outsb dx, byte ptr [rsi]
+          ctx: 0x5107  imul esi, dword ptr [rbp + rdx*2 + 0x6e], 0x646f6369
+          ctx: 0x510f  push rbx
+          ctx: 0x5111  je 0x5185
+          ctx: 0x5113  imul ebp, dword ptr [rsi + 0x67], 0x52f0000
+
+### OneDragonCenter\Analysis\NTIOLib.sys  [x86] imagebase=0x400000
+  IMPORT ntoskrnl.exe: IofCompleteRequest, IoCreateDevice, MmUnmapIoSpace, IoDeleteDevice, IoDeleteSymbolicLink, MmMapIoSpace, RtlUnwind, WRITE_REGISTER_BUFFER_ULONG, WRITE_REGISTER_BUFFER_USHORT, WRITE_REGISTER_BUFFER_UCHAR, READ_REGISTER_BUFFER_ULONG, READ_REGISTER_BUFFER_USHORT, READ_REGISTER_BUFFER_UCHAR, IoCreateSymbolicLink, RtlInitUnicodeString
+  IMPORT HAL.dll: WRITE_PORT_ULONG, WRITE_PORT_USHORT, WRITE_PORT_UCHAR, READ_PORT_ULONG, READ_PORT_USHORT, READ_PORT_UCHAR, HalGetBusDataByOffset, HalSetBusDataByOffset
+  SECTION .text: exec size=0xe00 rva=0x1000 -> 4 instruction(s) I/O
+      0x146f (fichier 0x86f)  rdmsr    [PORT=?]
+          ctx: 0x145d  je 0x1466
+          ctx: 0x145f  mov eax, 0xc000000d
+          ctx: 0x1464  jmp 0x14a6
+          ctx: 0x1466  and dword ptr [ebp - 4], 0
+          ctx: 0x146a  mov ecx, dword ptr [ebp + 8]
+          ctx: 0x146d  mov ecx, dword ptr [ecx]
+      0x17c7 (fichier 0xbc7)  wrmsr    [PORT=?]
+          ctx: 0x17b7  sub eax, 0x10
+          ctx: 0x17ba  je 0x17c1
+          ctx: 0x17bc  sub eax, 0x30
+          ctx: 0x17bf  jne 0x179e
+          ctx: 0x17c1  mov eax, dword ptr [edx + 4]
+          ctx: 0x17c4  mov edx, dword ptr [edx + 8]
+      0x1d3c (fichier 0x113c)  outsd dx, dword ptr [esi]   [PORT=?]
+          ctx: 0x1d2f  add byte ptr [edx], ah
+          ctx: 0x1d32  pop edi
+          ctx: 0x1d33  add byte ptr [ebp], cl
+          ctx: 0x1d36  inc ebx
+          ctx: 0x1d37  add byte ptr [eax], dl
+          ctx: 0x1d3a  jb 0x1d3c
+      0x1d70 (fichier 0x1170)  outsd dx, dword ptr [esi]   [PORT=?]
+          ctx: 0x1d63  add byte ptr [edx], ah
+          ctx: 0x1d66  pop edi
+          ctx: 0x1d67  add byte ptr [ebp], cl
+          ctx: 0x1d6a  inc ebx
+          ctx: 0x1d6b  add byte ptr [eax], dl
+          ctx: 0x1d6e  jb 0x1d70
+  SECTION INIT: exec size=0x400 rva=0x4000 -> 21 instruction(s) I/O
+      0x4044 (fichier 0x1844)  insb byte ptr es:[edi], dx   [PORT=?]
+          ctx: 0x4036  add byte ptr [eax], al
+          ctx: 0x4038  add byte ptr [eax], al
+          ctx: 0x403a  add byte ptr [eax], al
+          ctx: 0x403c  sub al, byte ptr [edx]
+          ctx: 0x403f  add byte ptr [eax], ah
+          ctx: 0x4042  add byte ptr [eax], al
+      0x40d4 (fichier 0x18d4)  insb byte ptr es:[edi], dx   [PORT=?]
+          ctx: 0x40c6  add byte ptr [eax], al
+          ctx: 0x40c8  rol byte ptr [eax], 1
+          ctx: 0x40cb  add byte ptr [eax], al
+          ctx: 0x40cd  add byte ptr [eax], al
+          ctx: 0x40cf  add byte ptr [ebx], ch
+          ctx: 0x40d1  or byte ptr [edx + 0x74], dl
+      0x40d6 (fichier 0x18d6)  outsb dx, byte ptr [esi]   [PORT=?]
+          ctx: 0x40cb  add byte ptr [eax], al
+          ctx: 0x40cd  add byte ptr [eax], al
+          ctx: 0x40cf  add byte ptr [ebx], ch
+          ctx: 0x40d1  or byte ptr [edx + 0x74], dl
+          ctx: 0x40d4  insb byte ptr es:[edi], dx
+          ctx: 0x40d5  dec ecx
+      0x41a1 (fichier 0x19a1)  insd dword ptr es:[edi], dx   [PORT=?]
+          ctx: 0x4199  dec esp
+          ctx: 0x419a  dec edi
+          ctx: 0x419b  dec esi
+          ctx: 0x419c  inc edi
+          ctx: 0x419d  add byte ptr [ebp + 5], dl
+          ctx: 0x41a0  dec ebp
+      0x41a6 (fichier 0x19a6)  outsd dx, dword ptr [esi]   [PORT=?]
+          ctx: 0x419d  add byte ptr [ebp + 5], dl
+          ctx: 0x41a0  dec ebp
+          ctx: 0x41a1  insd dword ptr es:[edi], dx
+          ctx: 0x41a2  dec ebp
+          ctx: 0x41a3  popal 
+          ctx: 0x41a4  jo 0x41ef
+      0x41b3 (fichier 0x19b3)  outsb dx, byte ptr [esi]   [PORT=?]
+          ctx: 0x41a4  jo 0x41ef
+          ctx: 0x41a6  outsd dx, dword ptr [esi]
+          ctx: 0x41a7  push ebx
+          ctx: 0x41a8  jo 0x420b
+          ctx: 0x41aa  arpl word ptr [ebp], sp
+          ctx: 0x41ad  add byte ptr [ebx + 0x556d4d05], al
+      0x41b4 (fichier 0x19b4)  insd dword ptr es:[edi], dx   [PORT=?]
+          ctx: 0x41a6  outsd dx, dword ptr [esi]
+          ctx: 0x41a7  push ebx
+          ctx: 0x41a8  jo 0x420b
+          ctx: 0x41aa  arpl word ptr [ebp], sp
+          ctx: 0x41ad  add byte ptr [ebx + 0x556d4d05], al
+          ctx: 0x41b3  outsb dx, byte ptr [esi]
+      0x41b8 (fichier 0x19b8)  outsd dx, dword ptr [esi]   [PORT=?]
+          ctx: 0x41aa  arpl word ptr [ebp], sp
+          ctx: 0x41ad  add byte ptr [ebx + 0x556d4d05], al
+          ctx: 0x41b3  outsb dx, byte ptr [esi]
+          ctx: 0x41b4  insd dword ptr es:[edi], dx
+          ctx: 0x41b5  popal 
+          ctx: 0x41b6  jo 0x4201
+      0x41c6 (fichier 0x19c6)  outsd dx, dword ptr [esi]   [PORT=?]
+          ctx: 0x41b9  push ebx
+          ctx: 0x41ba  jo 0x421d
+          ctx: 0x41bc  arpl word ptr [ebp], sp
+          ctx: 0x41bf  add ah, al
+          ctx: 0x41c1  add ecx, dword ptr [ecx + 0x6f]
+          ctx: 0x41c4  inc bx
+      0x41c7 (fichier 0x19c7)  insd dword ptr es:[edi], dx   [PORT=?]
+          ctx: 0x41ba  jo 0x421d
+          ctx: 0x41bc  arpl word ptr [ebp], sp
+          ctx: 0x41bf  add ah, al
+          ctx: 0x41c1  add ecx, dword ptr [ecx + 0x6f]
+          ctx: 0x41c4  inc bx
+          ctx: 0x41c6  outsd dx, dword ptr [esi]
+      0x4205 (fichier 0x1a05)  insb byte ptr es:[edi], dx   [PORT=?]
+          ctx: 0x41f3  jns 0x4262
+          ctx: 0x41f5  bound ebp, qword ptr [edi + 0x6c]
+          ctx: 0x41f8  imul esp, dword ptr [ebx + 0x4c], 0x6b6e69
+          ctx: 0x41ff  add dh, al
+          ctx: 0x4201  add cl, byte ptr [ecx + 0x6f]
+          ctx: 0x4204  inc esp
+      0x4217 (fichier 0x1a17)  insb byte ptr es:[edi], dx   [PORT=?]
+          ctx: 0x420a  inc esp
+          ctx: 0x420b  jbe 0x4277
+          ctx: 0x420e  arpl word ptr [ebp], sp
+          ctx: 0x4211  add al, cl
+          ctx: 0x4213  add cl, byte ptr [ecx + 0x6f]
+          ctx: 0x4216  inc esp
+      0x422c (fichier 0x1a2c)  outsd dx, dword ptr [esi]   [PORT=?]
+          ctx: 0x4219  je 0x4281
+          ctx: 0x421c  push ebx
+          ctx: 0x421d  jns 0x428c
+          ctx: 0x421f  bound ebp, qword ptr [edi + 0x6c]
+          ctx: 0x4222  imul esp, dword ptr [ebx + 0x4c], 0x6b6e69
+          ctx: 0x4229  add byte ptr [esi + 0x74], ch
+      0x4231 (fichier 0x1a31)  insb byte ptr es:[edi], dx   [PORT=?]
+          ctx: 0x421f  bound ebp, qword ptr [edi + 0x6c]
+          ctx: 0x4222  imul esp, dword ptr [ebx + 0x4c], 0x6b6e69
+          ctx: 0x4229  add byte ptr [esi + 0x74], ch
+          ctx: 0x422c  outsd dx, dword ptr [esi]
+          ctx: 0x422d  jae 0x429a
+          ctx: 0x422f  jb 0x429f
+      0x423c (fichier 0x1a3c)  insb byte ptr es:[edi], dx   [PORT=?]
+          ctx: 0x422f  jb 0x429f
+          ctx: 0x4231  insb byte ptr es:[edi], dx
+          ctx: 0x4232  js 0x429b
+          ctx: 0x4236  add byte ptr [eax], al
+          ctx: 0x4238  push es
+          ctx: 0x4239  or dword ptr [edx + 0x74], edx
+      0x423e (fichier 0x1a3e)  outsb dx, byte ptr [esi]   [PORT=?]
+          ctx: 0x4232  js 0x429b
+          ctx: 0x4236  add byte ptr [eax], al
+          ctx: 0x4238  push es
+          ctx: 0x4239  or dword ptr [edx + 0x74], edx
+          ctx: 0x423c  insb byte ptr es:[edi], dx
+          ctx: 0x423d  push ebp
+      0x4241 (fichier 0x1a41)  outsb dx, byte ptr [esi]   [PORT=?]
+          ctx: 0x4238  push es
+          ctx: 0x4239  or dword ptr [edx + 0x74], edx
+          ctx: 0x423c  insb byte ptr es:[edi], dx
+          ctx: 0x423d  push ebp
+          ctx: 0x423e  outsb dx, byte ptr [esi]
+          ctx: 0x423f  ja 0x42aa
+      0x426a (fichier 0x1a6a)  insd dword ptr es:[edi], dx   [PORT=?]
+          ctx: 0x4263  push ebx
+          ctx: 0x4264  dec eax
+          ctx: 0x4265  dec edi
+          ctx: 0x4266  push edx
+          ctx: 0x4267  push esp
+          ctx: 0x4268  add byte ptr [eax], al
+      0x42d4 (fichier 0x1ad4)  insb byte ptr es:[edi], dx   [PORT=?]
+          ctx: 0x42c7  inc edx
+          ctx: 0x42c8  jns 0x4319
+          ctx: 0x42ca  jae 0x4333
+          ctx: 0x42ce  je 0x42d0
+          ctx: 0x42d0  push ds
+          ctx: 0x42d1  add byte ptr [eax + 0x61], cl
+      0x42eb (fichier 0x1aeb)  insb byte ptr es:[edi], dx   [PORT=?]
+          ctx: 0x42e0  jns 0x4331
+          ctx: 0x42e2  jae 0x434b
+          ctx: 0x42e6  je 0x42e8
+          ctx: 0x42e8  dec eax
+          ctx: 0x42e9  inc ecx
+          ctx: 0x42ea  dec esp
+      0x42ee (fichier 0x1aee)  insb byte ptr es:[edi], dx   [PORT=?]
+          ctx: 0x42e2  jae 0x434b
+          ctx: 0x42e6  je 0x42e8
+          ctx: 0x42e8  dec eax
+          ctx: 0x42e9  inc ecx
+          ctx: 0x42ea  dec esp
+          ctx: 0x42eb  insb byte ptr es:[edi], dx
+

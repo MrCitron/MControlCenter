@@ -1,0 +1,227 @@
+[CALL RMW_EC_0x33_bit0] .text 0x304b
+    ctx: mov rax, qword ptr [rip + 0x25d6ea]
+    ctx: xor rax, rsp
+    ctx: mov qword ptr [rsp + 0x48], rax
+    ctx: mov rbx, rcx
+    ctx: lea rax, [rip + 0x21e7d8]
+    ctx: mov qword ptr [rcx], rax
+    apres: nop 
+    apres: mov rcx, qword ptr [rbx + 0x100]
+[CALL ReadPort(ioctl 0x221c0c)] .text 0x377a
+    ctx: push rdi
+    ctx: sub rsp, 0x20
+    ctx: mov rbx, rcx
+    ctx: xor edi, edi
+    ctx: mov rcx, rbx
+    ctx: lea edx, [rdi + 0x66]
+    apres: test al, 2
+    apres: je 0x37ab
+[PORT 0x66] .text 0x3795  mov edx, 0x66
+    mov rcx, rbx
+    call 0x3580
+    test al, 2
+[CALL ReadPort(ioctl 0x221c0c)] .text 0x379d
+    ctx: jge 0x3772
+    ctx: mov ecx, 0x64
+    ctx: inc edi
+    ctx: call qword ptr [rip + 0x1c0153]
+    ctx: mov edx, 0x66
+    ctx: mov rcx, rbx
+    apres: test al, 2
+    apres: jne 0x3783
+[PORT 0x66] .text 0x37ab  mov edx, 0x66
+    mov r8b, 0x90
+    mov rcx, rbx
+    call 0x3680
+[CALL WritePort(ioctl 0x221c10)] .text 0x37b6
+    ctx: jne 0x3783
+    ctx: cmp edi, 0xa
+    ctx: jge 0x3772
+    ctx: mov edx, 0x66
+    ctx: mov r8b, 0x90
+    ctx: mov rcx, rbx
+    apres: xor edi, edi
+    apres: mov rcx, rbx
+[CALL ReadPort(ioctl 0x221c0c)] .text 0x37c3
+    ctx: mov r8b, 0x90
+    ctx: mov rcx, rbx
+    ctx: call 0x3680
+    ctx: xor edi, edi
+    ctx: mov rcx, rbx
+    ctx: lea edx, [rdi + 0x66]
+    apres: test al, 2
+    apres: je 0x37fc
+[PORT 0x66] .text 0x37e2  mov edx, 0x66
+    mov rcx, rbx
+    call 0x3580
+    test al, 2
+[CALL ReadPort(ioctl 0x221c0c)] .text 0x37ea
+    ctx: jge 0x3772
+    ctx: mov ecx, 0x64
+    ctx: inc edi
+    ctx: call qword ptr [rip + 0x1c0106]
+    ctx: mov edx, 0x66
+    ctx: mov rcx, rbx
+    apres: test al, 2
+    apres: jne 0x37d0
+[PORT 0x62] .text 0x37fc  mov edx, 0x62
+    mov r8b, 0x33
+    mov rcx, rbx
+    call 0x3680
+[CALL WritePort(ioctl 0x221c10)] .text 0x3807
+    ctx: jne 0x37d0
+    ctx: cmp edi, 0xa
+    ctx: jge 0x3772
+    ctx: mov edx, 0x62
+    ctx: mov r8b, 0x33
+    ctx: mov rcx, rbx
+    apres: xor edi, edi
+    apres: mov rcx, rbx
+[CALL ReadPort(ioctl 0x221c0c)] .text 0x3814
+    ctx: mov r8b, 0x33
+    ctx: mov rcx, rbx
+    ctx: call 0x3680
+    ctx: xor edi, edi
+    ctx: mov rcx, rbx
+    ctx: lea edx, [rdi + 0x66]
+    apres: test al, 1
+    apres: jne 0x3850
+[PORT 0x66] .text 0x3836  mov edx, 0x66
+    mov rcx, rbx
+    call 0x3580
+    test al, 1
+[CALL ReadPort(ioctl 0x221c0c)] .text 0x383e
+    ctx: jge 0x3772
+    ctx: mov ecx, 0x64
+    ctx: inc edi
+    ctx: call qword ptr [rip + 0x1c00b2]
+    ctx: mov edx, 0x66
+    ctx: mov rcx, rbx
+    apres: test al, 1
+    apres: je 0x3820
+[PORT 0x62] .text 0x3850  mov edx, 0x62
+    mov rcx, rbx
+    call 0x3580
+    movzx esi, al
+[CALL ReadPort(ioctl 0x221c0c)] .text 0x3858
+    ctx: test al, 1
+    ctx: je 0x3820
+    ctx: cmp edi, 0xa
+    ctx: jge 0x3772
+    ctx: mov edx, 0x62
+    ctx: mov rcx, rbx
+    apres: movzx esi, al
+    apres: test al, 1
+[CALL ReadPort(ioctl 0x221c0c)] .text 0x3878
+    ctx: jne 0x3966
+    ctx: or sil, 1
+    ctx: nop dword ptr [rax]
+    ctx: xor edi, edi
+    ctx: mov rcx, rbx
+    ctx: lea edx, [rdi + 0x66]
+    apres: test al, 2
+    apres: je 0x38a9
+[PORT 0x66] .text 0x3893  mov edx, 0x66
+    mov rcx, rbx
+    call 0x3580
+    test al, 2
+[CALL ReadPort(ioctl 0x221c0c)] .text 0x389b
+    ctx: jge 0x3870
+    ctx: mov ecx, 0x64
+    ctx: inc edi
+    ctx: call qword ptr [rip + 0x1c0055]
+    ctx: mov edx, 0x66
+    ctx: mov rcx, rbx
+    apres: test al, 2
+    apres: jne 0x3881
+[PORT 0x66] .text 0x38a9  mov edx, 0x66
+    mov r8b, 0x91
+    mov rcx, rbx
+    call 0x3680
+[CALL WritePort(ioctl 0x221c10)] .text 0x38b4
+    ctx: jne 0x3881
+    ctx: cmp edi, 0xa
+    ctx: jge 0x3870
+    ctx: mov edx, 0x66
+    ctx: mov r8b, 0x91
+    ctx: mov rcx, rbx
+    apres: xor edi, edi
+    apres: mov rcx, rbx
+[CALL ReadPort(ioctl 0x221c0c)] .text 0x38c1
+    ctx: mov r8b, 0x91
+    ctx: mov rcx, rbx
+    ctx: call 0x3680
+    ctx: xor edi, edi
+    ctx: mov rcx, rbx
+    ctx: lea edx, [rdi + 0x66]
+    apres: test al, 2
+    apres: je 0x38fc
+[PORT 0x66] .text 0x38e2  mov edx, 0x66
+    mov rcx, rbx
+    call 0x3580
+    test al, 2
+[CALL ReadPort(ioctl 0x221c0c)] .text 0x38ea
+    ctx: jge 0x3870
+    ctx: mov ecx, 0x64
+    ctx: inc edi
+    ctx: call qword ptr [rip + 0x1c0006]
+    ctx: mov edx, 0x66
+    ctx: mov rcx, rbx
+    apres: test al, 2
+    apres: jne 0x38d0
+[PORT 0x62] .text 0x38fc  mov edx, 0x62
+    mov r8b, 0x33
+    mov rcx, rbx
+    call 0x3680
+[CALL WritePort(ioctl 0x221c10)] .text 0x3907
+    ctx: jne 0x38d0
+    ctx: cmp edi, 0xa
+    ctx: jge 0x3870
+    ctx: mov edx, 0x62
+    ctx: mov r8b, 0x33
+    ctx: mov rcx, rbx
+    apres: xor edi, edi
+    apres: mov rcx, rbx
+[CALL ReadPort(ioctl 0x221c0c)] .text 0x3914
+    ctx: mov r8b, 0x33
+    ctx: mov rcx, rbx
+    ctx: call 0x3680
+    ctx: xor edi, edi
+    ctx: mov rcx, rbx
+    ctx: lea edx, [rdi + 0x66]
+    apres: test al, 2
+    apres: je 0x3950
+[PORT 0x66] .text 0x3936  mov edx, 0x66
+    mov rcx, rbx
+    call 0x3580
+    test al, 2
+[CALL ReadPort(ioctl 0x221c0c)] .text 0x393e
+    ctx: jge 0x3870
+    ctx: mov ecx, 0x64
+    ctx: inc edi
+    ctx: call qword ptr [rip + 0x1bffb2]
+    ctx: mov edx, 0x66
+    ctx: mov rcx, rbx
+    apres: test al, 2
+    apres: jne 0x3920
+[PORT 0x62] .text 0x3950  mov edx, 0x62
+    movzx r8d, sil
+    mov rcx, rbx
+    call 0x3680
+[CALL WritePort(ioctl 0x221c10)] .text 0x395c
+    ctx: jne 0x3920
+    ctx: cmp edi, 0xa
+    ctx: jge 0x3870
+    ctx: mov edx, 0x62
+    ctx: movzx r8d, sil
+    ctx: mov rcx, rbx
+    apres: jmp 0x3772
+    apres: mov rbx, qword ptr [rsp + 0x30]
+[PORT 0x66] .text 0x4354  mov dword ptr [rip + 0x268ed2], 0x66
+    mov dword ptr [rip + 0x268ec4], 0x62
+    call 0xd900
+    mov rcx, rax
+[PORT 0x62] .text 0x435e  mov dword ptr [rip + 0x268ec4], 0x62
+    call 0xd900
+    mov rcx, rax
+    test rax, rax

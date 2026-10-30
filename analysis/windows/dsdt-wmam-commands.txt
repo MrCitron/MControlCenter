@@ -1,0 +1,134 @@
+Method WMAM : lignes DSL 72130 a 73200 (1070 lignes)
+  CMD 0x03  IPAR None : WMRD(read SCM) [indices SCM 0x37-0xBB, 29 octets]
+  CMD 0x05  IPAR None : WMRD(read SCM) [indices SCM 0xE0-0xE7, 8 octets]
+  CMD 0x05  IPAR None : WMRD(read SCM) [indices SCM 0xE8-0xEF, 8 octets]
+  CMD 0x05  IPAR 0x02 : WMRD(read SCM) [indices SCM 0xF0-0xF3, 4 octets]
+  CMD 0x05  IPAR 0x03 : WMRD(read SCM) [indices SCM 0xF4-0xF9, 6 octets]
+  CMD 0x05  IPAR 0x04 : WMRD(read SCM) [indices SCM 0xFA-0xFF, 6 octets]
+  CMD 0x06  IPAR None : WMWT(ecrit SCM) [indices SCM 0xE0-0xE7, 8 octets]
+  CMD 0x06  IPAR None : WMWT(ecrit SCM) [indices SCM 0xE8-0xEF, 8 octets]
+  CMD 0x06  IPAR 0x02 : WMWT(ecrit SCM) [indices SCM 0xF0-0xF3, 4 octets]
+  CMD 0x06  IPAR 0x03 : WMWT(ecrit SCM) [indices SCM 0xF4-0xF9, 6 octets]
+  CMD 0x06  IPAR 0x04 : WMWT(ecrit SCM) [indices SCM 0xFA-0xFF, 6 octets]
+  CMD 0x07  IPAR None : 
+  CMD 0x07  IPAR None : 
+  CMD 0x07  IPAR 0x02 : WMRD(read SCM) [indices SCM 0x02-0x03, 2 octets]
+  CMD 0x07  IPAR 0x03 : WMRD(read SCM) [indices SCM 0x04-0x13, 16 octets]
+  CMD 0x07  IPAR 0x04 : WMRD(read SCM) [indices SCM 0x14-0x23, 16 octets]
+  CMD 0x07  IPAR 0x05 : WMRD(read SCM) [indices SCM 0x24-0x26, 3 octets]
+  CMD 0x08  IPAR None : 
+  CMD 0x08  IPAR None : 
+  CMD 0x08  IPAR 0x02 : WMWT(ecrit SCM) [indices SCM 0x02-0x03, 2 octets]
+  CMD 0x08  IPAR 0x03 : WMWT(ecrit SCM) [indices SCM 0x04-0x13, 16 octets]
+  CMD 0x08  IPAR 0x04 : WMWT(ecrit SCM) [indices SCM 0x14-0x23, 16 octets]
+  CMD 0x08  IPAR 0x05 : WMWT(ecrit SCM) [indices SCM 0x24-0x26, 3 octets]
+  CMD 0x09  IPAR None : WMRD(read SCM) [indices SCM 0x31-0xBC, 2 octets]
+  CMD 0x09  IPAR None : WMRD(read SCM) [indices SCM 0x38-0x3F, 8 octets]
+  CMD 0x09  IPAR 0x02 : WMRD(read SCM) [indices SCM 0x40-0x47, 8 octets]
+  CMD 0x09  IPAR 0x03 : WMRD(read SCM) [indices SCM 0x48-0x4F, 8 octets]
+  CMD 0x0A  IPAR None : WMWT(ecrit SCM) [indices SCM 0x31-0xBC, 2 octets]
+  CMD 0x0A  IPAR None : WMWT(ecrit SCM) [indices SCM 0x38-0x3F, 8 octets]
+  CMD 0x0A  IPAR 0x02 : WMWT(ecrit SCM) [indices SCM 0x40-0x47, 8 octets]
+  CMD 0x0A  IPAR 0x03 : WMWT(ecrit SCM) [indices SCM 0x48-0x4F, 8 octets]
+  CMD 0x0B  IPAR None : WMRD(read SCM) [indices SCM 0x32-0xBD, 2 octets]
+  CMD 0x0B  IPAR None : WMRD(read SCM) [indices SCM 0x50-0x57, 8 octets]
+  CMD 0x0B  IPAR 0x02 : WMRD(read SCM) [indices SCM 0x58-0x5F, 8 octets]
+  CMD 0x0B  IPAR 0x03 : WMRD(read SCM) [indices SCM 0x60-0x67, 8 octets]
+  CMD 0x0C  IPAR None : WMWT(ecrit SCM) [indices SCM 0x32-0xBD, 2 octets]
+  CMD 0x0C  IPAR None : WMWT(ecrit SCM) [indices SCM 0x50-0x57, 8 octets]
+  CMD 0x0C  IPAR 0x02 : WMWT(ecrit SCM) [indices SCM 0x58-0x5F, 8 octets]
+  CMD 0x0C  IPAR 0x03 : WMWT(ecrit SCM) [indices SCM 0x60-0x67, 8 octets]
+  CMD 0x0D  IPAR None : WMRD(read SCM) [indices SCM 0x68-0x9F, 3 octets]
+  CMD 0x0D  IPAR None : WMRD(read SCM) [indices SCM 0x69-0x70, 8 octets]
+  CMD 0x0D  IPAR 0x02 : WMRD(read SCM) [indices SCM 0x81-0x88, 8 octets]
+  CMD 0x0E  IPAR None : WMWT(ecrit SCM) [indices SCM 0x68-0x9F, 3 octets]
+  CMD 0x0E  IPAR None : WMWT(ecrit SCM) [indices SCM 0x69-0x70, 8 octets]
+  CMD 0x0E  IPAR 0x02 : WMWT(ecrit SCM) [indices SCM 0x81-0x88, 8 octets]
+  CMD 0x0F  IPAR None : WMRD(read SCM) [indices SCM 0x33-0x34, 2 octets]
+  CMD 0x0F  IPAR None : WMRD(read SCM) [indices SCM 0x79-0x7F, 7 octets]
+  CMD 0x0F  IPAR 0x02 : WMRD(read SCM) [indices SCM 0x91-0x97, 7 octets]
+  CMD 0x0F  IPAR 0x03 : WMRD(read SCM) [indices SCM 0x98-0x9E, 7 octets]
+  CMD 0x10  IPAR None : WMWT(ecrit SCM) [indices SCM 0x33-0x34, 2 octets]
+  CMD 0x10  IPAR None : WMWT(ecrit SCM) [indices SCM 0x79-0x7F, 7 octets]
+  CMD 0x10  IPAR 0x02 : WMWT(ecrit SCM) [indices SCM 0x91-0x97, 7 octets]
+  CMD 0x10  IPAR 0x03 : WMWT(ecrit SCM) [indices SCM 0x98-0x9E, 7 octets]
+  CMD 0x11  IPAR None : WMRD(read SCM) [indices SCM 0xC8-0xCF, 8 octets]
+  CMD 0x11  IPAR None : WMRD(read SCM) [indices SCM 0x71-0x78, 8 octets]
+  CMD 0x11  IPAR 0x02 : WMRD(read SCM) [indices SCM 0x89-0x90, 8 octets]
+  CMD 0x12  IPAR None : WMWT(ecrit SCM) [indices SCM 0xC8-0xCF, 8 octets]
+  CMD 0x12  IPAR None : WMWT(ecrit SCM) [indices SCM 0x71-0x78, 8 octets]
+  CMD 0x12  IPAR 0x02 : WMWT(ecrit SCM) [indices SCM 0x89-0x90, 8 octets]
+  CMD 0x13  IPAR None : WMRD(read SCM) [indices SCM 0x28-0x29, 2 octets]
+  CMD 0x13  IPAR None : WMRD(read SCM) [indices SCM 0x2A-0x2F, 6 octets]
+  CMD 0x14  IPAR None : WMWT(ecrit SCM) [indices SCM 0x28-0x29, 2 octets]
+  CMD 0x14  IPAR None : WMWT(ecrit SCM) [indices SCM 0x2A-0x2F, 6 octets]
+  CMD 0x15  IPAR None : WMRD(read SCM) [indices SCM 0x30-0xBF, 3 octets]
+  CMD 0x16  IPAR None : WMWT(ecrit SCM) [indices SCM 0x30-0xBF, 3 octets]
+  CMD 0x17  IPAR None : WMRD(read SCM) [indices SCM 0xC0-0xC7, 8 octets]
+  CMD 0x17  IPAR None : WMRD(read SCM) [indices SCM 0x35-0x36, 2 octets]
+  CMD 0x18  IPAR None : WMWT(ecrit SCM) [indices SCM 0xC0-0xC7, 8 octets]
+  CMD 0x18  IPAR None : WMWT(ecrit SCM) [indices SCM 0x35-0x36, 2 octets]
+  CMD 0x19  IPAR None : WMRD(read SCM) [indices SCM 0xD0-0xDB, 6 octets]
+  CMD 0x19  IPAR None : WMRD(read SCM) [indices SCM 0xD4-0xD6, 3 octets]
+  CMD 0x19  IPAR 0x02 : WMRD(read SCM) [indices SCM 0xD8-0xDF, 7 octets]
+  CMD 0x1A  IPAR None : WMWT(ecrit SCM) [indices SCM 0xD0-0xDB, 6 octets]
+  CMD 0x1A  IPAR None : WMWT(ecrit SCM) [indices SCM 0xD4-0xD6, 3 octets]
+  CMD 0x1A  IPAR 0x02 : WMWT(ecrit SCM) [indices SCM 0xD8-0xDF, 7 octets]
+  CMD 0x1B  IPAR None : 
+  CMD 0x1C  IPAR None : 
+
+===========================================================================
+ADDENDUM (verification manuelle dans le DSDT — remplace le bilan automatique
+ci-dessus lorsque les deux divergent ; lecture des lignes DSL 72130-73200)
+Mecanique : WMRD(i) = out(i,0x360) ; in(0x361). WMWT(i,v) = out(i,0x360); out(v,0x361).
+WMAM(Arg0, Arg1=commande, Arg2=buffer[0]=IPAR puis BS00..BS30):
+  IPAR = index de sous-groupe (0,1,2,...) ; resultats dans BL01..BL31.
+Les commandes vont par PAIRES : lecture = impair, ecriture = pair suivant.
+
+  CMD           Police d'acces (WM lecture / WMWT ecriture, indices SCM)
+  0x03 (R)      BL= WMRD(0x37), 0xA0..0xBB (29 octlets)  [infos BIOS/EC]
+  0x04 (W)      Return(One) — no-op (acquittement SMBus)
+  0x05 (R)      IPAR0 : 0xE0,0xE3,0xE4,0xE5,0xE6,0xE7,0xE1,0xE2 (bat.1)
+                IPAR1 : 0xE8-0xEF (idem ordre) (bat.2) 
+                IPAR2 : 0xF0-0xF3   IPAR3 : 0xF4-0xF9   IPAR4 : 0xFA-0xFF
+  0x06 (W)      memes indices que 0x05 (info batterie)
+  0x07 (R)      IPAR0/1 : (usage non vu) ; IPAR2 : 0x02-0x03 ; IPAR3 : 0x04-0x13 ;
+                IPAR4 : 0x14-0x23 ; IPAR5 : 0x24-0x26   [fenetre SMBus EC]
+  0x08 (W)      memes indices que 0x07
+  0x09 (R)      IPAR0 : {0x31, 0xBC} ; IPAR1 : 0x38-0x3F ; IPAR2 : 0x40-0x47 ;
+                IPAR3 : 0x48-0x4F   [temperature: seuils/zone]
+  0x0A (W)      memes indices que 0x09 (iDataBlockIndex .NET = 5)
+  0x0B (R)      IPAR0 : {0x32, 0xBD} ; IPAR1 : 0x50-0x57 ; IPAR2 : 0x58-0x5F ;
+                IPAR3 : 0x60-0x67
+  0x0C (W)      memes indices que 0x0B
+  0x0D (R)      IPAR0 : {0x68, 0x80, 0x9F} ; IPAR1 : 0x69,0x6F,0x70,0x6A-0x6E ;
+                IPAR2 : 0x81,0x87,0x88,0x82-0x86        [VENTILATEURS - lecture]
+  0x0E (W)      memes indices que 0x0D                    [VENTILATEURS - ecriture]
+                (iDataBlockIndex .NET = 7 ; Get_Fan passe 14 = 2*7)
+  0x0F (R)      IPAR0 : {0x33, 0x34} ; IPAR1 : 0x79-0x7F ; IPAR2 : 0x91-0x97 ;
+                IPAR3 : 0x98-0x9E
+  0x10 (W)      memes indices que 0x0F (0x33 = cible RMW bit0 de FanTool64.exe !)
+  0x11 (R)      IPAR0 : 0xC8-0xCF ; IPAR1 : 0x71-0x78 (fan1 = CPU) ;
+                IPAR2 : 0x89-0x90 (fan2 = GPU)
+  0x12 (W)      memes indices que 0x11
+  0x13 (R)      IPAR0 : {0x28, 0x29} ; IPAR1 : {0x2E,0x2F,0x2C,0x2D,0x2A,0x2B}
+  0x14 (W)      memes indices que 0x13
+  0x15 (R)      plage autour de {0x30, 0xBF, ...}
+  0x16 (W)      idem 0x15
+  0x17 (R)      IPAR0 : 0xC0-0xC7 ; + {0x35, 0x36}
+  0x18 (W)      idem 0x17
+  0x19 (R)      IPAR0 : {0xD0-0xDB, 0xD4-0xD6} ; IPAR2 : 0xD8-0xDF
+  0x1A (W)      idem 0x19
+  0x1B/0x1C     branches non explorees (corps fin de WMAM, hors perimetre)
+
+Correspondance cote .NET (MSIAPService.exe, voir dotnet-il-trace.txt) :
+  iDataBlockIndex i  ->  lecture : WMAM Arg1 = (2*i)-1  ;  ecriture : Arg1 = 2*i
+  Get_SMBus        i=2 (passe 4)   Get_Temperature i=5 (passe 10)   Get_Fan i=7 (passe 14)
+  Set_WMIACPI2(i) : Set_SMBus=2, Set_Temperature=5, Set_Fan=7
+  _WDG de SCM0 : donnees {ABBC0F6A-8EA1-11D1-00A0-C90629100000} ("AK")
+                 donnees {ABBC0F6B-8EA1-11D1-00A0-C90629100000} ("AL")
+                 methodes {ABBC0F6D-8EA1-11D1-00A0-C90629100000} ("AJ")
+                 methodes {ABBC0F6E-8EA1-11D1-00A0-C90629100000} ("AM")
+                 MOF     5B3CC38A-40D9-7245-8AE6-1145B751BE3F ("C0", flags 09)
+  (methode ASL trouvee : WMAM 4  := convention "WM"+ObjectId ; WMAJ absent du
+   DSDT decompile — liaison GUID<->ASL exacte a confirmer par wmidump/Linux.)

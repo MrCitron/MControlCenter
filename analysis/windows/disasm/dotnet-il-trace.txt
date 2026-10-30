@@ -1,0 +1,2515 @@
+
+############################################################
+### binaries\NBFoundation\MSIAPService.exe
+############################################################
+  [NativeNamedPipeServer::GetMBCtl_CpuFanCount]  rva=0x3348 codesize=34
+      ldstr     ""
+      call      local:GetMBCtl_CpuFanCount
+  [NativeNamedPipeServer::GetMBCtl_CPUFanSpeed]  rva=0x3388 codesize=48
+      ldc.i4    0
+      ldstr     ""
+      call      Convert::ToInt32
+      call      local:GetMBCtl_CPUFanSpeed
+  [NativeNamedPipeServer::GetMBCtl_SysFanCount]  rva=0x33d4 codesize=34
+      ldstr     ""
+      call      local:GetMBCtl_SysFanCount
+  [NativeNamedPipeServer::GetMBCtl_SysFanSpeed]  rva=0x3414 codesize=48
+      ldc.i4    0
+      ldstr     ""
+      call      Convert::ToInt32
+      call      local:GetMBCtl_SysFanSpeed
+  [NativeNamedPipeServer::processInputCommandWMI]  rva=0x4334 codesize=511
+      ldstr     ""
+      ldstr     ""
+      ldstr     ""
+      call      local:loadWMI
+      ldstr     ""
+      callvirt  String::ToUpper
+      ldstr     "RREQ"
+      call      String::op_Equality
+      ldstr     "WREQ"
+      call      String::op_Equality
+      ldstr     "EVTWREQ"
+      call      String::op_Equality
+      ldstr     "WMI:RRST:"
+      call      local:ReadWMI
+      call      <tok 0x13060000>
+      callvirt  String::ToUpper
+      ldstr     "ERR;"
+      callvirt  String::Contains
+      ldstr     "0;"
+      ldstr     "ERR;"
+      call      String::ToCharArray
+      callvirt  String::TrimStart
+      call      String::Concat
+      ldstr     "1;"
+      call      String::Concat
+      ldstr     "WMI:WRST:"
+      call      local:WriteWMI
+      callvirt  String::ToUpper
+      ldstr     "ERR;"
+      callvirt  String::Contains
+      ldstr     "0;"
+      ldstr     "ERR;"
+      call      String::ToCharArray
+      callvirt  String::TrimStart
+      call      String::Concat
+      ldstr     "1;"
+      call      String::Concat
+      ldstr     "WMI:EVTWRST:"
+      call      local:SetupWMIEvent
+      callvirt  String::ToUpper
+      ldstr     "ERR;"
+      callvirt  String::Contains
+      ldstr     "0;"
+      ldstr     "ERR;"
+      call      String::ToCharArray
+      callvirt  String::TrimStart
+      call      String::Concat
+      ldstr     "1;"
+      call      String::Concat
+      call      String::Concat
+      call      String::Concat
+      call      local:GetHeaderByteArrayUnicode
+      callvirt  String::get_Length
+      ldc.i4    2
+      ldc.i4    0
+      ldc.i4    0
+      call      Array::Copy
+      call      Encoding::get_Unicode
+      callvirt  Encoding::GetBytes
+      ldc.i4    0
+      callvirt  String::get_Length
+      ldc.i4    2
+      call      Array::Copy
+      ldstr     "WMI:ERR:"
+      ldstr     ""
+      call      String::Concat
+      call      local:GetHeaderByteArray
+      call      String::Concat
+      callvirt  String::get_Length
+      ldc.i4    0
+      ldc.i4    0
+      call      Array::Copy
+  [NativeNamedPipeServer::WriteWMI]  rva=0x455c codesize=125
+      ldc.i4    0
+      ldc.i4    1
+      ldc.i4    2
+      ldc.i4    3
+      ldc.i4    4
+      ldstr     ""
+      call      Convert::ToInt32
+      callvirt  local:Invoke
+      ldstr     "1"
+      ldstr     "ERR;Write "
+      ldstr     " failed!"
+      call      String::Concat
+      ldstr     "ERR;"
+      callvirt  Exception::get_Message
+      call      String::Concat
+  [NativeNamedPipeServer::ReadWMI]  rva=0x45f8 codesize=534
+      ldc.i4    0
+      ldc.i4    1
+      ldc.i4    2
+      ldc.i4    -1
+      ldc.i4    3
+      ldc.i4    3
+      call      Convert::ToInt32
+      newobj    StringBuilder::.ctor
+      newobj    StringBuilder::.ctor
+      ldstr     ""
+      ldstr     ""
+      call      String::op_Inequality
+      ldstr     "*"
+      callvirt  String::Replace
+      ldstr     ""
+      ldc.i4    0
+      callvirt  local:Invoke
+      callvirt  local:Invoke
+      ldc.i4    1
+      ldc.i4    0
+      ldc.i4.s  44 (0x2c)
+      callvirt  String::TrimEnd
+      ldc.i4    1
+      ldc.i4    0
+      ldc.i4.s  44 (0x2c)
+      callvirt  String::Split
+      ldc.i4    0
+      ldc.i4    1
+      ldc.i4    0
+      ldc.i4.s  123 (0x7b)
+      callvirt  String::TrimStart
+      ldc.i4    1
+      ldc.i4    0
+      ldc.i4.s  125 (0x7d)
+      callvirt  String::TrimEnd
+      ldc.i4    2
+      ldc.i4    0
+      ldc.i4.s  58 (0x3a)
+      ldc.i4    1
+      ldc.i4.s  59 (0x3b)
+      callvirt  String::Split
+      newobj    local:.ctor
+      ldc.i4    0
+      callvirt  local:set_property
+      ldc.i4    2
+      callvirt  local:set_value
+      call      JsonConvert::SerializeObject
+      ldstr     <tok 0x130a0000>
+      ldstr     ","
+      call      String::Concat
+      callvirt  StringBuilder::Append
+      jmp       <tok 0x170d1100>
+      ldstr     "{"
+      callvirt  StringBuilder::AppendLine
+      jmp       <tok 0x89720511>
+      jmp       <tok 0xed720511>
+      jmp       <tok err 0x04110511>
+      callvirt  StringBuilder::Append
+      jmp       <tok 0x3e6f0511>
+      callvirt  String::Trim
+      ldc.i4    1
+      ldc.i4    0
+      ldc.i4.s  44 (0x2c)
+      callvirt  String::TrimEnd
+      newobj    StringBuilder::.ctor
+      ldstr     "]"
+      callvirt  StringBuilder::AppendLine
+      jmp       <tok 0xf5720511>
+      jmp       <tok 0x3e6f0511>
+      ldstr     ""
+      call      String::op_Equality
+      ldstr     "ERR;No corresponding property"
+      ldstr     "ERR;"
+      callvirt  Exception::get_Message
+      callvirt  Object::ToString
+      call      String::Concat
+      ldc.i4    0
+  [NativeNamedPipeServer::SetupWMIEvent]  rva=0x4838 codesize=256
+      newobj    local:.ctor
+      ldc.i4    0
+      ldc.i4    1
+      ldc.i4    2
+      ldstr     ""
+      ldc.i4    0
+      callvirt  ?::GetEnumerator
+      call      ?::get_Current
+      call      String::op_Equality
+      ldc.i4    1
+      call      ?::MoveNext
+      ldc.i4    0
+      ldc.i4    5
+      callvirt  IDisposable::Dispose
+      ldc.i4    0
+      callvirt  ?::Add
+      ldstr     "1"
+      newobj    ThreadStart::.ctor
+      newobj    Thread::.ctor
+      call      Thread::Start
+      ldstr     "ERR;"
+      callvirt  Exception::get_Message
+      callvirt  Object::ToString
+      call      String::Concat
+  [NativeNamedPipeServer::WMIEventWatcher_EventArrived]  rva=0x4960 codesize=94
+      callvirt  EventArrivedEventArgs::get_NewEvent
+      ldstr     "MSIEvt"
+      callvirt  ManagementBaseObject::get_Item
+      callvirt  Object::ToString
+      call      CultureInfo::get_InvariantCulture
+      call      Int32::Parse
+      callvirt  ?::GetEnumerator
+      call      ?::get_Current
+      call      local:SendWMIValueBackToClients
+      call      ?::MoveNext
+      ldc.i4    0
+      ldc.i4    5
+      callvirt  IDisposable::Dispose
+  [NativeNamedPipeServer::SendWMIValueBackToClients]  rva=0x49dc codesize=145
+      ldstr     "WMI:RCV_EVTW:"
+      ldstr     ""
+      ldstr     "1;"
+      call      String::Concat
+      call      Int32::ToString
+      ldstr     ";"
+      call      String::Concat
+      call      String::Concat
+      call      local:GetHeaderByteArray
+      call      String::Concat
+      callvirt  String::get_Length
+      ldc.i4    0
+      ldc.i4    0
+      call      Array::Copy
+      call      Encoding::get_ASCII
+      callvirt  Encoding::GetBytes
+      ldc.i4    0
+      callvirt  String::get_Length
+      call      Array::Copy
+      call      local:Send
+  [NativeNamedPipeServer::processInputCommandWMI2]  rva=0x4c3c codesize=3467
+      ldstr     ""
+      ldstr     ""
+      ldstr     ""
+      ldstr     ""
+      callvirt  String::ToUpper
+      call      local:ComputeStringHash
+      ldc.i4    1884448045 (0x7052652d)
+      ldc.i4    662485011 (0x277cb813)
+      ldc.i4    304763626 (0x122a52ea)
+      ldc.i4    55346745 (0x34c8639)
+      ldc.i4    220567442 (0xd259792)
+      ldc.i4    304763626 (0x122a52ea)
+      ldc.i4    357002771 (0x15476e13)
+      ldc.i4    410704929 (0x187adc21)
+      ldc.i4    662485011 (0x277cb813)
+      ldc.i4    1565208512 (0x5d4b2fc0)
+      ldc.i4    975636388 (0x3a2707a4)
+      ldc.i4    1082431092 (0x40849674)
+      ldc.i4    1565208512 (0x5d4b2fc0)
+      ldc.i4    1821087547 (0x6c8b973b)
+      ldc.i4    1803516956 (0x6b7f7c1c)
+      ldc.i4    1821087547 (0x6c8b973b)
+      ldc.i4    1860084198 (0x6edea1e6)
+      ldc.i4    1884448045 (0x7052652d)
+      ldc.i4    2826278808 (0xa8759798)
+      ldc.i4    2183734447 (0x822924af)
+      ldc.i4    1885792697 (0x7066e9b9)
+      ldc.i4    2177674426 (0x81ccacba)
+      ldc.i4    2183734447 (0x822924af)
+      ldc.i4    2324675466 (0x8a8fbb8a)
+      ldc.i4    2340010894 (0x8b79bb8e)
+      ldc.i4    2826278808 (0xa8759798)
+      ldc.i4    3148989984 (0xbbb1c620)
+      ldc.i4    2918991965 (0xadfc485d)
+      ldc.i4    3075977671 (0xb757b1c7)
+      ldc.i4    3148989984 (0xbbb1c620)
+      ldc.i4    3588287710 (0xd5e0ecde)
+      ldc.i4    3301953742 (0xc4cfd0ce)
+      ldc.i4    3588287710 (0xd5e0ecde)
+      ldc.i4    3648137537 (0xd9722941)
+      ldc.i4    4225468863 (0xfbdb89bf)
+      ldstr     "GWMIVER_REQ"
+      call      String::op_Equality
+      ldstr     "GEC_REQ"
+      call      String::op_Equality
+      ldstr     "GBIOS_REQ"
+      call      String::op_Equality
+      ldstr     "SBIOS_REQ"
+      call      String::op_Equality
+      ldstr     "GSMBUS_REQ"
+      call      String::op_Equality
+      ldstr     "SSMBUS_REQ"
+      call      String::op_Equality
+      ldstr     "GMBAT_REQ"
+      call      String::op_Equality
+      ldstr     "SMBAT_REQ"
+      call      String::op_Equality
+      ldstr     "GSBAT_REQ"
+      call      String::op_Equality
+      ldstr     "SSBAT_REQ"
+      call      String::op_Equality
+      ldstr     "GTEMP_REQ"
+      call      String::op_Equality
+      ldstr     "STEMP_REQ"
+      call      String::op_Equality
+      ldstr     "GTHER_REQ"
+      call      String::op_Equality
+      ldstr     "STHER_REQ"
+      call      String::op_Equality
+      ldstr     "GFAN_REQ"
+      call      String::op_Equality
+      ldstr     "SFAN_REQ"
+      call      String::op_Equality
+      ldstr     "GDEV_REQ"
+      call      String::op_Equality
+      ldstr     "SDEV_REQ"
+      call      String::op_Equality
+      ldstr     "GPWR_REQ"
+      call      String::op_Equality
+      ldstr     "SPWR_REQ"
+      call      String::op_Equality
+      ldstr     "GDBG_REQ"
+      call      String::op_Equality
+      ldstr     "SDBG_REQ"
+      call      String::op_Equality
+      ldstr     "GAP_REQ"
+      call      String::op_Equality
+      ldstr     "SAP_REQ"
+      call      String::op_Equality
+      ldstr     "GDATA_REQ"
+      call      String::op_Equality
+      ldstr     "SDATA_REQ"
+      call      String::op_Equality
+      ldstr     "WMI2:GWMIVER_RST:"
+      call      local:Get_WMI
+      callvirt  String::ToUpper
+      ldstr     "ERR;"
+      callvirt  String::Contains
+      ldstr     "0;"
+      ldstr     "ERR;"
+      call      String::ToCharArray
+      callvirt  String::TrimStart
+      call      String::Concat
+      ldstr     "1;"
+      call      String::Concat
+      ldstr     "WMI2:GEC_RST:"
+      call      local:Get_EC
+      callvirt  String::ToUpper
+      ldstr     "ERR;"
+      callvirt  String::Contains
+      ldstr     "0;"
+      ldstr     "ERR;"
+      call      String::ToCharArray
+      callvirt  String::TrimStart
+      call      String::Concat
+      ldstr     "1;"
+      call      String::Concat
+      ldstr     "WMI2:GBIOS_RST:"
+      call      local:Get_BIOS
+      callvirt  String::ToUpper
+      ldstr     "ERR;"
+      callvirt  String::Contains
+      ldstr     "0;"
+      ldstr     "ERR;"
+      call      String::ToCharArray
+      callvirt  String::TrimStart
+      call      String::Concat
+      ldstr     "1;"
+      call      String::Concat
+      ldstr     "WMI2:SBIOS_RST:"
+      call      local:Set_BIOS
+      callvirt  String::ToUpper
+      ldstr     "ERR;"
+      callvirt  String::Contains
+      ldstr     "0;"
+      ldstr     "ERR;"
+      call      String::ToCharArray
+      callvirt  String::TrimStart
+      call      String::Concat
+      ldstr     "1;"
+      call      String::Concat
+      ldstr     "WMI2:GSMBUS_RST:"
+      call      local:Get_SMBus
+      callvirt  String::ToUpper
+      ldstr     "ERR;"
+      callvirt  String::Contains
+      ldstr     "0;"
+      ldstr     "ERR;"
+      call      String::ToCharArray
+      callvirt  String::TrimStart
+      call      String::Concat
+      ldstr     "1;"
+      call      String::Concat
+      ldstr     "WMI2:SSMBUS_RST:"
+      call      local:Set_SMBus
+      callvirt  String::ToUpper
+      ldstr     "ERR;"
+      callvirt  String::Contains
+      ldstr     "0;"
+      ldstr     "ERR;"
+      call      String::ToCharArray
+      callvirt  String::TrimStart
+      call      String::Concat
+      ldstr     "1;"
+      call      String::Concat
+      ldstr     "WMI2:GMBAT_RST:"
+      call      local:Get_MasterBattery
+      callvirt  String::ToUpper
+      ldstr     "ERR;"
+      callvirt  String::Contains
+      ldstr     "0;"
+      ldstr     "ERR;"
+      call      String::ToCharArray
+      callvirt  String::TrimStart
+      call      String::Concat
+      ldstr     "1;"
+      call      String::Concat
+      ldstr     "WMI2:SMBAT_RST:"
+      call      local:Set_MasterBattery
+      callvirt  String::ToUpper
+      ldstr     "ERR;"
+      callvirt  String::Contains
+      ldstr     "0;"
+      ldstr     "ERR;"
+      call      String::ToCharArray
+      callvirt  String::TrimStart
+      call      String::Concat
+      ldstr     "1;"
+      call      String::Concat
+      ldstr     "WMI2:GSBAT_RST:"
+      call      local:Get_SlaveBattery
+      callvirt  String::ToUpper
+      ldstr     "ERR;"
+      callvirt  String::Contains
+      ldstr     "0;"
+      ldstr     "ERR;"
+      call      String::ToCharArray
+      callvirt  String::TrimStart
+      call      String::Concat
+      ldstr     "1;"
+      call      String::Concat
+      ldstr     "WMI2:SSBAT_RST:"
+      call      local:Set_SlaveBattery
+      callvirt  String::ToUpper
+      ldstr     "ERR;"
+      callvirt  String::Contains
+      ldstr     "0;"
+      ldstr     "ERR;"
+      call      String::ToCharArray
+      callvirt  String::TrimStart
+      call      String::Concat
+      ldstr     "1;"
+      call      String::Concat
+      ldstr     "WMI2:GTEMP_RST:"
+      call      local:Get_Temperature
+      callvirt  String::ToUpper
+      ldstr     "ERR;"
+      callvirt  String::Contains
+      ldstr     "0;"
+      ldstr     "ERR;"
+      call      String::ToCharArray
+      callvirt  String::TrimStart
+      call      String::Concat
+      ldstr     "1;"
+      call      String::Concat
+      ldstr     "WMI2:STEMP_RST:"
+      call      local:Set_Temperature
+      callvirt  String::ToUpper
+      ldstr     "ERR;"
+      callvirt  String::Contains
+      ldstr     "0;"
+      ldstr     "ERR;"
+      call      String::ToCharArray
+      callvirt  String::TrimStart
+      call      String::Concat
+      ldstr     "1;"
+      call      String::Concat
+      ldstr     "WMI2:GTHER_RST:"
+      call      local:Get_Thermal
+      callvirt  String::ToUpper
+      ldstr     "ERR;"
+      callvirt  String::Contains
+      ldstr     "0;"
+      ldstr     "ERR;"
+      call      String::ToCharArray
+      callvirt  String::TrimStart
+      call      String::Concat
+      ldstr     "1;"
+      call      String::Concat
+      ldstr     "WMI2:STHER_RST:"
+      call      local:Set_Thermal
+      callvirt  String::ToUpper
+      ldstr     "ERR;"
+      callvirt  String::Contains
+      ldstr     "0;"
+      ldstr     "ERR;"
+      call      String::ToCharArray
+      callvirt  String::TrimStart
+      call      String::Concat
+      ldstr     "1;"
+      call      String::Concat
+      ldstr     "WMI2:GFAN_RST:"
+      call      local:Get_Fan
+      callvirt  String::ToUpper
+      ldstr     "ERR;"
+      callvirt  String::Contains
+      ldstr     "0;"
+      ldstr     "ERR;"
+      call      String::ToCharArray
+      callvirt  String::TrimStart
+      call      String::Concat
+      ldstr     "1;"
+      call      String::Concat
+      ldstr     "WMI2:SFAN_RST:"
+      call      local:Set_Fan
+      callvirt  String::ToUpper
+      ldstr     "ERR;"
+      callvirt  String::Contains
+      ldstr     "0;"
+      ldstr     "ERR;"
+      call      String::ToCharArray
+      callvirt  String::TrimStart
+      call      String::Concat
+      ldstr     "1;"
+      call      String::Concat
+      ldstr     "WMI2:GDEV_RST:"
+      call      local:Get_Device
+      callvirt  String::ToUpper
+      ldstr     "ERR;"
+      callvirt  String::Contains
+      ldstr     "0;"
+      ldstr     "ERR;"
+      call      String::ToCharArray
+      callvirt  String::TrimStart
+      call      String::Concat
+      ldstr     "1;"
+      call      String::Concat
+      ldstr     "WMI2:SDEV_RST:"
+      call      local:Set_Device
+      callvirt  String::ToUpper
+      ldstr     "ERR;"
+      callvirt  String::Contains
+      ldstr     "0;"
+      ldstr     "ERR;"
+      call      String::ToCharArray
+      callvirt  String::TrimStart
+      call      String::Concat
+      ldstr     "1;"
+      call      String::Concat
+      ldstr     "WMI2:GPWR_RST:"
+      call      local:Get_Power
+      callvirt  String::ToUpper
+      ldstr     "ERR;"
+      callvirt  String::Contains
+      ldstr     "0;"
+      ldstr     "ERR;"
+      call      String::ToCharArray
+      callvirt  String::TrimStart
+      call      String::Concat
+      ldstr     "1;"
+      call      String::Concat
+      ldstr     "WMI2:SPWR_RST:"
+      call      local:Set_Power
+      callvirt  String::ToUpper
+      ldstr     "ERR;"
+      callvirt  String::Contains
+      ldstr     "0;"
+      ldstr     "ERR;"
+      call      String::ToCharArray
+      callvirt  String::TrimStart
+      call      String::Concat
+      ldstr     "1;"
+      call      String::Concat
+      ldstr     "WMI2:GDBG_RST:"
+      call      local:Get_Debug
+      callvirt  String::ToUpper
+      ldstr     "ERR;"
+      callvirt  String::Contains
+      ldstr     "0;"
+      ldstr     "ERR;"
+      call      String::ToCharArray
+      callvirt  String::TrimStart
+      call      String::Concat
+      ldstr     "1;"
+      call      String::Concat
+      ldstr     "WMI2:SDBG_RST:"
+      call      local:Set_Debug
+  [NativeNamedPipeServer::Get_WMI]  rva=0x59f0 codesize=282
+      ldstr     ""
+      ldstr     "WmiMajorVersion:"
+      call      String::Concat
+      call      local:writeLog
+      ldc.i4    2
+      ldc.i4    0
+      ldc.i4    0
+      ldc.i4    0
+      ldc.i4    2
+      callvirt  WmiAcpiLib2::InvokeWmiMethod
+      ldstr     "results.Flag:"
+      call      Byte::ToString
+      call      String::Concat
+      call      local:writeLog
+      ldc.i4    1
+      ldc.i4    0
+      call      UInt32::ToString
+      ldstr     ","
+      call      String::Concat
+      ldc.i4    1
+      ldc.i4    2
+      ldc.i4    1
+      ldc.i4    0
+      ldc.i4.s  44 (0x2c)
+      callvirt  String::TrimEnd
+      ldstr     "results.Data:"
+      call      String::Concat
+      call      local:writeLog
+      ldstr     "1"
+      ldstr     "return value :"
+      call      String::Concat
+      call      local:writeLog
+      ldstr     "ERR;"
+      callvirt  Exception::get_Message
+      callvirt  Object::ToString
+      call      String::Concat
+  [NativeNamedPipeServer::Get_SMBus]  rva=0x5dac codesize=333
+      ldstr     ""
+      ldc.i4    0
+      call      Convert::ToInt32
+      ldc.i4    0
+      ldc.i4    1
+      ldc.i4    2
+      ldc.i4.s  16 (0x10)
+      ldc.i4    3
+      ldstr     "Get_SMBus"
+      call      local:writeLog
+      ldc.i4    2
+      ldc.i4    0
+      ldc.i4    4
+      callvirt  WmiAcpiLib2::InvokeWmiMethod
+      ldstr     "results.Flag:"
+      call      Byte::ToString
+      call      String::Concat
+      call      local:writeLog
+      ldc.i4    1
+      ldc.i4    0
+      call      UInt32::ToString
+      ldstr     ","
+      call      String::Concat
+      ldc.i4    1
+      ldc.i4    1
+      ldc.i4    0
+      ldc.i4.s  44 (0x2c)
+      callvirt  String::TrimEnd
+      ldstr     "results.Data:"
+      call      String::Concat
+      call      local:writeLog
+      ldstr     "ERR;_wmiAcpiLib.WmiMajorVersion < 2"
+      ldstr     "Get_SMBus failed :"
+      call      String::Concat
+      call      local:writeLog
+      ldstr     "ERR;"
+      callvirt  Exception::get_Message
+      callvirt  Object::ToString
+      call      String::Concat
+  [NativeNamedPipeServer::Get_Temperature]  rva=0x61b8 codesize=306
+      ldstr     ""
+      ldc.i4    0
+      call      Convert::ToInt32
+      ldc.i4    0
+      ldc.i4    1
+      ldc.i4    1
+      ldc.i4    3
+      ldc.i4    8
+      ldstr     "Get_Temperature"
+      call      local:writeLog
+      ldc.i4    2
+      ldc.i4    0
+      ldc.i4.s  10 (0xa)
+      callvirt  WmiAcpiLib2::InvokeWmiMethod
+      ldstr     "results.Flag:"
+      call      Byte::ToString
+      call      String::Concat
+      call      local:writeLog
+      ldc.i4    1
+      ldc.i4    0
+      call      UInt32::ToString
+      ldstr     ","
+      call      String::Concat
+      ldc.i4    1
+      ldc.i4    1
+      ldc.i4    0
+      ldc.i4.s  44 (0x2c)
+      callvirt  String::TrimEnd
+      ldstr     "results.Data:"
+      call      String::Concat
+      call      local:writeLog
+      ldstr     "ERR;_wmiAcpiLib.WmiMajorVersion < 2"
+      ldstr     "Get_Temperature failed :"
+      call      String::Concat
+      call      local:writeLog
+      ldstr     "ERR;"
+      callvirt  Exception::get_Message
+      callvirt  Object::ToString
+      call      String::Concat
+  [NativeNamedPipeServer::Get_Fan]  rva=0x6458 codesize=280
+      ldstr     ""
+      ldc.i4    0
+      call      Convert::ToInt32
+      ldc.i4    8
+      ldstr     "Get_Fan"
+      call      local:writeLog
+      ldc.i4    2
+      ldc.i4    0
+      ldc.i4.s  14 (0xe)
+      callvirt  WmiAcpiLib2::InvokeWmiMethod
+      ldstr     "results.Flag:"
+      call      Byte::ToString
+      call      String::Concat
+      call      local:writeLog
+      ldc.i4    1
+      ldc.i4    0
+      call      UInt32::ToString
+      ldstr     ","
+      call      String::Concat
+      ldc.i4    1
+      ldc.i4    1
+      ldc.i4    0
+      ldc.i4.s  44 (0x2c)
+      callvirt  String::TrimEnd
+      ldstr     "results.Data:"
+      call      String::Concat
+      call      local:writeLog
+      ldstr     "ERR;_wmiAcpiLib.WmiMajorVersion < 2"
+      ldstr     "Get_Fan failed :"
+      call      String::Concat
+      call      local:writeLog
+      ldstr     "ERR;"
+      callvirt  Exception::get_Message
+      callvirt  Object::ToString
+      call      String::Concat
+  [NativeNamedPipeServer::Set_SMBus]  rva=0x6c04 codesize=13
+      ldc.i4    2
+      call      local:Set_WMIACPI2
+  [NativeNamedPipeServer::Set_Temperature]  rva=0x6c58 codesize=13
+      ldc.i4    5
+      call      local:Set_WMIACPI2
+  [NativeNamedPipeServer::Set_Fan]  rva=0x6c90 codesize=13
+      ldc.i4    7
+      call      local:Set_WMIACPI2
+  [NativeNamedPipeServer::Set_WMIACPI2]  rva=0x6d38 codesize=701
+      ldstr     "Set "
+      callvirt  Object::ToString
+      call      String::Concat
+      call      local:writeLog
+      ldstr     ""
+      ldc.i4    0
+      call      Convert::ToInt32
+      ldstr     "iDataBlockIndex : "
+      call      Int32::ToString
+      call      String::Concat
+      call      local:writeLog
+      ldstr     "input data : "
+      ldc.i4    1
+      call      String::Concat
+      call      local:writeLog
+      ldc.i4    1
+      ldc.i4    1
+      ldc.i4    0
+      ldc.i4.s  44 (0x2c)
+      callvirt  String::Split
+      ldc.i4    0
+      call      Convert::ToUInt32
+      ldstr     "input array ["
+      call      Int32::ToString
+      ldstr     "] : "
+      call      Byte::ToString
+      call      String::Concat
+      call      local:writeLog
+      ldc.i4    1
+      ldc.i4    2
+      ldc.i4    0
+      ldc.i4    1
+      ldc.i4    3
+      callvirt  WmiAcpiLib2::InvokeWmiMethod
+      ldc.i4    5
+      callvirt  WmiAcpiLib2::InvokeWmiMethod
+      ldc.i4    7
+      callvirt  WmiAcpiLib2::InvokeWmiMethod
+      ldc.i4.s  9 (0x9)
+      callvirt  WmiAcpiLib2::InvokeWmiMethod
+      ldc.i4.s  11 (0xb)
+      callvirt  WmiAcpiLib2::InvokeWmiMethod
+      ldc.i4.s  13 (0xd)
+      callvirt  WmiAcpiLib2::InvokeWmiMethod
+      ldc.i4.s  15 (0xf)
+      callvirt  WmiAcpiLib2::InvokeWmiMethod
+      ldc.i4.s  17 (0x11)
+      callvirt  WmiAcpiLib2::InvokeWmiMethod
+      ldc.i4.s  19 (0x13)
+      callvirt  WmiAcpiLib2::InvokeWmiMethod
+      ldc.i4.s  21 (0x15)
+      callvirt  WmiAcpiLib2::InvokeWmiMethod
+      ldc.i4.s  23 (0x17)
+      callvirt  WmiAcpiLib2::InvokeWmiMethod
+      ldc.i4.s  25 (0x19)
+      callvirt  WmiAcpiLib2::InvokeWmiMethod
+      ldstr     "results.Flag:"
+      call      Byte::ToString
+      call      String::Concat
+      call      local:writeLog
+      ldc.i4    1
+      ldstr     "1"
+      ldstr     "results.Data:"
+      call      String::Concat
+      call      local:writeLog
+      ldstr     "ERR"
+      ldstr     "ERR;_wmiAcpiLib.WmiMajorVersion < 2"
+      ldstr     "Set "
+      callvirt  Object::ToString
+      ldstr     " failed :"
+      call      String::Concat
+      call      local:writeLog
+      ldstr     "ERR;"
+      callvirt  Exception::get_Message
+      callvirt  Object::ToString
+      call      String::Concat
+  [Service1::CheckMSIWMI]  rva=0x7798 codesize=174
+      ldstr     "root\WMI"
+      ldstr     "SELECT * FROM MSI_AP"
+      newobj    ManagementObjectSearcher::.ctor
+      callvirt  ManagementObjectSearcher::Get
+      callvirt  ManagementObjectCollection::get_Count
+      ldstr     "MSIAPService"
+      ldstr     "Log"
+      ldstr     "CheckMSIWMI"
+      ldstr     "Values Count :"
+      call      String::Concat
+      call      local:WriteLog
+      ldc.i4    0
+      ldstr     "MSIAPService"
+      ldstr     "Log"
+      ldstr     "CheckMSIWMI"
+      ldstr     "WMI 1 check passed"
+      call      local:WriteLog
+      ldc.i4    1
+      ldc.i4    0
+      ldstr     "MSIAPService"
+      ldstr     "Exception"
+      ldstr     "CheckMSIWMI"
+      callvirt  Object::ToString
+      call      local:WriteLog
+      ldc.i4    0
+  [WinIO::GetMBCtl_CpuFanCount]  rva=0x9b38 codesize=89
+      ldstr     "GetMBCtl_CpuFanCount start"
+      call      local:WriteEventLog
+      ldc.i4    0
+      callvirt  local:Invoke
+      ldstr     "GetMBCtl_CpuFanCount end"
+      call      local:WriteEventLog
+      ldc.i4    0
+      ldstr     "0;"
+      call      UInt32::ToString
+      call      String::Concat
+      call      Int32::ToString
+      ldstr     ";ERR"
+      call      String::Concat
+  [WinIO::GetMBCtl_CPUFanSpeed]  rva=0x9ba0 codesize=95
+      ldstr     "GetMBCtl_CPUFanSpeed start"
+      call      local:WriteEventLog
+      ldc.i4    0
+      callvirt  local:Invoke
+      ldstr     "GetMBCtl_CPUFanSpeed end"
+      call      local:WriteEventLog
+      ldc.i4    0
+      ldstr     "0;"
+      ldc.i4    2
+      call      UInt16::ToString
+      call      String::Concat
+      call      Int32::ToString
+      ldstr     ";ERR"
+      call      String::Concat
+  [WinIO::GetMBCtl_SysFanCount]  rva=0x9c0c codesize=89
+      ldstr     "GetMBCtl_SysFanCount start"
+      call      local:WriteEventLog
+      ldc.i4    0
+      callvirt  local:Invoke
+      ldstr     "GetMBCtl_SysFanCount end"
+      call      local:WriteEventLog
+      ldc.i4    0
+      ldstr     "0;"
+      call      UInt32::ToString
+      call      String::Concat
+      call      Int32::ToString
+      ldstr     ";ERR"
+      call      String::Concat
+  [WinIO::GetMBCtl_SysFanSpeed]  rva=0x9c74 codesize=95
+      ldstr     "GetMBCtl_SysFanSpeed start"
+      call      local:WriteEventLog
+      ldc.i4    0
+      callvirt  local:Invoke
+      ldstr     "GetMBCtl_SysFanSpeed end"
+      call      local:WriteEventLog
+      ldc.i4    0
+      ldstr     "0;"
+      ldc.i4    2
+      call      UInt16::ToString
+      call      String::Concat
+      call      Int32::ToString
+      ldstr     ";ERR"
+      call      String::Concat
+  [WMI::loadWMI]  rva=0xa1dc codesize=254
+      call      IntPtr::op_Inequality
+      call      Assembly::GetExecutingAssembly
+      callvirt  Assembly::get_Location
+      call      Path::GetDirectoryName
+      ldstr     "\WMILib.dll"
+      call      String::Concat
+      call      local:LoadLibrary
+      call      IntPtr::op_Equality
+      ldstr     "Load wmi dll failed"
+      call      local:WriteEventLog
+      ldstr     "Load wmi dll success"
+      call      local:WriteEventLog
+      ldstr     "ReadWMIAll"
+      call      local:GetProcAddress
+      ldftn     type:ReadWMIAll
+      call      Type::GetTypeFromHandle
+      call      Marshal::GetDelegateForFunctionPointer
+      ldstr     "ReadWMI"
+      call      local:GetProcAddress
+      ldftn     type:ReadWMI
+      call      Type::GetTypeFromHandle
+      call      Marshal::GetDelegateForFunctionPointer
+      ldstr     "WriteWMI"
+      call      local:GetProcAddress
+      ldftn     type:WriteWMI
+      call      Type::GetTypeFromHandle
+      call      Marshal::GetDelegateForFunctionPointer
+  [<>c__DisplayClass66_0::<SetupWMIEvent>b__0]  rva=0xa74c codesize=120
+      ldstr     "SELECT * FROM MSI_Event"
+      newobj    WqlEventQuery::.ctor
+      ldstr     "\\.\root\WMI"
+      newobj    ManagementScope::.ctor
+      callvirt  ManagementScope::Connect
+      callvirt  ManagementScope::get_IsConnected
+      newobj    ManagementEventWatcher::.ctor
+      newobj    EventArrivedEventHandler::.ctor
+      callvirt  ManagementEventWatcher::add_EventArrived
+      callvirt  ManagementEventWatcher::Start
+      ldstr     "1"
+      ldstr     "ERR;Setup WMIEvent failed!"
+  [InitializeWinIo::Invoke]  (abstraite/sans corps)
+  [InitializeWinIo::BeginInvoke]  (abstraite/sans corps)
+  [InitializeWinIo::EndInvoke]  (abstraite/sans corps)
+  [GetPortVal::Invoke]  (abstraite/sans corps)
+  [GetPortVal::BeginInvoke]  (abstraite/sans corps)
+  [GetPortVal::EndInvoke]  (abstraite/sans corps)
+  [SetPortVal::Invoke]  (abstraite/sans corps)
+  [SetPortVal::BeginInvoke]  (abstraite/sans corps)
+  [SetPortVal::EndInvoke]  (abstraite/sans corps)
+  [GetPhysLong::Invoke]  (abstraite/sans corps)
+  [GetPhysLong::BeginInvoke]  (abstraite/sans corps)
+  [GetPhysLong::EndInvoke]  (abstraite/sans corps)
+  [SetPhysLong::Invoke]  (abstraite/sans corps)
+  [SetPhysLong::BeginInvoke]  (abstraite/sans corps)
+  [SetPhysLong::EndInvoke]  (abstraite/sans corps)
+  [ShutdownWinIo::Invoke]  (abstraite/sans corps)
+  [ShutdownWinIo::BeginInvoke]  (abstraite/sans corps)
+  [ShutdownWinIo::EndInvoke]  (abstraite/sans corps)
+  [Api_Initialization::Invoke]  (abstraite/sans corps)
+  [Api_Initialization::BeginInvoke]  (abstraite/sans corps)
+  [Api_Initialization::EndInvoke]  (abstraite/sans corps)
+  [Api_GetCPUfanCount::Invoke]  (abstraite/sans corps)
+  [Api_GetCPUfanCount::BeginInvoke]  (abstraite/sans corps)
+  [Api_GetCPUfanCount::EndInvoke]  (abstraite/sans corps)
+  [Api_GetCPUfanSpeed::Invoke]  (abstraite/sans corps)
+  [Api_GetCPUfanSpeed::BeginInvoke]  (abstraite/sans corps)
+  [Api_GetCPUfanSpeed::EndInvoke]  (abstraite/sans corps)
+  [Api_GetSYSfanCount::Invoke]  (abstraite/sans corps)
+  [Api_GetSYSfanCount::BeginInvoke]  (abstraite/sans corps)
+  [Api_GetSYSfanCount::EndInvoke]  (abstraite/sans corps)
+  [Api_GetSYSfanSpeed::Invoke]  (abstraite/sans corps)
+  [Api_GetSYSfanSpeed::BeginInvoke]  (abstraite/sans corps)
+  [Api_GetSYSfanSpeed::EndInvoke]  (abstraite/sans corps)
+  [Api_GetGPUCount::Invoke]  (abstraite/sans corps)
+  [Api_GetGPUCount::BeginInvoke]  (abstraite/sans corps)
+  [Api_GetGPUCount::EndInvoke]  (abstraite/sans corps)
+  [Api_GetGPUUsage::Invoke]  (abstraite/sans corps)
+  [Api_GetGPUUsage::BeginInvoke]  (abstraite/sans corps)
+  [Api_GetGPUUsage::EndInvoke]  (abstraite/sans corps)
+  [Api_Release::Invoke]  (abstraite/sans corps)
+  [Api_Release::BeginInvoke]  (abstraite/sans corps)
+  [Api_Release::EndInvoke]  (abstraite/sans corps)
+  [ReadWMIAll::Invoke]  (abstraite/sans corps)
+  [ReadWMIAll::BeginInvoke]  (abstraite/sans corps)
+  [ReadWMIAll::EndInvoke]  (abstraite/sans corps)
+  [ReadWMI::Invoke]  (abstraite/sans corps)
+  [ReadWMI::BeginInvoke]  (abstraite/sans corps)
+  [ReadWMI::EndInvoke]  (abstraite/sans corps)
+  [WriteWMI::Invoke]  (abstraite/sans corps)
+  [WriteWMI::BeginInvoke]  (abstraite/sans corps)
+  [WriteWMI::EndInvoke]  (abstraite/sans corps)
+
+############################################################
+### binaries\NBFoundation\MSIWMIACPI2.dll
+############################################################
+  [WmiAcpiLib2::InitiateWmiVersion]  rva=0x30c1 codesize=15
+      ldc.i4    0
+      ldc.i4    0
+  [WmiAcpiLib2::Parse_WMI_Info]  rva=0x37bc codesize=93
+      ldc.i4    2
+      ldc.i4    1
+      ldc.i4    2
+      ldc.i4    1
+      ldc.i4    2
+      call      local:InitiateWmiVersion
+      ldc.i4    4
+      ldstr     "WMI Major Version = {0}"
+      call      String::Format
+      ldstr     "WMI Minor Version = {0}"
+      call      String::Format
+  [WmiAcpiLib2::Parse_WMI_Info]  rva=0x3828 codesize=119
+      ldc.i4    1
+      ldc.i4    0
+      ldc.i4    2
+      ldc.i4    0
+      ldc.i4    1
+      call      local:InitiateWmiVersion
+      ldc.i4    4
+      ldstr     "WMI Major Version = {0}"
+      call      String::Format
+      ldstr     "WMI Minor Version = {0}"
+      call      String::Format
+  [WmiAcpiLib2::ExecuteWmiMethod]  rva=0x3d24 codesize=820
+      call      local:get_SyncObject
+      ldc.i4    0
+      call      Monitor::Enter
+      ldc.i4    5
+      ldc.i4    0
+      ldstr     "---------- Start of ExecuteWmiMethod("
+      ldc.i4    1
+      ldc.i4    2
+      ldstr     ", 0x"
+      ldc.i4    3
+      ldstr     "X2"
+      call      Byte::ToString
+      ldc.i4    4
+      ldstr     ") -----------------------------------------------------------------------------------------------"
+      call      String::Concat
+      call      local:Log
+      call      ?::.ctor
+      ldstr     "Get_WMI"
+      callvirt  String::Equals
+      ldstr     "Get_EC"
+      callvirt  String::Equals
+      ldstr     "GetPackage"
+      callvirt  String::Equals
+      ldc.i4    5
+      ldstr     "Package"
+      callvirt  String::Contains
+      ldc.i4.s  16 (0x10)
+      ldftn     type:Methods
+      call      Type::GetTypeFromHandle
+      call      Enum::Parse
+      ldc.i4.s  24 (0x18)
+      ldc.i4.s  25 (0x19)
+      ldc.i4    1
+      call      local:get_DataLength
+      callvirt  ?::get_Item
+      call      ?::get_HasValue
+      ldc.i4    0
+      call      ?::GetValueOrDefault
+      ldstr     "Get"
+      callvirt  String::IndexOf
+      call      local:Get
+      jmp       <tok 0x13060000>
+      ldstr     "Data"
+      callvirt  ManagementBaseObject::get_Item
+      ldstr     "Bytes"
+      callvirt  ManagementBaseObject::get_Item
+      ldc.i4    1
+      call      local:Parse_EC_Info
+      call      local:Parse_WMI_Info
+      ldc.i4    0
+      ldstr     "Return value of ""
+      ldc.i4    1
+      ldc.i4    2
+      ldstr     "("
+      ldc.i4    3
+      call      ?::get_HasValue
+      ldstr     ""
+      ldstr     "0x"
+      call      ?::get_Value
+      ldstr     "X2"
+      call      Byte::ToString
+      call      String::Concat
+      ldc.i4    4
+      ldstr     ")" = "
+      ldc.i4    5
+      ldstr     ", "
+      ldstr     "0x{0:X2}"
+      call      local:ByteArrayToString
+      call      String::Concat
+      call      local:Log
+      ldstr     "Set"
+      callvirt  String::IndexOf
+      call      ?::get_HasValue
+      ldc.i4    0
+      call      ?::GetValueOrDefault
+      call      local:Set
+      ldstr     "Data"
+      callvirt  ManagementBaseObject::get_Item
+      ldstr     "Bytes"
+      callvirt  ManagementBaseObject::get_Item
+      ldc.i4    6
+      ldc.i4    0
+      ldstr     "Return value of ""
+      ldc.i4    1
+      ldc.i4    2
+      ldstr     "("
+      ldc.i4    3
+      call      ?::get_HasValue
+      ldstr     ""
+      ldstr     "0x"
+      call      ?::get_Value
+      ldstr     "X2"
+      call      Byte::ToString
+      call      String::Concat
+      ldc.i4    4
+      ldstr     ")" = "
+      ldc.i4    5
+      ldstr     ", "
+      ldstr     "0x{0:X2}"
+      call      local:ByteArrayToString
+      call      String::Concat
+      call      local:Log
+      ldc.i4    1
+      ldstr     "An error occurred while trying to execute the WMI method: {0} ; ErrorCode={1}"
+      callvirt  Exception::get_Message
+      callvirt  ManagementException::get_ErrorCode
+      call      String::Format
+      ldc.i4    0
+      ldc.i4    0
+      ldstr     "---------- End of ExecuteWmiMethod("
+      ldc.i4    1
+      ldc.i4    2
+      ldstr     ", "
+      ldc.i4    3
+      call      ?::get_HasValue
+      ldstr     ""
+      ldstr     "0x"
+      call      ?::get_Value
+      ldstr     "X2"
+      call      Byte::ToString
+      call      String::Concat
+      ldc.i4    4
+      ldstr     ") -------------------------------------------------------------------------------------------------"
+      call      String::Concat
+      call      local:Log
+      call      Monitor::Exit
+      ldc.i4    -1
+  [WmiAcpiLib2::ExecuteWmiMethod]  rva=0x40b0 codesize=24
+      callvirt  Object::ToString
+      call      local:ExecuteWmiMethod
+      call      <tok 0x2a060000>
+  [WmiAcpiLib2::InvokeWmiMethod]  rva=0x40cc codesize=131
+      call      local:ExecuteWmiMethod
+      call      <tok 0x7d060000>
+      ldc.i4    0
+      ldc.i4    1
+      ldc.i4    0
+      ldc.i4    1
+      call      Array::Copy
+      ldstr     ""
+      ldc.i4    0
+      ldc.i4    0
+      callvirt  Exception::get_Message
+  [WmiAcpiLib2::InvokeWmiMethod]  rva=0x416c codesize=22
+      callvirt  Object::ToString
+      call      local:InvokeWmiMethod
+  [WmiAcpiLib2::CheckWmiService_Timer_Tick]  rva=0x4574 codesize=142
+      ldstr     "Winmgmt"
+      newobj    ServiceController::.ctor
+      callvirt  ServiceController::get_Status
+      ldc.i4    4
+      ldstr     "Winmgmt service is running."
+      call      local:Log
+      ldc.i4    0
+      callvirt  Timer::set_Enabled
+      call      local:Init
+      ldc.i4    2
+      ldc.i4    1
+      ldc.i4.s  20 (0x14)
+      ldstr     "Check counter of Winmgmt service exceeds maximum."
+      call      local:Log
+      ldc.i4    0
+      callvirt  Timer::set_Enabled
+      call      local:Init
+      ldc.i4    2
+      ldstr     "Winmgmt service is not running. Wait for {0} second."
+      callvirt  Timer::get_Interval
+      call      String::Format
+  [WmiAcpiLib2::CheckWmiService]  rva=0x4610 codesize=189
+      ldc.i4    0
+      ldc.i4    0
+      ldstr     "Winmgmt"
+      newobj    ServiceController::.ctor
+      callvirt  ServiceController::get_Status
+      ldc.i4    4
+      ldstr     "Winmgmt service is running."
+      call      local:Log
+      ldc.i4    1
+      call      local:Init
+      ldc.i4    2
+      ldc.i4    1
+      ldc.i4.s  20 (0x14)
+      ldstr     "Check counter of Winmgmt service exceeds maximum."
+      call      local:Log
+      call      local:Init
+      ldc.i4    2
+      ldstr     "Winmgmt service is not running. Wait for {0} second."
+      callvirt  Timer::get_Interval
+      call      String::Format
+      jmp       <tok 0x00005a7e>
+      newobj    ?::.ctor
+      ldc.i4    1000 (0x3e8)
+      call      SpinWait::SpinUntil
+      ldc.i4.s  20 (0x14)
+  [<>c::<CheckWmiService>b__95_0]  rva=0x6602 codesize=2
+      ldc.i4    0
+
+############################################################
+### binaries\NBFoundation\Sendevsvc.exe
+############################################################
+  [Computer::get_FanControllerEnabled]  rva=0x2d0c codesize=7
+  [Computer::set_FanControllerEnabled]  rva=0x2d14 codesize=76
+      newobj    local:.ctor
+      call      local:Add
+      newobj    local:.ctor
+      call      local:Add
+      call      local:RemoveType
+      call      local:RemoveType
+  [ControlEventHandler::Invoke]  (abstraite/sans corps)
+  [ControlEventHandler::BeginInvoke]  (abstraite/sans corps)
+  [ControlEventHandler::EndInvoke]  (abstraite/sans corps)
+  [HardwareEventHandler::Invoke]  (abstraite/sans corps)
+  [HardwareEventHandler::BeginInvoke]  (abstraite/sans corps)
+  [HardwareEventHandler::EndInvoke]  (abstraite/sans corps)
+  [IComputer::get_FanControllerEnabled]  (abstraite/sans corps)
+  [SensorEventHandler::Invoke]  (abstraite/sans corps)
+  [SensorEventHandler::BeginInvoke]  (abstraite/sans corps)
+  [SensorEventHandler::EndInvoke]  (abstraite/sans corps)
+  [NvApiLib::GetBoostClockFrequencies]  (abstraite/sans corps)
+  [NvApiLib::GetCoolerSettings]  (abstraite/sans corps)
+  [NvApiLib::SetCoolerLevels]  (abstraite/sans corps)
+  [NvidiaGPU::GetCoolerSettings]  rva=0x7de0 codesize=72
+      ldc.i4.s  20 (0x14)
+      ldc.i4    0
+      callvirt  local:Invoke
+      ldc.i4    0
+  [NvidiaGPU::SaveDefaultFanSpeed]  rva=0x8c84 codesize=88
+      call      local:GetCoolerSettings
+      ldc.i4    0
+      ldc.i4    1
+      ldc.i4    0
+      ldc.i4    0
+  [NvidiaGPU::RestoreDefaultFanSpeed]  rva=0x8d00 codesize=88
+      ldc.i4.s  20 (0x14)
+      ldc.i4    0
+      ldc.i4    0
+      callvirt  local:Invoke
+      jmp       <tok 0x897d1602>
+  [F718XX::get_Temperatures]  rva=0xfb46 codesize=7
+  [F718XX::get_Fans]  rva=0xfb4e codesize=7
+  [ISuperIO::get_Temperatures]  (abstraite/sans corps)
+  [ISuperIO::get_Fans]  (abstraite/sans corps)
+  [IT87XX::SaveDefaultFanPwmControl]  rva=0xff8c codesize=44
+      call      local:ReadByte
+      ldc.i4    1
+  [IT87XX::RestoreDefaultFanPwmControl]  rva=0xffc4 codesize=43
+      call      local:WriteByte
+      jmp       <tok err 0x023c7b02>
+      ldc.i4    0
+  [IT87XX::get_Temperatures]  rva=0x10284 codesize=7
+  [IT87XX::get_Fans]  rva=0x1028c codesize=7
+  [NCT677X::SaveDefaultFanControl]  rva=0x11e08 codesize=64
+      call      local:ReadByte
+      call      local:ReadByte
+      ldc.i4    1
+  [NCT677X::RestoreDefaultFanControl]  rva=0x11e54 codesize=64
+      call      local:WriteByte
+      call      local:WriteByte
+      ldc.i4    0
+  [NCT677X::get_Temperatures]  rva=0x11f23 codesize=7
+  [NCT677X::get_Fans]  rva=0x11f2b codesize=7
+  [W836XX::get_Temperatures]  rva=0x12856 codesize=7
+  [W836XX::get_Fans]  rva=0x1285e codesize=7
+  [SmartNames::get_AirflowTemperature]  rva=0x14ef6 codesize=6
+      ldstr     "Airflow Temperature"
+  [SmartNames::get_Temperature]  rva=0x14efd codesize=6
+      ldstr     "Temperature"
+  [SmartNames::get_DiskShift]  rva=0x14f6d codesize=6
+      ldstr     "Disk Shift"
+  [SmartNames::get_DriveTemperature]  rva=0x14f74 codesize=6
+      ldstr     "Drive Temperature"
+  [SmartNames::get_SataDownshiftErrorCount]  rva=0x1504d codesize=6
+      ldstr     "SATA Downshift Error Count"
+  [SmartNames::get_TemperatureDifferenceFrom100]  rva=0x150a1 codesize=6
+      ldstr     "Temperature Difference from 100"
+  [SmartNames::get_TemperatureExceedCount]  rva=0x151e3 codesize=6
+      ldstr     "Temperature Exceed Count"
+  [CPUID::get_ApicId]  rva=0x17d73 codesize=7
+  [ATIGPU::SaveDefaultFanSpeed]  rva=0x19864 codesize=65
+      ldc.i4    1
+      ldc.i4    0
+      callvirt  local:Invoke
+      ldc.i4    0
+  [ATIGPU::RestoreDefaultFanSpeed]  rva=0x198b4 codesize=73
+      ldc.i4    0
+      callvirt  local:Invoke
+      jmp       <tok 0x037d7c02>
+      ldc.i4    1
+      ldc.i4    0
+      callvirt  local:Invoke
+      jmp       <tok 0x7c7d1602>
+  [MSI_Service::Log_FanTemp]  rva=0x1a98c codesize=68
+      callvirt  local:UpdateAll
+      callvirt  local:get_CpuTemperature
+      callvirt  local:get_GpuTemperature
+      callvirt  local:get_CpuFanSpeed
+      callvirt  local:get_GpuFanSpeed
+      call      local:InsertFan_temp
+      ldc.i4    -1
+      jmp       <tok 0x15301b2a>
+  [PerformanceMonitor::get_CpuFanSpeed]  rva=0x1ba88 codesize=7
+  [PerformanceMonitor::set_CpuFanSpeed]  rva=0x1ba90 codesize=19
+      ldstr     "CpuFanSpeed"
+      callvirt  local:OnPropertyChanged
+  [PerformanceMonitor::get_GpuFanSpeed]  rva=0x1baa4 codesize=7
+  [PerformanceMonitor::set_GpuFanSpeed]  rva=0x1baac codesize=19
+      ldstr     "GpuFanSpeed"
+      callvirt  local:OnPropertyChanged
+  [PerformanceMonitor::get_CpuTemperature_int]  rva=0x1bac0 codesize=7
+  [PerformanceMonitor::set_CpuTemperature_int]  rva=0x1bac8 codesize=19
+      ldstr     "CpuTemperature_int"
+      callvirt  local:OnPropertyChanged
+  [PerformanceMonitor::get_GpuTemperature_int]  rva=0x1badc codesize=7
+  [PerformanceMonitor::set_GpuTemperature_int]  rva=0x1bae4 codesize=19
+      ldstr     "GpuTemperature_int"
+      callvirt  local:OnPropertyChanged
+  [PerformanceMonitor::get_CpuTemperature]  rva=0x1baf8 codesize=7
+  [PerformanceMonitor::set_CpuTemperature]  rva=0x1bb00 codesize=19
+      ldstr     "CpuTemperature"
+      callvirt  local:OnPropertyChanged
+  [PerformanceMonitor::get_GpuTemperature]  rva=0x1bb14 codesize=7
+  [PerformanceMonitor::set_GpuTemperature]  rva=0x1bb1c codesize=19
+      ldstr     "GpuTemperature"
+      callvirt  local:OnPropertyChanged
+  [PerformanceMonitor::GetFanSpeed]  rva=0x1c898 codesize=374
+      ldc.i4    0
+      ldc.i4    0
+      ldstr     "0"
+      ldstr     "0"
+      ldc.i4    0
+      ldc.i4    0
+      ldc.i4    0
+      ldc.i4    0
+      ldc.i4    0
+      callvirt  ManagementObjectSearcher::Get
+      callvirt  ManagementObjectCollection::GetEnumerator
+      callvirt  ManagementObjectEnumerator::get_Current
+      ldstr     "AP"
+      callvirt  ManagementBaseObject::get_Item
+      callvirt  Object::ToString
+      call      Convert::ToInt16
+      ldc.i4    2
+      ldc.i4    3
+      ldc.i4    8
+      ldc.i4    2
+      ldc.i4    0
+      ldstr     "0"
+      call      Int32::ToString
+      ldc.i4    4
+      ldc.i4    5
+      ldc.i4    8
+      ldc.i4    2
+      ldc.i4    0
+      ldstr     "0"
+      call      Int32::ToString
+      ldc.i4    1
+      callvirt  ManagementObjectEnumerator::MoveNext
+      callvirt  IDisposable::Dispose
+      ldstr     ";"
+      call      String::Concat
+      call      local:Log
+      callvirt  <tok 0x28077000>
+  [PerformanceMonitor::ConvertToCurrentTemperatureUnit]  rva=0x1ca50 codesize=59
+      call      Int32::ToString
+      ldstr     " ℉"
+      call      String::Concat
+  [PerformanceMonitor::GetGpuTemperature]  rva=0x1ca8c codesize=198
+      ldc.i4    0
+      ldc.i4    0
+      callvirt  ManagementObjectSearcher::Get
+      callvirt  ManagementObjectCollection::GetEnumerator
+      callvirt  ManagementObjectEnumerator::get_Current
+      ldc.i4    1
+      ldstr     "VGA"
+      callvirt  ManagementBaseObject::get_Item
+      callvirt  Object::ToString
+      call      Convert::ToInt16
+      ldc.i4    0
+      call      local:set_GpuTemperature_int
+      ldstr     "0"
+      ldc.i4    0
+      call      local:set_GpuTemperature_int
+      ldstr     "0"
+      call      local:ConvertToCurrentTemperatureUnit
+      ldc.i4    1
+      callvirt  ManagementObjectEnumerator::MoveNext
+      callvirt  IDisposable::Dispose
+      call      local:Log
+      ldstr     "0"
+  [PerformanceMonitor::GetCpuTemperature]  rva=0x1cb7c codesize=183
+      ldc.i4    0
+      ldc.i4    0
+      callvirt  ManagementObjectSearcher::Get
+      callvirt  ManagementObjectCollection::GetEnumerator
+      callvirt  ManagementObjectEnumerator::get_Current
+      ldc.i4    1
+      ldstr     "CPU"
+      callvirt  ManagementBaseObject::get_Item
+      callvirt  Object::ToString
+      call      Convert::ToInt16
+      ldc.i4    255 (0xff)
+      ldc.i4    0
+      call      local:set_GpuTemperature_int
+      ldstr     "0"
+      call      local:ConvertToCurrentTemperatureUnit
+      ldc.i4    1
+      callvirt  ManagementObjectEnumerator::MoveNext
+      callvirt  IDisposable::Dispose
+      call      local:Log
+      ldstr     "0"
+  [cfunction::InsertFan_temp]  rva=0x1db18 codesize=214
+      ldc.i4    0
+      ldc.i4.s  11 (0xb)
+      ldc.i4    0
+      ldstr     "INSERT INTO Fan_temp VALUES ('"
+      ldc.i4    1
+      ldc.i4    2
+      ldstr     "','"
+      ldc.i4    3
+      ldc.i4    4
+      ldstr     "','"
+      ldc.i4    5
+      ldc.i4    6
+      ldstr     "','"
+      ldc.i4    7
+      ldc.i4    8
+      ldstr     "','"
+      ldc.i4.s  9 (0x9)
+      ldc.i4.s  10 (0xa)
+      ldstr     "')"
+      call      String::Concat
+      call      local:get_OleDbConnectionString
+      newobj    OleDbConnection::.ctor
+      newobj    OleDbCommand::.ctor
+      callvirt  DbConnection::Open
+      ldstr     "\"
+      call      String::Concat
+      call      File::Exists
+      ldstr     "\"
+      call      String::Concat
+      call      File::Delete
+      jmp       <tok err 0x02cf6f08>
+      ldc.i4    1
+      callvirt  IDisposable::Dispose
+  [FanSpeed::get_fan_1_2000]  rva=0x1fe68 codesize=7
+  [FanSpeed::set_fan_1_2000]  rva=0x1fe70 codesize=8
+  [FanSpeed::get_fan_2001_2600]  rva=0x1fe79 codesize=7
+  [FanSpeed::set_fan_2001_2600]  rva=0x1fe81 codesize=8
+  [FanSpeed::get_fan_2601_3200]  rva=0x1fe8a codesize=7
+  [FanSpeed::set_fan_2601_3200]  rva=0x1fe92 codesize=8
+  [FanSpeed::get_fan_3201_3800]  rva=0x1fe9b codesize=7
+  [FanSpeed::set_fan_3201_3800]  rva=0x1fea3 codesize=8
+  [FanSpeed::get_fan_3801_4400]  rva=0x1feac codesize=7
+  [FanSpeed::set_fan_3801_4400]  rva=0x1feb4 codesize=8
+  [FanSpeed::get_fan_4401_5000]  rva=0x1febd codesize=7
+  [FanSpeed::set_fan_4401_5000]  rva=0x1fec5 codesize=8
+  [FanSpeed::get_fan_5001_Up]  rva=0x1fece codesize=7
+  [FanSpeed::set_fan_5001_Up]  rva=0x1fed6 codesize=8
+  [FanSpeed::get_fan_Off]  rva=0x1fedf codesize=7
+  [FanSpeed::set_fan_Off]  rva=0x1fee7 codesize=8
+  [RdtscDelegate::Invoke]  (abstraite/sans corps)
+  [RdtscDelegate::BeginInvoke]  (abstraite/sans corps)
+  [RdtscDelegate::EndInvoke]  (abstraite/sans corps)
+  [CpuidDelegate::Invoke]  (abstraite/sans corps)
+  [CpuidDelegate::BeginInvoke]  (abstraite/sans corps)
+  [CpuidDelegate::EndInvoke]  (abstraite/sans corps)
+  [FT_CreateDeviceInfoListDelegate::Invoke]  (abstraite/sans corps)
+  [FT_CreateDeviceInfoListDelegate::BeginInvoke]  (abstraite/sans corps)
+  [FT_CreateDeviceInfoListDelegate::EndInvoke]  (abstraite/sans corps)
+  [FT_GetDeviceInfoListDelegate::Invoke]  (abstraite/sans corps)
+  [FT_GetDeviceInfoListDelegate::BeginInvoke]  (abstraite/sans corps)
+  [FT_GetDeviceInfoListDelegate::EndInvoke]  (abstraite/sans corps)
+  [FT_OpenDelegate::Invoke]  (abstraite/sans corps)
+  [FT_OpenDelegate::BeginInvoke]  (abstraite/sans corps)
+  [FT_OpenDelegate::EndInvoke]  (abstraite/sans corps)
+  [FT_CloseDelegate::Invoke]  (abstraite/sans corps)
+  [FT_CloseDelegate::BeginInvoke]  (abstraite/sans corps)
+  [FT_CloseDelegate::EndInvoke]  (abstraite/sans corps)
+  [FT_SetBaudRateDelegate::Invoke]  (abstraite/sans corps)
+  [FT_SetBaudRateDelegate::BeginInvoke]  (abstraite/sans corps)
+  [FT_SetBaudRateDelegate::EndInvoke]  (abstraite/sans corps)
+  [FT_SetDataCharacteristicsDelegate::Invoke]  (abstraite/sans corps)
+  [FT_SetDataCharacteristicsDelegate::BeginInvoke]  (abstraite/sans corps)
+  [FT_SetDataCharacteristicsDelegate::EndInvoke]  (abstraite/sans corps)
+  [FT_SetFlowControlDelegate::Invoke]  (abstraite/sans corps)
+  [FT_SetFlowControlDelegate::BeginInvoke]  (abstraite/sans corps)
+  [FT_SetFlowControlDelegate::EndInvoke]  (abstraite/sans corps)
+  [FT_SetTimeoutsDelegate::Invoke]  (abstraite/sans corps)
+  [FT_SetTimeoutsDelegate::BeginInvoke]  (abstraite/sans corps)
+  [FT_SetTimeoutsDelegate::EndInvoke]  (abstraite/sans corps)
+  [FT_WriteDelegate::Invoke]  (abstraite/sans corps)
+  [FT_WriteDelegate::BeginInvoke]  (abstraite/sans corps)
+  [FT_WriteDelegate::EndInvoke]  (abstraite/sans corps)
+  [FT_PurgeDelegate::Invoke]  (abstraite/sans corps)
+  [FT_PurgeDelegate::BeginInvoke]  (abstraite/sans corps)
+  [FT_PurgeDelegate::EndInvoke]  (abstraite/sans corps)
+  [FT_GetStatusDelegate::Invoke]  (abstraite/sans corps)
+  [FT_GetStatusDelegate::BeginInvoke]  (abstraite/sans corps)
+  [FT_GetStatusDelegate::EndInvoke]  (abstraite/sans corps)
+  [FT_ReadDelegate::Invoke]  (abstraite/sans corps)
+  [FT_ReadDelegate::BeginInvoke]  (abstraite/sans corps)
+  [FT_ReadDelegate::EndInvoke]  (abstraite/sans corps)
+  [FT_ReadByteDelegate::Invoke]  (abstraite/sans corps)
+  [FT_ReadByteDelegate::BeginInvoke]  (abstraite/sans corps)
+  [FT_ReadByteDelegate::EndInvoke]  (abstraite/sans corps)
+  [MethodDelegate::Invoke]  (abstraite/sans corps)
+  [MethodDelegate::BeginInvoke]  (abstraite/sans corps)
+  [MethodDelegate::EndInvoke]  (abstraite/sans corps)
+  [nvapi_QueryInterfaceDelegate::Invoke]  (abstraite/sans corps)
+  [nvapi_QueryInterfaceDelegate::BeginInvoke]  (abstraite/sans corps)
+  [nvapi_QueryInterfaceDelegate::EndInvoke]  (abstraite/sans corps)
+  [NvAPI_InitializeDelegate::Invoke]  (abstraite/sans corps)
+  [NvAPI_InitializeDelegate::BeginInvoke]  (abstraite/sans corps)
+  [NvAPI_InitializeDelegate::EndInvoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetFullNameDelegate::Invoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetFullNameDelegate::BeginInvoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetFullNameDelegate::EndInvoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetThermalSettingsDelegate::Invoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetThermalSettingsDelegate::BeginInvoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetThermalSettingsDelegate::EndInvoke]  (abstraite/sans corps)
+  [NvAPI_EnumNvidiaDisplayHandleDelegate::Invoke]  (abstraite/sans corps)
+  [NvAPI_EnumNvidiaDisplayHandleDelegate::BeginInvoke]  (abstraite/sans corps)
+  [NvAPI_EnumNvidiaDisplayHandleDelegate::EndInvoke]  (abstraite/sans corps)
+  [NvAPI_GetPhysicalGPUsFromDisplayDelegate::Invoke]  (abstraite/sans corps)
+  [NvAPI_GetPhysicalGPUsFromDisplayDelegate::BeginInvoke]  (abstraite/sans corps)
+  [NvAPI_GetPhysicalGPUsFromDisplayDelegate::EndInvoke]  (abstraite/sans corps)
+  [NvAPI_EnumPhysicalGPUsDelegate::Invoke]  (abstraite/sans corps)
+  [NvAPI_EnumPhysicalGPUsDelegate::BeginInvoke]  (abstraite/sans corps)
+  [NvAPI_EnumPhysicalGPUsDelegate::EndInvoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetTachReadingDelegate::Invoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetTachReadingDelegate::BeginInvoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetTachReadingDelegate::EndInvoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetAllClocksDelegate::Invoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetAllClocksDelegate::BeginInvoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetAllClocksDelegate::EndInvoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetPStatesDelegate::Invoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetPStatesDelegate::BeginInvoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetPStatesDelegate::EndInvoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetUsagesDelegate::Invoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetUsagesDelegate::BeginInvoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetUsagesDelegate::EndInvoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetCoolerSettingsDelegate::Invoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetCoolerSettingsDelegate::BeginInvoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetCoolerSettingsDelegate::EndInvoke]  (abstraite/sans corps)
+  [NvAPI_GPU_SetCoolerLevelsDelegate::Invoke]  (abstraite/sans corps)
+  [NvAPI_GPU_SetCoolerLevelsDelegate::BeginInvoke]  (abstraite/sans corps)
+  [NvAPI_GPU_SetCoolerLevelsDelegate::EndInvoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetMemoryInfoDelegate::Invoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetMemoryInfoDelegate::BeginInvoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetMemoryInfoDelegate::EndInvoke]  (abstraite/sans corps)
+  [NvAPI_GetDisplayDriverVersionDelegate::Invoke]  (abstraite/sans corps)
+  [NvAPI_GetDisplayDriverVersionDelegate::BeginInvoke]  (abstraite/sans corps)
+  [NvAPI_GetDisplayDriverVersionDelegate::EndInvoke]  (abstraite/sans corps)
+  [NvAPI_GetInterfaceVersionStringDelegate::Invoke]  (abstraite/sans corps)
+  [NvAPI_GetInterfaceVersionStringDelegate::BeginInvoke]  (abstraite/sans corps)
+  [NvAPI_GetInterfaceVersionStringDelegate::EndInvoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetPCIIdentifiersDelegate::Invoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetPCIIdentifiersDelegate::BeginInvoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetPCIIdentifiersDelegate::EndInvoke]  (abstraite/sans corps)
+  [ReadValueDelegate::Invoke]  (abstraite/sans corps)
+  [ReadValueDelegate::BeginInvoke]  (abstraite/sans corps)
+  [ReadValueDelegate::EndInvoke]  (abstraite/sans corps)
+  [UpdateDelegate::Invoke]  (abstraite/sans corps)
+  [UpdateDelegate::BeginInvoke]  (abstraite/sans corps)
+  [UpdateDelegate::EndInvoke]  (abstraite/sans corps)
+  [LMChip::get_Temperatures]  rva=0x207d6 codesize=7
+  [LMChip::get_Fans]  rva=0x207de codesize=7
+  [RawValueConversion::Invoke]  (abstraite/sans corps)
+  [RawValueConversion::BeginInvoke]  (abstraite/sans corps)
+  [RawValueConversion::EndInvoke]  (abstraite/sans corps)
+  [ADL_Main_Control_CreateDelegate::Invoke]  (abstraite/sans corps)
+  [ADL_Main_Control_CreateDelegate::BeginInvoke]  (abstraite/sans corps)
+  [ADL_Main_Control_CreateDelegate::EndInvoke]  (abstraite/sans corps)
+  [ADL_Adapter_AdapterInfo_GetDelegate::Invoke]  (abstraite/sans corps)
+  [ADL_Adapter_AdapterInfo_GetDelegate::BeginInvoke]  (abstraite/sans corps)
+  [ADL_Adapter_AdapterInfo_GetDelegate::EndInvoke]  (abstraite/sans corps)
+  [ADL_Main_Control_DestroyDelegate::Invoke]  (abstraite/sans corps)
+  [ADL_Main_Control_DestroyDelegate::BeginInvoke]  (abstraite/sans corps)
+  [ADL_Main_Control_DestroyDelegate::EndInvoke]  (abstraite/sans corps)
+  [ADL_Adapter_NumberOfAdapters_GetDelegate::Invoke]  (abstraite/sans corps)
+  [ADL_Adapter_NumberOfAdapters_GetDelegate::BeginInvoke]  (abstraite/sans corps)
+  [ADL_Adapter_NumberOfAdapters_GetDelegate::EndInvoke]  (abstraite/sans corps)
+  [ADL_Adapter_ID_GetDelegate::Invoke]  (abstraite/sans corps)
+  [ADL_Adapter_ID_GetDelegate::BeginInvoke]  (abstraite/sans corps)
+  [ADL_Adapter_ID_GetDelegate::EndInvoke]  (abstraite/sans corps)
+  [ADL_Display_AdapterID_GetDelegate::Invoke]  (abstraite/sans corps)
+  [ADL_Display_AdapterID_GetDelegate::BeginInvoke]  (abstraite/sans corps)
+  [ADL_Display_AdapterID_GetDelegate::EndInvoke]  (abstraite/sans corps)
+  [ADL_Adapter_Active_GetDelegate::Invoke]  (abstraite/sans corps)
+  [ADL_Adapter_Active_GetDelegate::BeginInvoke]  (abstraite/sans corps)
+  [ADL_Adapter_Active_GetDelegate::EndInvoke]  (abstraite/sans corps)
+  [ADL_Overdrive5_CurrentActivity_GetDelegate::Invoke]  (abstraite/sans corps)
+  [ADL_Overdrive5_CurrentActivity_GetDelegate::BeginInvoke]  (abstraite/sans corps)
+  [ADL_Overdrive5_CurrentActivity_GetDelegate::EndInvoke]  (abstraite/sans corps)
+  [ADL_Overdrive5_Temperature_GetDelegate::Invoke]  (abstraite/sans corps)
+  [ADL_Overdrive5_Temperature_GetDelegate::BeginInvoke]  (abstraite/sans corps)
+  [ADL_Overdrive5_Temperature_GetDelegate::EndInvoke]  (abstraite/sans corps)
+  [ADL_Overdrive5_FanSpeed_GetDelegate::Invoke]  (abstraite/sans corps)
+  [ADL_Overdrive5_FanSpeed_GetDelegate::BeginInvoke]  (abstraite/sans corps)
+  [ADL_Overdrive5_FanSpeed_GetDelegate::EndInvoke]  (abstraite/sans corps)
+  [ADL_Overdrive5_FanSpeedInfo_GetDelegate::Invoke]  (abstraite/sans corps)
+  [ADL_Overdrive5_FanSpeedInfo_GetDelegate::BeginInvoke]  (abstraite/sans corps)
+  [ADL_Overdrive5_FanSpeedInfo_GetDelegate::EndInvoke]  (abstraite/sans corps)
+  [ADL_Overdrive5_FanSpeedToDefault_SetDelegate::Invoke]  (abstraite/sans corps)
+  [ADL_Overdrive5_FanSpeedToDefault_SetDelegate::BeginInvoke]  (abstraite/sans corps)
+  [ADL_Overdrive5_FanSpeedToDefault_SetDelegate::EndInvoke]  (abstraite/sans corps)
+  [ADL_Overdrive5_FanSpeed_SetDelegate::Invoke]  (abstraite/sans corps)
+  [ADL_Overdrive5_FanSpeed_SetDelegate::BeginInvoke]  (abstraite/sans corps)
+  [ADL_Overdrive5_FanSpeed_SetDelegate::EndInvoke]  (abstraite/sans corps)
+  [ADL_Main_Memory_AllocDelegate::Invoke]  (abstraite/sans corps)
+  [ADL_Main_Memory_AllocDelegate::BeginInvoke]  (abstraite/sans corps)
+  [ADL_Main_Memory_AllocDelegate::EndInvoke]  (abstraite/sans corps)
+  [GetPortValType::Invoke]  (abstraite/sans corps)
+  [GetPortValType::BeginInvoke]  (abstraite/sans corps)
+  [GetPortValType::EndInvoke]  (abstraite/sans corps)
+  [SetPortValType::Invoke]  (abstraite/sans corps)
+  [SetPortValType::BeginInvoke]  (abstraite/sans corps)
+  [SetPortValType::EndInvoke]  (abstraite/sans corps)
+
+############################################################
+### binaries\OneDragonCenter\CS_CommonAPI.dll
+############################################################
+  [SupportContent::get_AllowMIA]  rva=0x3105 codesize=7
+  [SupportContent::set_AllowMIA]  rva=0x310d codesize=8
+  [CommandHandler::Invoke]  (abstraite/sans corps)
+  [CommandHandler::BeginInvoke]  (abstraite/sans corps)
+  [CommandHandler::EndInvoke]  (abstraite/sans corps)
+  [DataResponse::Invoke]  (abstraite/sans corps)
+  [DataResponse::BeginInvoke]  (abstraite/sans corps)
+  [DataResponse::EndInvoke]  (abstraite/sans corps)
+  [C_WMI::QueryWMI]  rva=0x4c34 codesize=258
+      newobj    ?::.ctor
+      call      String::IsNullOrWhiteSpace
+      ldc.i4    0
+      ldc.i4    0
+      ldstr     "root\WMI"
+      newobj    ManagementObjectSearcher::.ctor
+      callvirt  ManagementObjectSearcher::Get
+      callvirt  ManagementObjectCollection::GetEnumerator
+      callvirt  ManagementObjectEnumerator::get_Current
+      call      local:set_GroupID
+      newobj    ?::.ctor
+      call      local:set_DictionaryData
+      callvirt  ManagementBaseObject::get_Properties
+      callvirt  PropertyDataCollection::GetEnumerator
+      callvirt  PropertyDataEnumerator::get_Current
+      call      local:get_DictionaryData
+      callvirt  PropertyData::get_Name
+      callvirt  PropertyData::get_Value
+      callvirt  ?::Add
+      callvirt  PropertyDataEnumerator::MoveNext
+      ldc.i4    6
+      callvirt  IDisposable::Dispose
+      callvirt  ?::Add
+      ldc.i4    1
+      callvirt  ManagementObjectEnumerator::MoveNext
+      callvirt  IDisposable::Dispose
+      callvirt  IDisposable::Dispose
+  [Delegate_EventWatcher::Invoke]  (abstraite/sans corps)
+  [Delegate_EventWatcher::BeginInvoke]  (abstraite/sans corps)
+  [Delegate_EventWatcher::EndInvoke]  (abstraite/sans corps)
+  [Delegate_ProgressValue::Invoke]  (abstraite/sans corps)
+  [Delegate_ProgressValue::BeginInvoke]  (abstraite/sans corps)
+  [Delegate_ProgressValue::EndInvoke]  (abstraite/sans corps)
+  [Feedback_Data::Invoke]  (abstraite/sans corps)
+  [Feedback_Data::BeginInvoke]  (abstraite/sans corps)
+  [Feedback_Data::EndInvoke]  (abstraite/sans corps)
+
+############################################################
+### binaries\OneDragonCenter\SystemMonitor\API_NB_System Monitor.dll
+############################################################
+  [ControlEventHandler::Invoke]  (abstraite/sans corps)
+  [ControlEventHandler::BeginInvoke]  (abstraite/sans corps)
+  [ControlEventHandler::EndInvoke]  (abstraite/sans corps)
+  [HardwareEventHandler::Invoke]  (abstraite/sans corps)
+  [HardwareEventHandler::BeginInvoke]  (abstraite/sans corps)
+  [HardwareEventHandler::EndInvoke]  (abstraite/sans corps)
+  [SensorEventHandler::Invoke]  (abstraite/sans corps)
+  [SensorEventHandler::BeginInvoke]  (abstraite/sans corps)
+  [SensorEventHandler::EndInvoke]  (abstraite/sans corps)
+  [NvidiaGPU::SetDefaultFanSpeed]  rva=0x506c codesize=74
+      ldc.i4.s  20 (0x14)
+      ldc.i4    0
+      ldc.i4.s  32 (0x20)
+      ldc.i4    0
+      callvirt  local:Invoke
+      jmp       <tok 0x28021e2a>
+  [ATIGPU::SetDefaultFanSpeed]  rva=0x5caa codesize=19
+      ldc.i4    0
+      callvirt  local:Invoke
+      jmp       <tok 0x7b021e2a>
+  [ATIGPU::GetODNTemperature]  rva=0x5cd4 codesize=70
+      callvirt  local:Invoke
+      newobj    ?::.ctor
+      callvirt  local:set_Value
+      callvirt  local:ActivateSensor
+      ldc.i4    5
+      callvirt  local:set_Value
+  [PerformanceMonitor::get_CpuFanSpeed]  rva=0x807c codesize=7
+  [PerformanceMonitor::set_CpuFanSpeed]  rva=0x8084 codesize=20
+      callvirt  local:set_CpuFanSpeed
+  [PerformanceMonitor::get_GpuFanSpeed]  rva=0x8099 codesize=7
+  [PerformanceMonitor::set_GpuFanSpeed]  rva=0x80a1 codesize=20
+      callvirt  local:set_GpuFanSpeed
+  [PerformanceMonitor::get_Fan_FanSpeed3]  rva=0x80b6 codesize=7
+  [PerformanceMonitor::set_Fan_FanSpeed3]  rva=0x80be codesize=20
+      callvirt  local:set_GpuFanSpeed3
+  [PerformanceMonitor::get_Fan_FanSpeed4]  rva=0x80d3 codesize=7
+  [PerformanceMonitor::set_Fan_FanSpeed4]  rva=0x80db codesize=20
+      callvirt  local:set_GpuFanSpeed4
+  [PerformanceMonitor::get_CpuTemperature_int]  rva=0x80f0 codesize=7
+  [PerformanceMonitor::set_CpuTemperature_int]  rva=0x80f8 codesize=20
+      callvirt  local:set_CpuTemperature_int
+  [PerformanceMonitor::get_GpuTemperature_int]  rva=0x810d codesize=7
+  [PerformanceMonitor::set_GpuTemperature_int]  rva=0x8115 codesize=20
+      callvirt  local:set_GpuTemperature_int
+  [PerformanceMonitor::get_CpuTemperature]  rva=0x812a codesize=7
+  [PerformanceMonitor::set_CpuTemperature]  rva=0x8132 codesize=20
+      callvirt  local:set_CpuTemperature
+  [PerformanceMonitor::get_GpuTemperature]  rva=0x8147 codesize=7
+  [PerformanceMonitor::set_GpuTemperature]  rva=0x814f codesize=20
+      callvirt  local:set_GpuTemperature
+  [PerformanceMonitor::WMI20SetDCAdapter]  rva=0x92e8 codesize=102
+      ldc.i4.s  24 (0x18)
+      ldc.i4    191 (0xbf)
+      ldc.i4    1
+      callvirt  WmiAcpiLib2::InvokeWmiMethod
+      ldc.i4    1
+      ldc.i4    0
+      ldc.i4    0
+      ldc.i4    0
+      call      ByteExtensions::SetBit
+      ldc.i4.s  25 (0x19)
+      ldc.i4    191 (0xbf)
+      ldc.i4    1
+      ldc.i4    0
+      ldc.i4    0
+      callvirt  WmiAcpiLib2::InvokeWmiMethod
+      jmp       <tok 0x1b00002a>
+  [PerformanceMonitor::SetDCAdapter]  rva=0x935c codesize=105
+      ldc.i4    0
+      ldc.i4    1
+      ldc.i4    0
+      ldstr     "root\WMI"
+      ldstr     "SELECT * FROM MSI_AP"
+      newobj    ManagementObjectSearcher::.ctor
+      callvirt  ManagementObjectSearcher::Get
+      callvirt  ManagementObjectCollection::GetEnumerator
+      callvirt  ManagementObjectEnumerator::get_Current
+      ldstr     "AP"
+      callvirt  ManagementBaseObject::SetPropertyValue
+      callvirt  ManagementObject::Put
+      jmp       <tok 0x082b0a17>
+      callvirt  ManagementObjectEnumerator::MoveNext
+      callvirt  IDisposable::Dispose
+  [PerformanceMonitor::CalculateFanSpeed]  rva=0x9de8 codesize=66
+      ldc.i4    0
+      ldc.i4    8
+      ldc.i4    2
+      ldc.i4    0
+      ldstr     "N/A"
+      call      Int32::ToString
+  [PerformanceMonitor::GetFanSpeed]  rva=0x9e38 codesize=931
+      ldc.i4    0
+      ldc.i4    0
+      ldstr     "N/A"
+      ldstr     "N/A"
+      ldstr     "N/A"
+      ldstr     "N/A"
+      ldc.i4    2
+      ldc.i4.s  14 (0xe)
+      ldc.i4    0
+      ldc.i4    8
+      callvirt  WmiAcpiLib2::InvokeWmiMethod
+      ldc.i4    0
+      ldc.i4    0
+      ldc.i4    1
+      call      local:CalculateFanSpeed
+      ldc.i4    2
+      ldc.i4    3
+      call      local:CalculateFanSpeed
+      callvirt  local:get_FanCount
+      ldc.i4    2
+      ldc.i4    4
+      ldc.i4    5
+      call      local:CalculateFanSpeed
+      callvirt  local:get_FanCount
+      ldc.i4    4
+      ldc.i4    6
+      ldc.i4    7
+      call      local:CalculateFanSpeed
+      ldc.i4    0
+      ldc.i4    0
+      ldc.i4    0
+      ldc.i4    0
+      ldc.i4    0
+      callvirt  ManagementObjectSearcher::Get
+      callvirt  ManagementObjectCollection::GetEnumerator
+      callvirt  ManagementObjectEnumerator::get_Current
+      ldstr     "AP"
+      callvirt  ManagementBaseObject::get_Item
+      callvirt  Object::ToString
+      call      Convert::ToInt16
+      ldc.i4    2
+      ldc.i4    3
+      ldc.i4    8
+      ldc.i4    2
+      ldc.i4    0
+      ldstr     "N/A"
+      call      Int32::ToString
+      ldc.i4    4
+      ldc.i4    5
+      ldc.i4    8
+      ldc.i4    2
+      ldc.i4    0
+      ldstr     "N/A"
+      call      Int32::ToString
+      ldc.i4    1
+      callvirt  ManagementObjectEnumerator::MoveNext
+      callvirt  IDisposable::Dispose
+      ldc.i4    0
+      ldstr     "N/A"
+      call      Int32::ToString
+      callvirt  local:get_FanCount
+      ldc.i4    2
+      ldc.i4    4227860726 (0xfc0008f6)
+      call      local:MSI_App_Service_ReadMemoryEC
+      ldc.i4.s  24 (0x18)
+      ldc.i4    8
+      ldc.i4.s  24 (0x18)
+      ldc.i4    0
+      ldc.i4    8
+      ldc.i4    2
+      ldc.i4    0
+      ldstr     "N/A"
+      call      Int32::ToString
+      callvirt  local:get_FanCount
+      ldc.i4    4
+      ldc.i4    4227860694 (0xfc0008d6)
+      call      local:MSI_App_Service_ReadMemoryEC
+      ldc.i4.s  24 (0x18)
+      ldc.i4    8
+      ldc.i4.s  24 (0x18)
+      ldc.i4    0
+      ldc.i4    8
+      ldc.i4    2
+      ldc.i4    0
+      ldstr     "N/A"
+      call      Int32::ToString
+      ldc.i4    7
+      ldc.i4    0
+      ldc.i4    1
+      ldstr     ";"
+      ldc.i4    2
+      ldc.i4    3
+      ldstr     ";"
+      ldc.i4    4
+      ldc.i4    5
+      ldstr     ";"
+      ldc.i4    6
+      call      String::Concat
+      call      String::Concat
+      call      Console::WriteLine
+      ldc.i4    0
+  [PerformanceMonitor::ConvertToCurrentTemperatureUnit]  rva=0xa21c codesize=68
+      ldstr     " ℃"
+      call      String::Concat
+      ldstr     " ℉"
+      call      String::Concat
+  [PerformanceMonitor::GetGpuTemperature]  rva=0xa26c codesize=212
+      ldc.i4    0
+      ldc.i4    0
+      callvirt  ManagementObjectSearcher::Get
+      callvirt  ManagementObjectCollection::GetEnumerator
+      callvirt  ManagementObjectEnumerator::get_Current
+      ldc.i4    1
+      ldstr     "VGA"
+      callvirt  ManagementBaseObject::get_Item
+      callvirt  Object::ToString
+      call      Convert::ToInt16
+      ldc.i4    0
+      call      local:set_GpuTemperature_int
+      ldstr     "N/A"
+      ldc.i4    0
+      call      local:set_GpuTemperature_int
+      ldstr     "N/A"
+      call      local:ConvertToCurrentTemperatureUnit
+      callvirt  ManagementObjectEnumerator::MoveNext
+      callvirt  IDisposable::Dispose
+      call      String::Concat
+      call      Console::WriteLine
+      ldc.i4    0
+      ldstr     "N/A"
+  [PerformanceMonitor::GetCpuTemperature]  rva=0xa368 codesize=197
+      ldc.i4    0
+      ldc.i4    0
+      callvirt  ManagementObjectSearcher::Get
+      callvirt  ManagementObjectCollection::GetEnumerator
+      callvirt  ManagementObjectEnumerator::get_Current
+      ldc.i4    1
+      ldstr     "CPU"
+      callvirt  ManagementBaseObject::get_Item
+      callvirt  Object::ToString
+      call      Convert::ToInt16
+      ldc.i4    255 (0xff)
+      ldc.i4    0
+      call      local:set_CpuTemperature_int
+      ldstr     "N/A"
+      call      local:ConvertToCurrentTemperatureUnit
+      callvirt  ManagementObjectEnumerator::MoveNext
+      callvirt  IDisposable::Dispose
+      call      String::Concat
+      call      Console::WriteLine
+      ldc.i4    0
+      ldstr     "N/A"
+  [SupportDetailData::get_FanCount]  rva=0xac72 codesize=7
+  [SupportDetailData::set_FanCount]  rva=0xac7a codesize=8
+  [Ex_MonitoringData::get_FanCount]  rva=0xac9c codesize=7
+  [Ex_MonitoringData::set_FanCount]  rva=0xaca4 codesize=8
+  [Define_MonitoringData::get_CpuTemperature_int]  rva=0xad47 codesize=7
+  [Define_MonitoringData::set_CpuTemperature_int]  rva=0xad4f codesize=8
+  [Define_MonitoringData::get_GpuTemperature_int]  rva=0xad58 codesize=7
+  [Define_MonitoringData::set_GpuTemperature_int]  rva=0xad60 codesize=8
+  [Define_MonitoringData::get_CpuFanSpeed]  rva=0xadad codesize=7
+  [Define_MonitoringData::set_CpuFanSpeed]  rva=0xadb5 codesize=8
+  [Define_MonitoringData::get_GpuFanSpeed]  rva=0xadbe codesize=7
+  [Define_MonitoringData::set_GpuFanSpeed]  rva=0xadc6 codesize=8
+  [Define_MonitoringData::get_GpuFanSpeed3]  rva=0xadcf codesize=7
+  [Define_MonitoringData::set_GpuFanSpeed3]  rva=0xadd7 codesize=8
+  [Define_MonitoringData::get_GpuFanSpeed4]  rva=0xade0 codesize=7
+  [Define_MonitoringData::set_GpuFanSpeed4]  rva=0xade8 codesize=8
+  [Define_MonitoringData::get_CpuTemperature]  rva=0xadf1 codesize=7
+  [Define_MonitoringData::set_CpuTemperature]  rva=0xadf9 codesize=8
+  [Define_MonitoringData::get_GpuTemperature]  rva=0xae02 codesize=7
+  [Define_MonitoringData::set_GpuTemperature]  rva=0xae0a codesize=8
+  [DefineEx_MonitoringData::get_CpuFanSpeed]  rva=0xaf7c codesize=7
+  [DefineEx_MonitoringData::set_CpuFanSpeed]  rva=0xaf84 codesize=8
+  [DefineEx_MonitoringData::get_GpuFanSpeed]  rva=0xaf8d codesize=7
+  [DefineEx_MonitoringData::set_GpuFanSpeed]  rva=0xaf95 codesize=8
+  [DefineEx_MonitoringData::get_GpuFanSpeed3]  rva=0xaf9e codesize=7
+  [DefineEx_MonitoringData::set_GpuFanSpeed3]  rva=0xafa6 codesize=8
+  [DefineEx_MonitoringData::get_GpuFanSpeed4]  rva=0xafaf codesize=7
+  [DefineEx_MonitoringData::set_GpuFanSpeed4]  rva=0xafb7 codesize=8
+  [DefineEx_MonitoringData::get_CpuTemperature]  rva=0xafc0 codesize=7
+  [DefineEx_MonitoringData::set_CpuTemperature]  rva=0xafc8 codesize=8
+  [DefineEx_MonitoringData::get_GpuTemperature]  rva=0xafd1 codesize=7
+  [DefineEx_MonitoringData::set_GpuTemperature]  rva=0xafd9 codesize=8
+  [WinAndFnChange::GetWMI_ValueInEC]  rva=0xb188 codesize=208
+      ldc.i4    -1
+      ldc.i4    500 (0x1f4)
+      call      Thread::Sleep
+      call      Int32::ToString
+      call      Marshal::StringToHGlobalAnsi
+      ldc.i4    360 (0x168)
+      call      Marshal::AllocHGlobal
+      ldstr     "\\.\pipe\simple"
+      callvirt  String::get_Length
+      ldc.i4    1
+      ldc.i4    360 (0x168)
+      ldc.i4    0
+      call      local:CallNamedPipe
+      ldc.i4    2
+      ldc.i4    0
+      ldc.i4    500 (0x1f4)
+      call      Thread::Sleep
+      ldstr     "\\.\pipe\simple"
+      callvirt  String::get_Length
+      ldc.i4    1
+      ldc.i4    360 (0x168)
+      ldc.i4    0
+      call      local:CallNamedPipe
+      ldc.i4    2
+      ldc.i4    1
+      ldc.i4    6
+      call      Marshal::PtrToStringAnsi
+      call      Marshal::FreeHGlobal
+      call      Marshal::FreeHGlobal
+      ldc.i4    0
+      ldc.i4    7
+      call      CultureInfo::get_InvariantCulture
+      call      Int32::TryParse
+      ldc.i4    -1
+  [SCM::LoadWMIValue]  rva=0xba98 codesize=206
+      ldc.i4    -1
+      ldstr     ""
+      ldstr     "MSI_Device"
+      call      String::op_Equality
+      ldstr     "root\WMI:Q:MSI_Device:Device:"
+      call      Int32::ToString
+      ldstr     "MSI_System"
+      call      String::op_Equality
+      ldstr     "root\WMI:Q:MSI_System:System:"
+      call      Int32::ToString
+      ldstr     "MSI_Software"
+      call      String::op_Equality
+      ldstr     "root\WMI:Q:MSI_Software:Software:"
+      call      Int32::ToString
+      call      Marshal::StringToHGlobalAnsi
+      ldc.i4    360 (0x168)
+      call      Marshal::AllocHGlobal
+      ldstr     "\\.\pipe\simple"
+      callvirt  String::get_Length
+      ldc.i4    1
+      ldc.i4    360 (0x168)
+      ldc.i4    0
+      call      local:CallNamedPipe
+      jmp       <tok 0x68280411>
+      call      Marshal::FreeHGlobal
+      call      Marshal::FreeHGlobal
+      ldc.i4    0
+      call      Int32::TryParse
+      ldc.i4    -1
+  [SCM::SetWMIValue]  rva=0xbb84 codesize=473
+      ldc.i4    0
+      ldc.i4    -1
+      ldstr     ""
+      ldstr     "Webcam"
+      call      String::op_Equality
+      ldstr     "Wi-Fi"
+      call      String::op_Equality
+      ldstr     "Bluetooth"
+      call      String::op_Equality
+      ldstr     "keyboardlock"
+      call      String::op_Equality
+      ldstr     "ECO_switch"
+      call      String::op_Equality
+      ldstr     "Set_Volume"
+      call      String::op_Equality
+      ldc.i4    0
+      ldstr     "Device"
+      ldstr     "MSI_Device"
+      call      local:LoadWMIValue
+      ldc.i4    253 (0xfd)
+      ldc.i4    2
+      ldc.i4    0
+      ldstr     "Device"
+      ldstr     "MSI_Device"
+      call      local:LoadWMIValue
+      ldc.i4    247 (0xf7)
+      ldc.i4    8
+      ldc.i4    0
+      ldstr     "Device"
+      ldstr     "MSI_Device"
+      call      local:LoadWMIValue
+      ldc.i4    254 (0xfe)
+      ldc.i4    1
+      ldc.i4    2
+      ldstr     "Device"
+      ldstr     "MSI_Device"
+      call      local:LoadWMIValue
+      ldc.i4    191 (0xbf)
+      ldc.i4.s  64 (0x40)
+      ldc.i4    1
+      ldstr     "System"
+      ldstr     "MSI_System"
+      call      local:LoadWMIValue
+      ldc.i4    254 (0xfe)
+      ldc.i4    1
+      ldc.i4.s  15 (0xf)
+      ldstr     "System"
+      ldstr     ""
+      call      String::op_Inequality
+      ldc.i4    8
+      ldc.i4    0
+      ldstr     "root\WMI:S:MSI_"
+      ldc.i4    1
+      ldc.i4    2
+      ldstr     ":"
+      ldc.i4    3
+      ldc.i4    4
+      ldstr     ":"
+      ldc.i4    5
+      call      Int32::ToString
+      ldc.i4    6
+      ldstr     ":"
+      ldc.i4    7
+      call      Int32::ToString
+      call      String::Concat
+      call      Marshal::StringToHGlobalAnsi
+      ldc.i4    360 (0x168)
+      call      Marshal::AllocHGlobal
+      ldstr     "\\.\pipe\simple"
+      callvirt  String::get_Length
+      ldc.i4    1
+      ldc.i4    360 (0x168)
+      ldc.i4    0
+      call      local:CallNamedPipe
+      jmp       <tok 0xc7280511>
+      call      Marshal::FreeHGlobal
+  [SCM::SetWMIValue]  rva=0xbefc codesize=568
+      ldc.i4    0
+      ldc.i4    -1
+      ldstr     ""
+      ldc.i4    0
+      ldstr     "System"
+      ldstr     "MSI_System"
+      call      local:LoadWMIValue
+      ldc.i4    251 (0xfb)
+      ldc.i4    4
+      ldc.i4    2
+      ldstr     "Device"
+      ldstr     "MSI_Device"
+      call      local:LoadWMIValue
+      ldc.i4.s  127 (0x7f)
+      ldc.i4    128 (0x80)
+      ldc.i4    0
+      ldstr     "Device"
+      ldstr     "MSI_Device"
+      call      local:LoadWMIValue
+      ldc.i4    253 (0xfd)
+      ldc.i4    2
+      ldc.i4    0
+      ldstr     "Device"
+      ldstr     "MSI_Device"
+      call      local:LoadWMIValue
+      ldc.i4    247 (0xf7)
+      ldc.i4    8
+      ldc.i4    0
+      ldstr     "Device"
+      ldstr     "MSI_Device"
+      call      local:LoadWMIValue
+      ldc.i4    254 (0xfe)
+      ldc.i4    1
+      ldc.i4    0
+      ldstr     "Software"
+      ldstr     "MSI_Software"
+      call      local:LoadWMIValue
+      ldc.i4    0
+      ldc.i4    1
+      ldc.i4    4
+      ldstr     "System"
+      ldstr     "MSI_System"
+      call      local:LoadWMIValue
+      ldc.i4    252 (0xfc)
+      ldc.i4    1
+      ldc.i4    2
+      ldstr     "System"
+      ldc.i4    2
+      ldc.i4    2
+      ldstr     "Device"
+      ldstr     "MSI_Device"
+      call      local:LoadWMIValue
+      ldc.i4    191 (0xbf)
+      ldc.i4.s  64 (0x40)
+      ldc.i4.s  15 (0xf)
+      ldstr     "System"
+      ldstr     ""
+      call      String::op_Inequality
+      ldc.i4    8
+      ldc.i4    0
+      ldstr     "root\WMI:S:MSI_"
+      ldc.i4    1
+      ldc.i4    2
+      ldstr     ":"
+      ldc.i4    3
+      ldc.i4    4
+      ldstr     ":"
+      ldc.i4    5
+      call      Int32::ToString
+      ldc.i4    6
+      ldstr     ":"
+      ldc.i4    7
+      call      Int32::ToString
+      call      String::Concat
+      call      Marshal::StringToHGlobalAnsi
+      ldc.i4    360 (0x168)
+      call      Marshal::AllocHGlobal
+      ldstr     "\\.\pipe\simple"
+      callvirt  String::get_Length
+      ldc.i4    1
+      ldc.i4    360 (0x168)
+      ldc.i4    0
+      call      local:CallNamedPipe
+      jmp       <tok 0xc7280511>
+      call      Marshal::FreeHGlobal
+  [nvapi_QueryInterfaceDelegate::Invoke]  (abstraite/sans corps)
+  [nvapi_QueryInterfaceDelegate::BeginInvoke]  (abstraite/sans corps)
+  [nvapi_QueryInterfaceDelegate::EndInvoke]  (abstraite/sans corps)
+  [NvAPI_InitializeDelegate::Invoke]  (abstraite/sans corps)
+  [NvAPI_InitializeDelegate::BeginInvoke]  (abstraite/sans corps)
+  [NvAPI_InitializeDelegate::EndInvoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetFullNameDelegate::Invoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetFullNameDelegate::BeginInvoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetFullNameDelegate::EndInvoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetThermalSettingsDelegate::Invoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetThermalSettingsDelegate::BeginInvoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetThermalSettingsDelegate::EndInvoke]  (abstraite/sans corps)
+  [NvAPI_EnumNvidiaDisplayHandleDelegate::Invoke]  (abstraite/sans corps)
+  [NvAPI_EnumNvidiaDisplayHandleDelegate::BeginInvoke]  (abstraite/sans corps)
+  [NvAPI_EnumNvidiaDisplayHandleDelegate::EndInvoke]  (abstraite/sans corps)
+  [NvAPI_GetPhysicalGPUsFromDisplayDelegate::Invoke]  (abstraite/sans corps)
+  [NvAPI_GetPhysicalGPUsFromDisplayDelegate::BeginInvoke]  (abstraite/sans corps)
+  [NvAPI_GetPhysicalGPUsFromDisplayDelegate::EndInvoke]  (abstraite/sans corps)
+  [NvAPI_EnumPhysicalGPUsDelegate::Invoke]  (abstraite/sans corps)
+  [NvAPI_EnumPhysicalGPUsDelegate::BeginInvoke]  (abstraite/sans corps)
+  [NvAPI_EnumPhysicalGPUsDelegate::EndInvoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetTachReadingDelegate::Invoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetTachReadingDelegate::BeginInvoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetTachReadingDelegate::EndInvoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetAllClocksDelegate::Invoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetAllClocksDelegate::BeginInvoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetAllClocksDelegate::EndInvoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetDynamicPstatesInfoExDelegate::Invoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetDynamicPstatesInfoExDelegate::BeginInvoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetDynamicPstatesInfoExDelegate::EndInvoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetDynamicPstatesInfoDelegate::Invoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetDynamicPstatesInfoDelegate::BeginInvoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetDynamicPstatesInfoDelegate::EndInvoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetCoolerSettingsDelegate::Invoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetCoolerSettingsDelegate::BeginInvoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetCoolerSettingsDelegate::EndInvoke]  (abstraite/sans corps)
+  [NvAPI_GPU_SetCoolerLevelsDelegate::Invoke]  (abstraite/sans corps)
+  [NvAPI_GPU_SetCoolerLevelsDelegate::BeginInvoke]  (abstraite/sans corps)
+  [NvAPI_GPU_SetCoolerLevelsDelegate::EndInvoke]  (abstraite/sans corps)
+  [NvAPI_GetDisplayDriverMemoryInfoDelegate::Invoke]  (abstraite/sans corps)
+  [NvAPI_GetDisplayDriverMemoryInfoDelegate::BeginInvoke]  (abstraite/sans corps)
+  [NvAPI_GetDisplayDriverMemoryInfoDelegate::EndInvoke]  (abstraite/sans corps)
+  [NvAPI_GetDisplayDriverVersionDelegate::Invoke]  (abstraite/sans corps)
+  [NvAPI_GetDisplayDriverVersionDelegate::BeginInvoke]  (abstraite/sans corps)
+  [NvAPI_GetDisplayDriverVersionDelegate::EndInvoke]  (abstraite/sans corps)
+  [NvAPI_GetInterfaceVersionStringDelegate::Invoke]  (abstraite/sans corps)
+  [NvAPI_GetInterfaceVersionStringDelegate::BeginInvoke]  (abstraite/sans corps)
+  [NvAPI_GetInterfaceVersionStringDelegate::EndInvoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetPCIIdentifiersDelegate::Invoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetPCIIdentifiersDelegate::BeginInvoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetPCIIdentifiersDelegate::EndInvoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetBusIdDelegate::Invoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetBusIdDelegate::BeginInvoke]  (abstraite/sans corps)
+  [NvAPI_GPU_GetBusIdDelegate::EndInvoke]  (abstraite/sans corps)
+  [NvAPI_GPU_ClientFanCoolersGetStatusDelegate::Invoke]  (abstraite/sans corps)
+  [NvAPI_GPU_ClientFanCoolersGetStatusDelegate::BeginInvoke]  (abstraite/sans corps)
+  [NvAPI_GPU_ClientFanCoolersGetStatusDelegate::EndInvoke]  (abstraite/sans corps)
+  [nvmlInitDelegate::Invoke]  (abstraite/sans corps)
+  [nvmlInitDelegate::BeginInvoke]  (abstraite/sans corps)
+  [nvmlInitDelegate::EndInvoke]  (abstraite/sans corps)
+  [nvmlInit_v2Delegate::Invoke]  (abstraite/sans corps)
+  [nvmlInit_v2Delegate::BeginInvoke]  (abstraite/sans corps)
+  [nvmlInit_v2Delegate::EndInvoke]  (abstraite/sans corps)
+  [nvmlShutdownDelegate::Invoke]  (abstraite/sans corps)
+  [nvmlShutdownDelegate::BeginInvoke]  (abstraite/sans corps)
+  [nvmlShutdownDelegate::EndInvoke]  (abstraite/sans corps)
+  [nvmlDeviceGetHandleByPciBusIdDelegate::Invoke]  (abstraite/sans corps)
+  [nvmlDeviceGetHandleByPciBusIdDelegate::BeginInvoke]  (abstraite/sans corps)
+  [nvmlDeviceGetHandleByPciBusIdDelegate::EndInvoke]  (abstraite/sans corps)
+  [nvmlDeviceGetPowerUsageDelegate::Invoke]  (abstraite/sans corps)
+  [nvmlDeviceGetPowerUsageDelegate::BeginInvoke]  (abstraite/sans corps)
+  [nvmlDeviceGetPowerUsageDelegate::EndInvoke]  (abstraite/sans corps)
+  [nvmlDeviceGetPcieThroughputDelegate::Invoke]  (abstraite/sans corps)
+  [nvmlDeviceGetPcieThroughputDelegate::BeginInvoke]  (abstraite/sans corps)
+  [nvmlDeviceGetPcieThroughputDelegate::EndInvoke]  (abstraite/sans corps)
+  [ADL_Main_Control_CreateDelegate::Invoke]  (abstraite/sans corps)
+  [ADL_Main_Control_CreateDelegate::BeginInvoke]  (abstraite/sans corps)
+  [ADL_Main_Control_CreateDelegate::EndInvoke]  (abstraite/sans corps)
+  [ADL_Adapter_AdapterInfo_GetDelegate::Invoke]  (abstraite/sans corps)
+  [ADL_Adapter_AdapterInfo_GetDelegate::BeginInvoke]  (abstraite/sans corps)
+  [ADL_Adapter_AdapterInfo_GetDelegate::EndInvoke]  (abstraite/sans corps)
+  [ADL_Main_Control_DestroyDelegate::Invoke]  (abstraite/sans corps)
+  [ADL_Main_Control_DestroyDelegate::BeginInvoke]  (abstraite/sans corps)
+  [ADL_Main_Control_DestroyDelegate::EndInvoke]  (abstraite/sans corps)
+  [ADL_Adapter_NumberOfAdapters_GetDelegate::Invoke]  (abstraite/sans corps)
+  [ADL_Adapter_NumberOfAdapters_GetDelegate::BeginInvoke]  (abstraite/sans corps)
+  [ADL_Adapter_NumberOfAdapters_GetDelegate::EndInvoke]  (abstraite/sans corps)
+  [ADL_Adapter_ID_GetDelegate::Invoke]  (abstraite/sans corps)
+  [ADL_Adapter_ID_GetDelegate::BeginInvoke]  (abstraite/sans corps)
+  [ADL_Adapter_ID_GetDelegate::EndInvoke]  (abstraite/sans corps)
+  [ADL_Display_AdapterID_GetDelegate::Invoke]  (abstraite/sans corps)
+  [ADL_Display_AdapterID_GetDelegate::BeginInvoke]  (abstraite/sans corps)
+  [ADL_Display_AdapterID_GetDelegate::EndInvoke]  (abstraite/sans corps)
+  [ADL_Adapter_Active_GetDelegate::Invoke]  (abstraite/sans corps)
+  [ADL_Adapter_Active_GetDelegate::BeginInvoke]  (abstraite/sans corps)
+  [ADL_Adapter_Active_GetDelegate::EndInvoke]  (abstraite/sans corps)
+  [ADL_Overdrive5_CurrentActivity_GetDelegate::Invoke]  (abstraite/sans corps)
+  [ADL_Overdrive5_CurrentActivity_GetDelegate::BeginInvoke]  (abstraite/sans corps)
+  [ADL_Overdrive5_CurrentActivity_GetDelegate::EndInvoke]  (abstraite/sans corps)
+  [ADL_Overdrive5_Temperature_GetDelegate::Invoke]  (abstraite/sans corps)
+  [ADL_Overdrive5_Temperature_GetDelegate::BeginInvoke]  (abstraite/sans corps)
+  [ADL_Overdrive5_Temperature_GetDelegate::EndInvoke]  (abstraite/sans corps)
+  [ADL_Overdrive5_FanSpeed_GetDelegate::Invoke]  (abstraite/sans corps)
+  [ADL_Overdrive5_FanSpeed_GetDelegate::BeginInvoke]  (abstraite/sans corps)
+  [ADL_Overdrive5_FanSpeed_GetDelegate::EndInvoke]  (abstraite/sans corps)
+  [ADL_Overdrive5_FanSpeedInfo_GetDelegate::Invoke]  (abstraite/sans corps)
+  [ADL_Overdrive5_FanSpeedInfo_GetDelegate::BeginInvoke]  (abstraite/sans corps)
+  [ADL_Overdrive5_FanSpeedInfo_GetDelegate::EndInvoke]  (abstraite/sans corps)
+  [ADL_Overdrive5_FanSpeedToDefault_SetDelegate::Invoke]  (abstraite/sans corps)
+  [ADL_Overdrive5_FanSpeedToDefault_SetDelegate::BeginInvoke]  (abstraite/sans corps)
+  [ADL_Overdrive5_FanSpeedToDefault_SetDelegate::EndInvoke]  (abstraite/sans corps)
+  [ADL_Overdrive5_FanSpeed_SetDelegate::Invoke]  (abstraite/sans corps)
+  [ADL_Overdrive5_FanSpeed_SetDelegate::BeginInvoke]  (abstraite/sans corps)
+  [ADL_Overdrive5_FanSpeed_SetDelegate::EndInvoke]  (abstraite/sans corps)
+  [ADL_Overdrive_CapsDelegate::Invoke]  (abstraite/sans corps)
+  [ADL_Overdrive_CapsDelegate::BeginInvoke]  (abstraite/sans corps)
+  [ADL_Overdrive_CapsDelegate::EndInvoke]  (abstraite/sans corps)
+  [ADL2_Main_Control_CreateDelegate::Invoke]  (abstraite/sans corps)
+  [ADL2_Main_Control_CreateDelegate::BeginInvoke]  (abstraite/sans corps)
+  [ADL2_Main_Control_CreateDelegate::EndInvoke]  (abstraite/sans corps)
+  [ADL2_Main_Control_DestroyDelegate::Invoke]  (abstraite/sans corps)
+  [ADL2_Main_Control_DestroyDelegate::BeginInvoke]  (abstraite/sans corps)
+  [ADL2_Main_Control_DestroyDelegate::EndInvoke]  (abstraite/sans corps)
+  [ADL2_OverdriveN_Temperature_GetDelegate::Invoke]  (abstraite/sans corps)
+  [ADL2_OverdriveN_Temperature_GetDelegate::BeginInvoke]  (abstraite/sans corps)
+  [ADL2_OverdriveN_Temperature_GetDelegate::EndInvoke]  (abstraite/sans corps)
+  [ADL2_Overdrive6_CurrentPower_GetDelegate::Invoke]  (abstraite/sans corps)
+  [ADL2_Overdrive6_CurrentPower_GetDelegate::BeginInvoke]  (abstraite/sans corps)
+  [ADL2_Overdrive6_CurrentPower_GetDelegate::EndInvoke]  (abstraite/sans corps)
+  [ADL2_New_QueryPMLogData_GetDelegate::Invoke]  (abstraite/sans corps)
+  [ADL2_New_QueryPMLogData_GetDelegate::BeginInvoke]  (abstraite/sans corps)
+  [ADL2_New_QueryPMLogData_GetDelegate::EndInvoke]  (abstraite/sans corps)
+  [ADL_Overdrive5_ODParameters_GetDelegate::Invoke]  (abstraite/sans corps)
+  [ADL_Overdrive5_ODParameters_GetDelegate::BeginInvoke]  (abstraite/sans corps)
+  [ADL_Overdrive5_ODParameters_GetDelegate::EndInvoke]  (abstraite/sans corps)
+  [ADL2_OverdriveN_PerformanceStatus_GetDelegate::Invoke]  (abstraite/sans corps)
+  [ADL2_OverdriveN_PerformanceStatus_GetDelegate::BeginInvoke]  (abstraite/sans corps)
+  [ADL2_OverdriveN_PerformanceStatus_GetDelegate::EndInvoke]  (abstraite/sans corps)
+  [ADL_Graphics_Versions_GetDelegate::Invoke]  (abstraite/sans corps)
+  [ADL_Graphics_Versions_GetDelegate::BeginInvoke]  (abstraite/sans corps)
+  [ADL_Graphics_Versions_GetDelegate::EndInvoke]  (abstraite/sans corps)
+  [ADL_Main_Memory_AllocDelegate::Invoke]  (abstraite/sans corps)
+  [ADL_Main_Memory_AllocDelegate::BeginInvoke]  (abstraite/sans corps)
+  [ADL_Main_Memory_AllocDelegate::EndInvoke]  (abstraite/sans corps)
+
+############################################################
+### binaries\OneDragonCenter\Fan\API_HW Diagnosis.dll
+############################################################
+  [Fan::Fan_File_Modify]  rva=0x3300 codesize=152
+      call      AppDomain::get_CurrentDomain
+      ldc.i4    1
+      callvirt  AppDomain::get_BaseDirectory
+      ldstr     "HW Diagnosis\Fan\FanRPMLimit_Origin.ini"
+      call      String::Concat
+      ldc.i4    3
+      call      AppDomain::get_CurrentDomain
+      ldc.i4    1
+      callvirt  AppDomain::get_BaseDirectory
+      ldstr     "HW Diagnosis\Fan\FanRPMLimit.ini"
+      call      String::Concat
+      ldc.i4    3
+      call      File::OpenText
+      newobj    StreamWriter::.ctor
+      ldstr     ""
+      ldc.i4    0
+      ldc.i4    7
+      callvirt  String::Substring
+      ldstr     "FAN_NUM"
+      call      String::op_Equality
+      ldstr     "FAN_NUM="
+      call      String::Concat
+      callvirt  TextWriter::WriteLine
+      callvirt  TextReader::ReadLine
+      callvirt  IDisposable::Dispose
+      callvirt  IDisposable::Dispose
+  [Fan::Fan_Test]  rva=0x33cc codesize=250
+      call      String::Concat
+      ldc.i4    3
+      call      File::Exists
+      ldc.i4    0
+      call      String::Concat
+      ldc.i4    3
+      call      File::Delete
+      ldstr     "FanRPM_Fan1.txt"
+      call      String::Concat
+      ldc.i4    3
+      call      File::Exists
+      ldc.i4    -1
+      ldstr     "FanRPM_Fan1.txt"
+      call      String::Concat
+      ldc.i4    3
+      call      File::Delete
+      ldstr     "FanRPM_Fan2.txt"
+      call      String::Concat
+      ldc.i4    3
+      call      File::Exists
+      ldc.i4    -1
+      ldstr     "FanRPM_Fan2.txt"
+      call      String::Concat
+      ldc.i4    3
+      call      File::Delete
+      call      Process::GetProcessesByName
+      ldc.i4    1000 (0x3e8)
+      call      Thread::Sleep
+      call      AppDomain::get_CurrentDomain
+      ldc.i4    1
+      callvirt  AppDomain::get_BaseDirectory
+      ldstr     "HW Diagnosis\Fan\FanTool64.exe"
+      call      String::Concat
+      ldc.i4    3
+      newobj    Process::.ctor
+      callvirt  Process::get_StartInfo
+      callvirt  ProcessStartInfo::set_FileName
+      callvirt  Process::get_StartInfo
+      ldstr     "/s"
+      callvirt  ProcessStartInfo::set_Arguments
+      callvirt  Process::Start
+      jmp       <tok 0x1b00002a>
+  [Fan::Fan_Result]  rva=0x34d4 codesize=212
+      ldstr     "%windir%\Sysnative\"
+      call      Environment::ExpandEnvironmentVariables
+      ldstr     "feedback.txt"
+      call      String::Concat
+      ldc.i4    3
+      call      File::Exists
+      call      String::Concat
+      ldc.i4    3
+      call      File::ReadAllText
+      ldstr     "1"
+      ldc.i4    5
+      callvirt  String::IndexOf
+      ldc.i4    0
+      ldc.i4    2
+      ldc.i4    1
+      call      String::Concat
+      ldc.i4    3
+      call      File::Delete
+      ldstr     "FanRPM_Fan1.txt"
+      call      String::Concat
+      ldc.i4    3
+      call      File::Exists
+      ldc.i4    -1
+      ldstr     "FanRPM_Fan1.txt"
+      call      String::Concat
+      ldc.i4    3
+      call      File::Delete
+      callvirt  local:Updata_Result
+
+############################################################
+### binaries\OneDragonCenter\UserScenario\API_NB_User Scenario.dll
+############################################################
+
+############################################################
+### binaries\OneDragonCenter\MSI.CentralServer.exe
+############################################################
+  [EX_WMI_V1::QueryWMI]  rva=0x78d4 codesize=257
+      newobj    ?::.ctor
+      call      String::IsNullOrWhiteSpace
+      ldc.i4    0
+      ldstr     "root\WMI"
+      newobj    ManagementObjectSearcher::.ctor
+      callvirt  ManagementObjectSearcher::Get
+      callvirt  ManagementObjectCollection::GetEnumerator
+      callvirt  ManagementObjectEnumerator::get_Current
+      call      local:set_GroupID
+      newobj    ?::.ctor
+      call      local:set_DictData
+      newobj    ?::.ctor
+      call      local:set_DictType
+      callvirt  ManagementBaseObject::get_Properties
+      callvirt  PropertyDataCollection::GetEnumerator
+      callvirt  PropertyDataEnumerator::get_Current
+      call      local:get_DictData
+      callvirt  PropertyData::get_Name
+      callvirt  PropertyData::get_Value
+      callvirt  ?::Add
+      call      local:get_DictType
+      callvirt  PropertyData::get_Name
+      callvirt  PropertyData::get_Type
+      callvirt  ?::Add
+      callvirt  PropertyDataEnumerator::MoveNext
+      callvirt  IDisposable::Dispose
+      callvirt  ?::Add
+      ldc.i4    1
+      callvirt  ManagementObjectEnumerator::MoveNext
+      callvirt  IDisposable::Dispose
+      callvirt  IDisposable::Dispose
+  [SupportContent::get_AllowMIA]  rva=0xc170 codesize=7
+  [SupportContent::set_AllowMIA]  rva=0xc178 codesize=8
+  [ControlEventHandler::Invoke]  (abstraite/sans corps)
+  [ControlEventHandler::BeginInvoke]  (abstraite/sans corps)
+  [ControlEventHandler::EndInvoke]  (abstraite/sans corps)
+
+############################################################
+### binaries\OneDragonCenter\SyncData.dll
+############################################################
+
+

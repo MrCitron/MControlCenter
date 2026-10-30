@@ -1,0 +1,2 @@
+## ECRAM page0 (ec_sys, 256 octets)
+indisponible (ec_sys non chargé)

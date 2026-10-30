@@ -1,0 +1,3 @@
+## get_thermal ipar=3 (commande WMAM GET — sortie 32 octets)
+ 01 02 00 7d 02 00 7d 2a 00 00 00 00 00 00 00 00
+ 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00

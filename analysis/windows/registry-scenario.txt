@@ -1,0 +1,107 @@
+=== Component\Base Module\Scenario ===
+
+HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\MSI\One Dragon Center\Component\Base Module\Scenario
+    OC    REG_DWORD    0x1
+    PB    REG_DWORD    0x32
+    ECversion    REG_SZ    1591EMS1.1080816202117:24:38
+    Default_Temp    REG_SZ    0;60;70;80;85;90;0;55;65;75;85;89
+    Default_Fan    REG_SZ    0;0;0;70;90;110;0;0;0;20;100;110
+    User_Fan    REG_SZ    0;0;0;70;90;110;0;0;0;20;100;110
+    High_Fan    REG_SZ    0;0;0;0;24;110;0;0;0;0;100;110
+    isPerKey    REG_DWORD    0x0
+    KeyBoard    REG_DWORD    0x3
+    EC_KB    REG_DWORD    0x81
+
+
+=== Component\Base Module\0_Scenario ===
+
+HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\MSI\One Dragon Center\Component\Base Module\0_Scenario
+    PB    REG_DWORD    0x32
+    Performance    REG_DWORD    0x1
+    Fan    REG_DWORD    0x0
+    KB    REG_DWORD    0x3
+
+
+=== Component\Base Module\1_Scenario ===
+
+HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\MSI\One Dragon Center\Component\Base Module\1_Scenario
+    Performance    REG_DWORD    0x1
+    Fan    REG_DWORD    0x0
+    KB    REG_DWORD    0x1
+    PB    REG_DWORD    0x32
+
+
+=== Component\Base Module\2_Scenario ===
+
+HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\MSI\One Dragon Center\Component\Base Module\2_Scenario
+    Performance    REG_DWORD    0x2
+    Fan    REG_DWORD    0x0
+    KB    REG_DWORD    0x3
+    PB    REG_DWORD    0x28
+
+
+=== Component\Base Module\3_Scenario ===
+
+HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\MSI\One Dragon Center\Component\Base Module\3_Scenario
+    Performance    REG_DWORD    0x2
+    Fan    REG_DWORD    0x0
+    KB    REG_DWORD    0x1
+    PB    REG_DWORD    0x64
+
+
+=== Component\Base Module\4_Scenario ===
+
+HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\MSI\One Dragon Center\Component\Base Module\4_Scenario
+    Performance    REG_DWORD    0x3
+    Fan    REG_DWORD    0x0
+    KB    REG_DWORD    0x1
+    PB    REG_DWORD    0x4a
+
+
+=== Component\Base Module\GeneralSetting ===
+
+HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\MSI\One Dragon Center\Component\Base Module\GeneralSetting
+    WinKey    REG_DWORD    0x1
+    OverWolf    REG_DWORD    0x0
+    Fan    REG_DWORD    0x2
+    USB    REG_DWORD    0x0
+    USBsup    REG_DWORD    0x0
+    USBstatus    REG_DWORD    0x1
+    QC3    REG_DWORD    0x0
+    WinFn    REG_DWORD    0x0
+    TileSP    REG_DWORD    0x0
+    TileST    REG_DWORD    0x0
+    TileCH    REG_DWORD    0x0
+    GPUswitchSP    REG_DWORD    0x0
+    GPUswitchST    REG_DWORD    0x0
+    GPUswitchCH    REG_DWORD    0x6
+    GPUswitchUMA    REG_DWORD    0x0
+    GPUswitchDiscrete    REG_DWORD    0x0
+    WhisperMode    REG_DWORD    0x1
+    TouchPad    REG_DWORD    0x1
+    Nahimic    REG_DWORD    0x0
+    screenWidth    REG_DWORD    0x780
+    screenHeight    REG_DWORD    0x4b0
+    srcWidth    REG_DWORD    0x600
+    srcHeight    REG_DWORD    0x3c0
+    ONEMSI    REG_DWORD    0x1
+    GPU_Switch    REG_DWORD    0x0
+    GPU_Switch_Support    REG_DWORD    0x0
+    powerSurgeLevel    REG_DWORD    0x0
+    BatteryBoostSP    REG_DWORD    0x0
+    BatteryBoostST    REG_DWORD    0x0
+    BatteryBoostCH    REG_DWORD    0x6
+
+HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\MSI\One Dragon Center\Component\Base Module\GeneralSetting\HDR
+
+=== Component\Base Module\Record ===
+
+HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\MSI\One Dragon Center\Component\Base Module\Record
+    RecordDate    REG_DWORD    0x134b165
+    P014    REG_DWORD    0x103
+    P042    REG_DWORD    0x9
+    P011    REG_DWORD    0x2e
+    1a    REG_DWORD    0x2c
+    4a    REG_DWORD    0x12
+
+

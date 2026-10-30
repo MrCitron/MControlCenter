@@ -1,0 +1,15 @@
+
+Name             PrimaryOwnerName     Domain               TotalPhysicalMemory  Model                Manufacturer
+----             ----------------     ------               -------------------  -----                ------------
+REDACTED-HOST     USER                 WORKGROUP            34036613120          Summit E16Flip A11U… Micro-Star Interna…
+
+
+
+
+SMBIOSBIOSVersion : E1591IMS.310
+Manufacturer      : American Megatrends International, LLC.
+Name              : E1591IMS.310
+SerialNumber      : REDACTED (MS-1591 serial)
+Version           : MSI_NB - 1072009
+
+

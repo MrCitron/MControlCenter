@@ -1,0 +1,20 @@
+Campagne sonde WMI — 2026-10-29 16:51:50
+Sortie : /analysis/wmi-evidence/20261029-165150
+shift_mode initial : comfort (restauré à la fin)
+=== 1) REPOS ===
+échantillon idle-1 écrit (/analysis/wmi-evidence/20261029-165150/idle-1)
+échantillon idle-2 écrit (/analysis/wmi-evidence/20261029-165150/idle-2)
+=== 2) SOUS CHARGE CPU (2 min à 100 %) ===
+charge lancée sur 8 cœurs
+échantillon load-1 écrit (/analysis/wmi-evidence/20261029-165150/load-1)
+échantillon load-2 écrit (/analysis/wmi-evidence/20261029-165150/load-2)
+=== 3) SHIFT_MODE = ECO ===
+échantillon eco-1 écrit (/analysis/wmi-evidence/20261029-165150/eco-1)
+échantillon eco-2 écrit (/analysis/wmi-evidence/20261029-165150/eco-2)
+=== 4) RESTAURATION (comfort) ===
+échantillon restore-1 écrit (/analysis/wmi-evidence/20261029-165150/restore-1)
+
+Campagne terminée. Résultats : /analysis/wmi-evidence/20261029-165150
+120K	/analysis/wmi-evidence/20261029-165150
+
+Résumé des deltas : /analysis/wmi-evidence/20261029-165150/summary-deltas.txt

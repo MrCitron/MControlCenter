@@ -1,7 +1,7 @@
 # WMAM (SCM0) ↔ EC RAM mapping — MSI Summit E16 Flip A11UCT (MS-1591)
 
-Date: 2026-10-29 · Source: campaigns `wmi-evidence/20261029-165150/` and the **ECRAM cross-check
-campaign `wmi-evidence/20261029-172118/` (with `ec_sys` in read-only mode)**
+Date: 2026-10-29 · Source: campaigns `analysis/wmi-evidence/20261029-165150/` and the **ECRAM cross-check
+campaign `analysis/wmi-evidence/20261029-172118/` (with `ec_sys` in read-only mode)**
 Status: **1:1 MAPPING VALIDATED — WMAM ↔ EC RAM confirmed byte-exact**, with no EC write at
 any point of the study.
 
@@ -122,7 +122,7 @@ exactly what the campaign observed.**
      The live duty follows the load (45 % at 32 °C, 60 % at 75 °C, 70 % at 77–78 °C);
      the EC's internal hysteresis is not an OS concern — only the stored-curve write matters.
 2. SET_FAN semantics in auto mode → **TESTED** (2026-10-29 17:36 trial,
-   `essai_20261029-173613.log`, explicit consent):
+   `analysis/set-fan-trial-20261029-173613.log`, explicit consent):
    - writing one point (45 → 48, EC 0x72) via `SET_FAN` (0x12) IPAR1: **accepted by the EC
      without error** (immediate readback = 48, no raw write, no instability, ~1 min of
      monitoring);
@@ -138,9 +138,9 @@ exactly what the campaign observed.**
 
 ## 7. Reference files of this study
 
-- Campaigns: `wmi-evidence/20261029-165150/` and `wmi-evidence/20261029-172118/`
+- Campaigns: `analysis/wmi-evidence/20261029-165150/` and `analysis/wmi-evidence/20261029-172118/`
   (7 states each: `wmi.txt` + `ecram.txt` + `state.txt`)
-- DSDT WMAM table: `gist/results/wmam-commands.txt` (manual ADDENDUM section)
+- DSDT WMAM table: `analysis/windows/dsdt-wmam-commands.txt` (manual ADDENDUM section)
 - Cross-referenced kernel code: the in-tree `msi-wmi-platform` driver (7.0)
 - MControlCenter code: `src/operate.cpp` (fan addresses, forks commits `b078181..`)
-- Live set_fan trial: `wmi-fan-curve/essai_20261029-173613.log`
+- Live set_fan trial: `analysis/set-fan-trial-20261029-173613.log`

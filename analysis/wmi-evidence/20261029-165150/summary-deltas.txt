@@ -1,0 +1,7 @@
+groupe                   idle-1 -> delta par échantillon (octets différents)
+idle-2       [2]a5->a6(get_fan-ipar0)
+load-1       [2]a5->8e(get_fan-ipar0) [4]b1->b3(get_fan-ipar0) [1]23->4d(get_temperature-ipar0) [1]2d->46(get_fan-ipar1) [7]23->32(get_thermal-ipar3)
+load-2       [2]a5->89(get_fan-ipar0) [4]b1->b3(get_fan-ipar0) [1]23->4e(get_temperature-ipar0) [1]2d->46(get_fan-ipar1) [7]23->32(get_thermal-ipar3)
+eco-1        [2]a5->00(get_fan-ipar0) [4]b1->00(get_fan-ipar0) [1]23->2a(get_temperature-ipar0) [1]0d->05(get_thermal-ipar0) [2]01->00(get_thermal-ipar0) [7]23->2a(get_thermal-ipar3)
+eco-2        [2]a5->00(get_fan-ipar0) [4]b1->00(get_fan-ipar0) [1]23->29(get_temperature-ipar0) [1]0d->05(get_thermal-ipar0) [2]01->00(get_thermal-ipar0) [7]23->2a(get_thermal-ipar3)
+restore-1    [2]a5->a4(get_fan-ipar0) [4]b1->b0(get_fan-ipar0) [1]23->28(get_temperature-ipar0) [7]23->28(get_thermal-ipar3)
